@@ -1,0 +1,243 @@
+{% comment %}
+  Free Design Service Section
+{% endcomment %}
+
+<style>
+  .free-design-service {
+    padding: 40px 20px;
+    border-radius: 16px;
+    margin: 20px 0;
+    overflow: hidden;
+    max-width: 1400px;
+    margin: 0 auto 40px;
+  }
+  
+  .free-design-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    align-items: center;
+    gap: 40px;
+  }
+  
+  .design-images {
+    display: flex;
+    gap: -10px;
+    flex-shrink: 0;
+    text-align: center;
+    margin: auto;
+  }
+  
+  .design-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    margin-left: -10px;
+  }
+  
+  .design-image:first-child {
+    margin-left: 0;
+  }
+  
+  .design-content {
+    flex: 1;
+    color: white;
+  }
+  
+  .design-heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  
+  .design-description {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    opacity: 0.95;
+    margin-bottom: 0;
+    color: #fff;
+  }
+  
+  .design-button-wrapper {
+    flex-shrink: 0;
+    text-align: center;
+  }
+  
+  .design-button {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #2563eb;
+    padding: 12px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .design-button:hover {
+    background-color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .design-button svg {
+    transition: transform 0.3s ease;
+  }
+  
+  .design-button:hover svg {
+    transform: translateX(4px);
+  }
+  
+  @media (max-width: 768px) {
+    .free-design-container {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 40px;
+    }
+    
+    .design-heading {
+      font-size: 2rem;
+    }
+    
+    .design-description {
+      font-size: 1rem;
+    }
+    
+    .design-images {
+      justify-content: center;
+    }
+
+    .free-design-service{
+        max-width: 95%;
+    }
+  }
+</style>
+
+<section class="free-design-service" style="background-color: {{ section.settings.background_color }};">
+  <div class="free-design-container">
+    {% if section.settings.team_image != blank %}
+      <div class="design-images">
+          {% if section.settings.team_image != blank %}
+                <img 
+                src="{{ section.settings.team_image | img_url: '160x160' }}" 
+                alt="{{ section.settings.team_image.alt | default: 'Team member' }}"
+                class="design-image"
+                {{ section.shopify_attributes }}
+                >
+          {% endif %}
+      </div>
+    {% endif %}
+    
+    <div class="design-content">
+      {% if section.settings.heading != blank %}
+        <h2 class="design-heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+      
+      {% if section.settings.description != blank %}
+        <p class="design-description">{{ section.settings.description }}</p>
+      {% endif %}
+    </div>
+    
+    {% if section.settings.button_text != blank %}
+      <div class="design-button-wrapper">
+        <a 
+          href="javascript:void(0);" 
+          class="design-button"
+          onclick="document.querySelector('.pdp-contact-form').style.display = 'block';"
+          style="{% if section.settings.button_bg_color != blank %}background-color: {{ section.settings.button_bg_color }};{% endif %}{% if section.settings.button_text_color != blank %}color: {{ section.settings.button_text_color }};{% endif %}"
+        >
+          {{ section.settings.button_text }}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24">
+            <path d="M8 5l8 7-8 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<div class="pdp-contact-form" style="display: none;">
+  <div class="pdp-contact-form-container">
+    <script type="text/javascript" src="https://form.jotform.com/jsform/251964684601059"></script>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Free Design Service",
+
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "team_image",
+      "label": "Team Member Image",
+      "info": "Recommended size: 160x160px"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Free Design Service"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Don't want to wing it alone? Our awesome designers are here to help! Just fill out the form and we'll create magic."
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Design it for me"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "rgba(255, 255, 255, 0.9)"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#2563eb"
+    },
+    {
+      "type": "header",
+      "content": "Design Settings"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#3b82f6"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Free Design Service",
+    }
+  ]
+}
+{% endschema %}

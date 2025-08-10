@@ -76,6 +76,51 @@
         "slide_url": ""
       }
     },
+    "circular_collection_list_PTJ3Pm": {
+      "type": "circular-collection-list",
+      "blocks": {
+        "collection_item_ahj97Q": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "",
+            "custom_title": "4 Cube Storage",
+            "custom_link": "shopify://collections/4-cube",
+            "image": "shopify://shop_images/KBOON1015_BOON_Sq._2x2_-_Oak_7e56c68e-a893-468d-a310-7bba4955f3ac.jpg",
+            "font_color": "#000000",
+            "bg_color": "#ffffff"
+          }
+        },
+        "collection_item_YCKBgK": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "",
+            "custom_title": "6 Cube Storage",
+            "custom_link": "shopify://collections/6-cube",
+            "image": "shopify://shop_images/BOON_Combo_-_White_Lifestyle_ca07821b-782f-44d1-833a-27539a837c2f.jpg",
+            "font_color": "#000000",
+            "bg_color": "#ffffff"
+          }
+        },
+        "collection_item_yFipLy": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "",
+            "custom_title": "8 Cube Storage",
+            "custom_link": "shopify://collections/8-cube",
+            "image": "shopify://shop_images/KBOON2019_BOON_Rect._2x4_-_Oak_0160ad23-ed05-48f9-8230-1bbbe3ef08b8.jpg",
+            "font_color": "#000000",
+            "bg_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "collection_item_ahj97Q",
+        "collection_item_YCKBgK",
+        "collection_item_yFipLy"
+      ],
+      "name": "Circular Collection List",
+      "settings": {}
+    },
     "product-grid": {
       "type": "collections-template",
       "blocks": {
@@ -117,6 +162,7 @@
   "order": [
     "banner",
     "main_collection_list_hU9qKi",
+    "circular_collection_list_PTJ3Pm",
     "product-grid"
   ]
 }
