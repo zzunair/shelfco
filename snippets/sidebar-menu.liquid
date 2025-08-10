@@ -1,0 +1,259 @@
+<div id="aside_main" class="wow fadeIn" data-wow-delay="300ms">
+  <!-- close menu -->
+  <span class="js-close-menu close-menu">
+    {% render 'icon-close-modal' %}
+  </span>
+  <!-- /close menu -->
+  <div class="side-inner sidebar-menu d-flex flex-column justify-content-center">
+    <!-- menu items -->
+    <div class="main-menu-list-items h-auto align-items-left">
+      <!-- search row -->
+      <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+        <div class="mt-0 mb-3 pt-0">
+          {% render 'search-form' %}
+        </div>
+      </div>
+      <!-- /search row -->
+      {% for link in linklists[section.settings.main_linklist].links %}
+        {% assign link_list_handle = link.title | handleize %}
+        {% assign megamenu = false %}
+
+        {% for block in section.blocks %}
+          {% if block.type == 'megamenu' %}
+            {% assign menutitle = block.settings.itemtitle | handleize %}
+            {% assign selected_megamenu = block.settings.menu %}
+            {% if link_list_handle == menutitle and selected_megamenu != blank %}
+              {% assign megamenu = true %}
+              <!-- megamenu -->
+              <div class="nav-menu">
+                <ul>
+                  <li class="accordion parent-menu-item wow fadeIn" data-wow-delay="300ms">
+                    <a class="test" href="{{ link.url }}" aria-label="menu item" tabindex="-1">{{ link.title }}</a>
+                    <span
+                      aria-controls="collapseOne"
+                      aria-expanded="false"
+                      class="collapsible"
+                      role="list"
+                      data-target="#collapse{{ forloop.index }}"
+                      data-toggle="collapse"
+                    >
+                    </span>
+                    <!-- Sub menu -->
+                    <div aria-labelledby="headingOne" class="sub-menu collapse" id="collapse{{ forloop.index }}">
+                      <ul>
+                        {% for link in linklists[selected_megamenu].links %}
+                          <li class="child-menu-item">
+                            <a href="{{ link.url }}" aria-label="{{ link.title }}" tabindex="-1">{{ link.title }}</a>
+                            <span
+                              aria-controls="collapseOne"
+                              aria-expanded="false"
+                              role="list"
+                              class="{% if link.links != blank %}collapsible{% endif %}"
+                              data-target="#collapse2{{ forloop.index }}"
+                              data-toggle="{% if link.links != blank %}collapse{% else %}collapsed{% endif %}"
+                            >
+                            </span>
+                            <ul id="collapse2{{ forloop.index }}" class="sub-menu collapse">
+                              {% for childlink in link.links %}
+                                <li class="child-menu-item">
+                                  <a href="{{ childlink.url }}" aria-label="{{ childlink.title }}" tabindex="-1">
+                                    {{- childlink.title -}}
+                                  </a>
+                                  <span
+                                    aria-controls="collapseOne"
+                                    aria-expanded="false"
+                                    role="list"
+                                    class="{% if childlink.links != blank %}collapsible{% endif %}"
+                                    data-target="#collapse3{{ forloop.index }}"
+                                    data-toggle="{% if childlink.links != blank %}collapse{% else %}collapsed{% endif %}"
+                                  >
+                                  </span>
+                                  <ul id="collapse3{{ forloop.index }}" class="sub-menu collapse">
+                                    {% for grandchild in childlink.links %}
+                                      <li class="grand-menu-item">
+                                        <a
+                                          href="{{ grandchild.url }}{% if grandchild.type == 'product_link' %}{% if grandchild.object.variants.size > 1 %}?variant={{ grandchild.object.variants.first.id }}{% endif %}{% endif %}"
+                                          aria-expanded="false"
+                                          aria-label="{{ grandchild.title }}"
+                                          tabindex="-1"
+                                        >
+                                          {{- grandchild.title -}}
+                                        </a>
+                                      </li>
+                                    {% endfor %}
+                                  </ul>
+                                </li>
+                              {% endfor %}
+                            </ul>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <!-- /megamenu -->
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+
+        <!-- promos megamenu -->
+        {%- assign promo_count = 0 -%}
+        {%- capture menu_promotion_html -%}
+          {%- for block in section.blocks -%}
+            {% if block.type == 'menu-promotion' %}
+            {%- if block.settings.title == link.title -%}
+              {%- assign promo_count = promo_count | plus: 1 -%}
+              <div class="menu-promotion">
+                {%- if block.settings.link_url != blank -%}
+                  <a class="menu-promotion__link" href="{{ block.settings.link_url }}">
+                {%- endif -%}
+                <div class="menu-promotion__image">
+                  {% if block.settings.image != blank %}
+                   {%- render 'responsive-image', image: block.settings.image -%}
+                  {% else %}
+                    {{ 'collection-apparel-1' | placeholder_svg_tag }}
+                  {% endif %}
+                </div>
+                {%- if block.settings.promo_heading != blank -%}
+                  <div class="menu-promotion__text card-information__text d-flex h5 pt-3 px-2">{{ block.settings.promo_heading }}</div>
+                {%- endif -%}
+                {%- if block.settings.link_url != blank -%}
+                  </a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+           {% endif %}
+          {%- endfor -%}
+        {%- endcapture -%}
+        {% if promo_count > 0 %}
+          <div class="nav-menu mega-menu-style-promos-mobile">
+            <ul>
+              <li class="accordion parent-menu-item wow fadeIn" data-wow-delay="300ms">
+                <a class="test" href="{{ link.url }}" aria-label="menu item" tabindex="-1">{{ link.title }}</a>
+                <span
+                  aria-controls="collapseOne"
+                  aria-expanded="false"
+                  class="collapsible"
+                  role="list"
+                  data-target="#collapse{{ forloop.index }}"
+                  data-toggle="collapse"
+                >
+                </span>
+                <!-- Sub menu -->
+                <div aria-labelledby="headingOne" class="sub-menu collapse" id="collapse{{ forloop.index }}">
+                  <div class="mega-menu-promotion-cards mega-menu-promotion-cards-mobile h-100">
+                    {{ menu_promotion_html }}
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          {% assign megamenu = true %}
+        {% endif %}
+        <!-- /promos megamenu -->
+
+        {% if megamenu == false %}
+          {% if link.links != blank %}
+            <div class="nav-menu">
+              <ul>
+                <li class="accordion parent-menu-item wow fadeIn" data-wow-delay="300ms">
+                  <a class="test" href="{{ link.url }}" aria-label="menu item" tabindex="-1">{{ link.title }}</a>
+                  <span
+                    aria-controls="collapseOne"
+                    aria-expanded="false"
+                    class="collapsible"
+                    role="list"
+                    data-target="#collapse{{ forloop.index }}"
+                    data-toggle="collapse"
+                  >
+                  </span>
+                  <!-- Sub menu -->
+                  <div aria-labelledby="headingOne" class="sub-menu collapse" id="collapse{{ forloop.index }}">
+                    <ul>
+                      {% for childlink in link.links %}
+                        <li class="child-menu-item">
+                          <a href="{{ childlink.url }}" aria-label="{{ childlink.title }}" tabindex="-1">
+                            {{- childlink.title -}}
+                          </a>
+                          <span
+                            aria-controls="collapseOne"
+                            aria-expanded="false"
+                            role="list"
+                            class="{% if childlink.links != blank %}collapsible{% endif %}"
+                            data-target="#collapse2{{ forloop.index }}"
+                            data-toggle="{% if childlink.links != blank %}collapse{% else %}collapsed{% endif %}"
+                          >
+                          </span>
+                          <ul id="collapse2{{ forloop.index }}" class="sub-menu collapse">
+                            {% for grandchild in childlink.links %}
+                              <li class="grand-menu-item">
+                                <a
+                                  href="{{ grandchild.url }}{% if grandchild.type == 'product_link' %}{% if grandchild.object.variants.size > 1 %}?variant={{ grandchild.object.variants.first.id }}{% endif %}{% endif %}"
+                                  aria-expanded="false"
+                                  aria-label="{{ grandchild.title }}"
+                                  tabindex="-1"
+                                >
+                                  {{- grandchild.title -}}
+                                </a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          {% else %}
+            <div class="nav-menu">
+              <ul>
+                <li class="parent-menu-item wow fadeIn" data-wow-delay="300ms">
+                  <a href="{{ link.url }}" aria-label="{{ link.title }}" tabindex="-1">{{ link.title }}</a>
+                </li>
+              </ul>
+            </div>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+    <!-- account link -->
+    <div class="nav-menu mb-2">
+      <ul id="static-pages">
+        <!-- account -->
+        <li class="accordion wow fadeIn" data-wow-delay="300ms">
+          <a href="{{ routes.account_url }}" name="view-account" aria-label="view account" tabindex="-1">
+            {% if customer %}
+              {{ customer.first_name }} - {{ 'customer.account.title' | t }}
+            {% else %}
+              {{ 'customer.account.title' | t }}
+            {% endif %}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <!-- /account link -->
+  </div>
+</div>
+
+<style>
+.mega-menu-promotion-cards-mobile {
+    margin: 12px 0;
+    display: flex;
+    width: 100%;
+    overflow: auto;
+    scroll-snap-type: x mandatory;
+}
+.mega-menu-promotion-cards-mobile .menu-promotion {
+    flex: 0 0 360px;
+    max-width: 75%;
+}
+.mega-menu-promotion-cards-mobile .menu-promotion:not(.menu-promotion:last-child) {
+    margin-right: 20px;
+}
+.mega-menu-style-promos-mobile .sub-menu {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+</style>

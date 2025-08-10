@@ -1,0 +1,217 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "static-page",
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "main_custom_liquid_YBMDFe": {
+      "type": "main-custom-liquid",
+      "custom_css": [
+        ".col-md-12 {text-align: center;}",
+        "a.btn.btn-contact {margin: 1%; font-size: medium;}"
+      ],
+      "settings": {
+        "custom_liquid": "<a class=\"btn btn-contact\" href=\"#Shelving Units\">SHELVING UNITS</a>\n<a class=\"btn btn-contact\" href=\"#BIG BOY Floating Shelves\">BIG BOY</a>\n<a class=\"btn btn-contact\"href=\"#Shelf Kits\">SHELF KITS</a>\n<a class=\"btn btn-contact\" href=\"#Wood Shelf Supports\">WOOD SUPPORTS</a>\n<a class=\"btn btn-contact\"href=\"#Shelf Kits\">SHELF KITS</a>\n<a class=\"btn btn-contact\" href=\"#Glass Shelf Supports\">GLASS SUPPORTS</a>",
+        "padding_top": 20,
+        "padding_bottom": 60
+      }
+    },
+    "assembly_products_RJmhaH": {
+      "type": "assembly-products",
+      "blocks": {
+        "custom_html_FFGJMx": {
+          "type": "custom_html",
+          "settings": {
+            "image": "shopify://shop_images/KBOON3006_BOON_Combo_2-1x2_-_White.jpg",
+            "section_title": "BOON",
+            "section_caption": "<p><a href=\"https://cdn.shopify.com/s/files/1/0044/5084/4707/files/BOON_Square_Assembly_Guide.pdf?v=1692044128\" target=\"_blank\" title=\"BOON Square Shelf Assembly Guide\">Square Shelf</a></p><p><a href=\"https://cdn.shopify.com/s/files/1/0044/5084/4707/files/BOON_Rectangle_Assembly_Guide.pdf?v=1692044128\" target=\"_blank\" title=\"BOON Rectangle Shelf Assembly Guide\">Rectangle Shelf</a></p><p><a href=\"https://cdn.shopify.com/s/files/1/0044/5084/4707/files/boon_corner.pdf?v=1679588457\" target=\"_blank\" title=\"BOON Corner Shelf Assembly Guide\">Corner Shelf</a></p><p><a href=\"https://cdn.shopify.com/s/files/1/0044/5084/4707/files/BOON_Door_Component.pdf?v=1692044126\" target=\"_blank\" title=\"BOON Door Component Assembly Guide\">Door Component</a></p><p><a href=\"https://cdn.shopify.com/s/files/1/0044/5084/4707/files/BOON_Drawer_Component.pdf?v=1692044124\" target=\"_blank\" title=\"BOON Drawer Component Assembly Guide\">Drawer Component</a></p>",
+            "section_button": "",
+            "section_url": ""
+          }
+        },
+        "custom_html_AaJaa7": {
+          "type": "custom_html",
+          "settings": {
+            "image": "shopify://shop_images/CLOSIT1595_CLOS-IT_W-404_-_Oak_Black_f9b4e072-4181-4b88-88fd-c479ed553c41.jpg",
+            "section_title": "CLOS-IT",
+            "section_caption": "<p><a href=\"https://cdn.shopify.com/s/files/1/0044/5084/4707/files/CLOS-IT_Assembly_Guide.pdf?v=1692044126\" target=\"_blank\" title=\"CLOS-IT Storage Unit Assembly Guide\">Storage Unit</a></p><p><a href=\"https://cdn.shopify.com/s/files/1/0044/5084/4707/files/CLOS-IT_2_Drawer_Component.pdf?v=1692044126\" target=\"_blank\" title=\"CLOS-IT 2 Drawer Component Assembly Guide\">2 Drawer Component</a></p><p><a href=\"https://cdn.shopify.com/s/files/1/0044/5084/4707/files/CLOS-IT_3_Drawer_Component.pdf?v=1692044126\" target=\"_blank\" title=\"CLOS-IT 3 Drawer Component Assembly Guide\">3-Drawer Component</a></p>",
+            "section_button": "",
+            "section_url": ""
+          }
+        },
+        "custom_html_KUMCwR": {
+          "type": "custom_html",
+          "settings": {
+            "image": "shopify://shop_images/LIUM_L_2x2_Glass.jpg",
+            "section_title": "LIUM",
+            "section_caption": "<p><a href=\"https://cdn.shopify.com/s/files/1/0044/5084/4707/files/LIUM_Glass_Assembly_Guide.pdf?v=1693493299\" target=\"_blank\" title=\"LIUM Glass Shelf Assembly Guide\">Glass Shelf</a></p><p><a href=\"https://cdn.shopify.com/s/files/1/0044/5084/4707/files/LIUM_Wood_Assembly_Guide.pdf?v=1693493299\" target=\"_blank\" title=\"LIUM Wood Shelf Assembly Guide\">Wood Shelf</a></p>",
+            "section_button": "",
+            "section_url": ""
+          }
+        },
+        "custom_html_rrfU6y": {
+          "type": "custom_html",
+          "settings": {
+            "image": "shopify://shop_images/KMAXX1015_MAXX_2x2_-_Black_-_Wood.jpg",
+            "section_title": "MAXX",
+            "section_caption": "<p><a href=\"https://cdn.shopify.com/s/files/1/0044/5084/4707/files/MAXX_Metal_Assembly_Guide.pdf?v=1692044128\" title=\"MAXX Metal Frame Assembly Guide\">Metal Frame</a></p><p><a href=\"https://cdn.shopify.com/s/files/1/0044/5084/4707/files/MAXX_Wood_Assembly_Guide.pdf?v=1692044128\" target=\"_blank\" title=\"MAXX Wood Frame Assembly Guide\">Wood Frame</a></p>",
+            "section_button": "",
+            "section_url": ""
+          }
+        },
+        "custom_html_f6NHFQ": {
+          "type": "custom_html",
+          "settings": {
+            "image": "shopify://shop_images/KYOMO1187_YOMO_2x2_-_Oak_-_Blue.jpg",
+            "section_title": "YOMO",
+            "section_caption": "<p><a href=\"https://cdn.shopify.com/s/files/1/0044/5084/4707/files/YOMO_Assembly_Guide.pdf?v=1692044128\" target=\"_blank\" title=\"YOMO Storage Unit Assembly Guide\">Storage Unit</a></p><p><a href=\"https://cdn.shopify.com/s/files/1/0044/5084/4707/files/YOMO_Door_Component.pdf?v=1692044125\" target=\"_blank\" title=\"YOMO Door Component Assembly Guide\">Door Component</a></p>",
+            "section_button": "",
+            "section_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "custom_html_FFGJMx",
+        "custom_html_AaJaa7",
+        "custom_html_KUMCwR",
+        "custom_html_rrfU6y",
+        "custom_html_f6NHFQ"
+      ],
+      "custom_css": [
+        "h2 {border-bottom: 1px solid #2a3640;}",
+        "@media screen and (max-width: 575px) {h3 {font-size: 1.4rem; } p {font-size: small; }}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "section_header": "Shelving Units",
+        "switchLayout": "3",
+        "image_ratio": "square"
+      }
+    },
+    "assembly_collection_D8JiqE": {
+      "type": "assembly-collection",
+      "blocks": {
+        "collection_8DAi6X": {
+          "type": "collection",
+          "settings": {
+            "collection": "big-boy-floating-shelves"
+          }
+        }
+      },
+      "block_order": [
+        "collection_8DAi6X"
+      ],
+      "custom_css": [
+        "h2 {border-bottom: 1px solid #2a3640; padding-top: 10%;}",
+        "@media screen and (max-width: 575px) {.card-information__text {font-size: small; }}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "section_header": "BIG BOY Floating Shelves",
+        "image_ratio": "square"
+      }
+    },
+    "assembly_collection_eanPYC": {
+      "type": "assembly-collection",
+      "blocks": {
+        "collection_aMD8qP": {
+          "type": "collection",
+          "settings": {
+            "collection": "deco-shelves"
+          }
+        }
+      },
+      "block_order": [
+        "collection_aMD8qP"
+      ],
+      "custom_css": [
+        "h2 {border-bottom: 1px solid #2a3640; padding-top: 10%;}",
+        "@media screen and (max-width: 575px) {.card-information__text {font-size: small; }}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "section_header": "Shelf Kits",
+        "image_ratio": "square"
+      }
+    },
+    "assembly_collection_Ab3VA8": {
+      "type": "assembly-collection",
+      "blocks": {
+        "collection_N3TjUb": {
+          "type": "collection",
+          "settings": {
+            "collection": "wood-shelf-supports"
+          }
+        }
+      },
+      "block_order": [
+        "collection_N3TjUb"
+      ],
+      "custom_css": [
+        "h2 {border-bottom: 1px solid #2a3640; padding-top: 10%;}",
+        "@media screen and (max-width: 575px) {.card-information__text {font-size: small; }}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "section_header": "Wood Shelf Supports",
+        "image_ratio": "square"
+      }
+    },
+    "assembly_collection_aNwkDb": {
+      "type": "assembly-collection",
+      "blocks": {
+        "collection_dWxVi6": {
+          "type": "collection",
+          "settings": {
+            "collection": "glass-shelf-supports"
+          }
+        }
+      },
+      "block_order": [
+        "collection_dWxVi6"
+      ],
+      "custom_css": [
+        "h2 {border-bottom: 1px solid #2a3640; padding-top: 10%;}",
+        "@media screen and (max-width: 575px) {.card-information__text {font-size: small; }}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "section_header": "Glass Shelf Supports",
+        "image_ratio": "square"
+      }
+    },
+    "main_empty_space_nPbcFm": {
+      "type": "main-empty-space",
+      "settings": {
+        "height": "100"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "main_custom_liquid_YBMDFe",
+    "assembly_products_RJmhaH",
+    "assembly_collection_D8JiqE",
+    "assembly_collection_eanPYC",
+    "assembly_collection_Ab3VA8",
+    "assembly_collection_aNwkDb",
+    "main_empty_space_nPbcFm"
+  ]
+}

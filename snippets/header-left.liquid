@@ -1,0 +1,62 @@
+<header
+  id="{{ section.id }}"
+  class="desktop laptop tablet-hide mobile-hide border-bottom-0 header-global {% if section.settings.header_layout == 'absolute' and template == 'index' %}w-100 position-absolute header-layout-absolute{% endif %} position-relative"
+  data-section-id="{{ section.id }}"
+  data-section-type="header"
+  tabindex="0"
+>
+  <section
+    id="shopify-section-primary-nav"
+    class="top-header d-block w-100 border-bottom-0"
+    tabindex="0"
+  >
+    <div class="{{ _colClassLayout }} h-100">
+      <div class="row">
+        <!-- left -->
+        <div class="col-lg-3 col-md-3 col-xs-12 col-sm-4 my-auto">
+          {% if main_logo == blank %}
+            <div class="h5 site-header-logo my-0 text-left">
+              <a class="site-header-logo-link focus-inset shop-link" href="{{ routes.root_url }}">{{ shop.name }}</a>
+            </div>
+          {% else %}
+            <div class="logo text-center d-flex align-items-center justify-content-start">
+              <a class="shop-link bg-transparent focus-inset" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+                {{
+                  main_logo
+                  | image_url: width: 2048
+                  | image_tag:
+                    class: 'd-block img-fluid header-logo',
+                    widths: '50, 100, 150, 200, 250, 300, 400, 500',
+                    height: section.settings.main_logo.height,
+                    width: section.settings.main_logo_max_width,
+                    alt: main_logo.alt
+                  | escape
+                }}
+              </a>
+            </div>
+          {% endif %}
+        </div>
+        <!-- /left -->
+        <!-- center -->
+        <div class="col-md-6 col-xs-12 col-sm-4 my-auto" tabindex="-1">
+          {% if section.settings.search_hide %}
+            {% if section.settings.search_contact == 'search' %}
+              {% render 'search-form-mega' %}
+            {% else %}
+              {% render 'social-icons', _alignContent: 'justify-content-center', _margin: 'mx-auto' %}
+            {% endif %}
+          {% endif %}
+        </div>
+        <!-- /center -->
+        <!-- right -->
+        <div class="col-lg-3 col-md-3 col-xs-12 col-sm-4 my-auto cart-block">
+          {% render 'cart-menu' %}
+        </div>
+        <!-- /right -->
+      </div>
+    </div>
+  </section>
+  <!-- menu -->
+  {% render 'mega-menu' %}
+  <!-- /menu -->
+</header>

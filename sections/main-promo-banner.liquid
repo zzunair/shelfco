@@ -1,0 +1,349 @@
+{% comment %}
+  Promotional banner section
+{% endcomment %}
+
+{% assign desktop_image = section.settings.image | default: section.settings.image %}
+
+<section
+  id="{{ section.id }}"
+  class="section-banner section-{{ section.id }}-padding theme-dark appear wow fadeIn"
+  data-wow-delay="300ms"
+  tabindex="0"
+>
+  <div class="section-content">
+    <div class="container banner-wrapper">
+      {% unless section.settings.image == blank %}
+        <div class="banner-icon-container icon-count">
+          {{
+            desktop_image
+            | image_url: width: 2048
+            | image_tag:
+              class: 'img-fluid',
+              widths: '200, 400, 600, 800',
+              height: desktop_image.height,
+              width: desktop_image.width,
+              loading: 'lazy',
+              alt: desktop_image.alt
+            | escape
+          }}
+        </div>
+      {% endunless %}
+      {% if section.settings.typography_banner != blank %}
+        <div class="banner-content {% if section.settings.image != blank %}with-img px-3{% else %}no-img pl-0 pr-3{% endif %}">
+          <span class="typography-banner">{{ section.settings.typography_banner | escape }}</span>
+        </div>
+      {% endif %}
+      {% if section.settings.typography_url != blank %}
+        <div class="banner-cta-container">
+          <a
+            href="{{ section.settings.typography_url | escape }}"
+            aria-label="{{ section.settings.typography_btn | escape }}"
+            class="btn btn-light btn-promo"
+            tabindex="0"
+          >
+            {{ section.settings.typography_btn | escape }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Promotional banner",
+  "class": "main-promo-banner",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "200px w x 55px h png format"
+    },
+    {
+      "type": "text",
+      "id": "typography_banner",
+      "label": "Body text",
+      "default": "Share an announcement about your brand with your customers"
+    },
+    {
+      "type": "text",
+      "id": "typography_btn",
+      "label": "Button label",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "typography_url",
+      "label": "Link"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#212529"
+    },
+    {
+      "type": "color",
+      "id": "font_color",
+      "label": "Body font",
+      "default": "#FAFAFA"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Button",
+      "default": "#FAFAFA"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promotional banner",
+      "category": "Content"
+    }
+  ]
+}
+{% endschema %}
+
+{%- style -%}
+    .section-{{ section.id }}-padding {
+      margin-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      margin-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        margin-top: {{ section.settings.padding_top }}px;
+        margin-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+    .typography-banner {
+  		font-size: var(--text-medium);
+  		line-height: var(--line-height);
+    	font-weight: var(--font-weight-header);
+    	letter-spacing: var(--letter-spacing);
+    }
+    .section-banner {
+      background: {{ section.settings.background_color }};
+    	opacity: 0.001;
+    }
+  	.no-img {
+  		text-align: left;
+  	}
+  	.with-img {
+  		text-align: center;
+  	}
+    .section-banner .banner-wrapper {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 1440px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+  }
+    @media only screen and (min-width: 1441px) {
+    	.section-banner .banner-wrapper {
+    		margin-left: auto;
+    		margin-right: auto;
+        width: 1440px;
+    	}
+    }
+    @media only screen and (max-width: 1068px) {
+    	.section-banner .banner-wrapper {
+    		margin-left: auto;
+    		margin-right: auto;
+    		width: 692px;
+    	}
+    }
+    @media only screen and (max-width: 734px) {
+    	.section-banner .banner-wrapper {
+    		margin-left: auto;
+    		margin-right: auto;
+    		width: 87.5%;
+    	}
+    }
+    @media only screen and (max-width: 1068px) {
+  		.no-img {
+  			text-align: center;
+  		}
+  		.with-img {
+  			text-align: center;
+  		}
+    }
+    @media only screen and (max-width: 734px) {
+    	.section-banner .banner-wrapper {
+    		flex-direction: column;
+    	}
+    }
+    .section-banner .banner-icon-container {
+    	position: relative;
+      width: 180px;
+      display: flex;
+      align-items: center;
+    }
+    @media only screen and (max-width: 1068px) {
+    	.section-banner .banner-icon-container {
+    		height: 75px;
+    		width: 135px;
+    	}
+    }
+    @media only screen and (max-width: 734px) {
+    	.section-banner .banner-icon-container {
+    		height: 65px;
+    		width: 135px;
+    		margin: 0 auto;
+  			align-items: center;
+    	}
+    }
+    .section-banner .banner-icon-container .banner-service-icon {
+    	left: 12.5px;
+    }
+    @media only screen and (max-width: 1068px) {
+    	.section-banner .banner-icon-container .banner-service-icon {
+    		left: 18px;
+    	}
+    }
+    @media only screen and (max-width: 734px) {
+    	.section-banner .banner-icon-container .banner-service-icon {
+    		left: 23px;
+    	}
+    }
+    @media only screen and (max-width: 1068px) {
+    	.section-banner .banner-icon-container {
+    	}
+    }
+    @media only screen and (max-width: 734px) {
+    	.section-banner .banner-icon-container {
+    	}
+    }
+    .section-banner .banner-icon-container picture {
+    	position: absolute;
+    }
+    .section-banner .banner-content {
+    	flex-grow: 1;
+    }
+    @media only screen and (max-width: 1068px) {
+    	.section-banner .banner-content {
+    	}
+    }
+    @media only screen and (max-width: 734px) {
+    	.section-banner .banner-content {
+    		padding: unset;
+    		flex-grow: unset;
+    	}
+    }
+    .section-banner .banner-cta-container {
+    	text-align: center;
+    }
+    @media only screen and (max-width: 734px) {
+    	.section-banner .banner-cta-container {
+    		margin-bottom: 0px;
+    	}
+    }
+    .section-banner .banner-cta-container .button-custom {
+    	cursor: pointer;
+    	display: inline-block;
+    	text-align: center;
+    	white-space: nowrap;
+    	font-size: var(--text-xsmall);
+    	line-height: var(--line-height);
+    	font-weight: var(--font-weight-body);
+    	letter-spacing: var(--letter-spacing);
+    	min-width: 28px;
+    	padding: 8px 16px;
+  		border-radius: var(--global-btn-corner-style);
+  		-moz-border-radius: var(--global-btn-corner-style);
+  		-webkit-border-radius: var(--global-btn-corner-style);
+    	background: {{ section.settings.background_color }};
+    	color: {{ section.settings.font_color }};
+    	border: 1px solid {{ section.settings.border_color }};
+    	background-color: initial;
+  		font-weight: var(--font-weight-header);
+    }
+    .section-banner .banner-cta-container .button-custom:hover {
+    	text-decoration: none;
+    }
+    .section-banner .banner-cta-container .button-custom:focus {
+    	box-shadow: 0 0 0 4px rgba(0, 125, 250, 0.6);
+    	outline: none;
+    }
+    .section-banner.appear {
+    	transition: opacity 0.6s cubic-bezier(0.5, 1, 0.89, 1);
+    	opacity: 0.999;
+    	transition-delay: 2s;
+    }
+    br.large {
+    	display: block;
+    }
+    @media only screen and (max-width: 1068px) {
+    	br.large {
+    		display: none;
+    	}
+    }
+    @media only screen and (max-width: 734px) {
+    	br.large {
+    		display: none;
+    	}
+    }
+    br.medium {
+    	display: none;
+    }
+    @media only screen and (max-width: 1068px) {
+    	br.medium {
+    		display: block;
+    	}
+    }
+    @media only screen and (max-width: 734px) {
+    	br.medium {
+    		display: none;
+    	}
+    }
+    br.small {
+    	display: none;
+    }
+    @media only screen and (max-width: 1068px) {
+    	br.small {
+    		display: none;
+    	}
+    }
+    @media only screen and (max-width: 734px) {
+    	br.small {
+    		display: block;
+    	}
+    }
+  	.btn-promo {
+  		border: var(--global-border-weight) solid {{ section.settings.border_color }} !important;
+  	}
+    .button:hover {
+    	text-decoration: none;
+    }
+    .theme-dark .link, .theme-dark a {
+    	color: {{ section.settings.font_color }};
+    }
+    .theme-dark {
+    	background-color: {{ section.settings.background_color }}
+    }
+    .theme-dark, .theme-dark h1, .theme-dark h2, .theme-dark h3, .theme-dark h4, .theme-dark h5, .theme-dark h6 {
+      color: {{ section.settings.font_color }};
+    }
+{%- endstyle -%}

@@ -1,0 +1,183 @@
+{% comment %}
+  Gift card section for gift card page
+{% endcomment %}
+
+<div class="py-4 px-4 mx-auto">
+  <!-- gift card logo -->
+  <div class="login__brand p-0">
+    {% if settings.main_logo == blank or section.settings.show_logo == false %}
+    <div class="h2 site-header-logo my-0 text-center h-auto">
+      <span class="giftcard-store mb-3"><a class="site-header-logo-link" href="{{ routes.root_url }}">{{ shop.name }}</a></span>
+    </div>
+    {% else %}
+    <div class="login__logo logo text-center">
+      <a class="shop-link" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        <div class="banner-icon-container icon-count">
+          {% if section.settings.main_logo == blank %}
+          <div class="h5 site-header-logo my-0 text-center">
+            <a class="site-header-logo-link focus-inset shop-link" href="{{ routes.root_url }}">{{ shop.name }}</a>
+          </div>
+          {% else %}
+          {% render 'responsive-logo' with image: section.settings.main_logo, image_class: "d-block img-fluid header-logo", wrapper_class: "header-wrapper mx-auto", img_width: section.settings.main_logo_max_width, max_width: section.settings.main_logo_max_width, max_height: section.settings.main_logo.height %}
+          {% endif %}
+          </div>
+        </a>
+      </div>
+    {% endif %}
+  </div>
+  <!-- /gift card logo -->
+  <header class="gift-card__title">
+    {% assign gift_card_expiry_date = gift_card.expires_on | date: "%d/%m/%y" %}
+    {% assign gift_card_balance = gift_card.balance | money %}
+    {% assign formatted_initial_value = gift_card.initial_value | money_without_trailing_zeros: gift_card.currency %}
+    {% assign formatted_initial_value_stripped = formatted_initial_value | strip_html %}
+    {% assign initial_value_size = formatted_initial_value | size %}
+    <!-- titles -->
+    <h2 class="gift-card__heading py-2 mb-0">{{ 'gift_cards.issued.subtext' | t }}</h2>
+    <!-- /titles -->
+    <div class="gift-card__price">
+      <!-- balance and initial value -->
+      <div class="giftcard-amount card border-0">
+        <div class="card-body py-0">
+          {% if gift_card.balance != gift_card.initial_value %}
+            <p class="giftcard-tooltip text-center">{{ 'gift_cards.issued.remaining_html' | t: balance: gift_card_balance }}</p>
+          {% else %}
+            <p class="giftcard-tooltip text-center">{{ formatted_initial_value }}</p>
+          {% endif %}
+        </div>
+      </div>
+      <!-- /balance and initial value -->
+      <!-- expired with expiry date -->
+      {% if gift_card.expired %}
+      <div class="card">
+        <div class="card-body giftcard-message message-error">
+          <label class="giftcard-tooltip-expired text-center mb-0">{{ 'gift_cards.issued.expired' | t: expiry: gift_card_expiry_date }}</label>
+        </div>
+      </div>
+      {% endif %}
+      <!-- /expired with expiry date -->
+      <!-- active with expiry date -->
+      {% if gift_card.expired != true and gift_card.expires_on and gift_card.enabled %}
+        <p class="giftcard-message text-center">{{ 'gift_cards.issued.active' | t: expiry: gift_card_expiry_date }}</p>
+      {% endif %}
+      <!-- /active with expiry date -->
+    </div>
+  </header>
+  <!-- /header info -->
+  <!-- main body info -->
+  <main class="gift-card pb-3">
+    <!-- gift card image -->
+    <div class="gift-card__image-wrapper">
+      {% if section.settings.image == blank %}
+        <img src="{{ 'gift-card/card.svg' | shopify_asset_url }}" alt="gift card" class="gift-card__image img-fluid" height="{{ 570 | divided_by: 1.5 }}" width="410" loading="lazy">
+      {% else %}
+        <img src="{{ section.settings.image | img_url: 'original' }}" alt="gift card" class="gift-card__image img-fluid" height="{{ 570 | divided_by: 1.5 }}" width="410" loading="lazy">
+      {% endif %}
+    </div>
+    <!-- gift card image -->
+    <!-- if gift card is disabled -->
+    {% unless gift_card.enabled %}
+      <p class="giftcard-message-disabled text-center mb-0">{{ 'gift_cards.issued.disabled' | t }}</p>
+    {% endunless %}
+    <!-- /if gift card is disabled -->
+    <!-- QR code -->
+    <div id="gift-card__qr-code" data-identifier="{{ gift_card.qr_identifier }}"></div>
+    <!-- /QR code -->
+    <!-- gift card code -->
+    <div class="gift-card__information">
+      <!-- gift card code -->
+      <input type="text"
+             id="myInput"
+             class="gift-card__number mb-0"
+             value="{{ gift_card.code | format_code }}"
+             aria-label="{{ 'gift_cards.issued.gift_card_code' | t }}"
+             readonly >
+      <!-- gift card code -->
+      <!-- redeem -->
+      <label class="giftcard-redeem text-center py-2">{{ 'gift_cards.issued.redeem_html' | t: value: formatted_initial_value_stripped }}</label>
+      <!-- /redeem -->
+      <!-- copy code -->
+      <div class="gift-card__copy-code">
+        <button class="link gift-card__copy-link">{{ 'gift_cards.issued.copy_code' | t }}</button>
+        <span class="gift-card__copy-success form__message my-2 pb-3" role="status"></span>
+        <template>
+          {% render 'icon-gift-success' %}{{ 'gift_cards.issued.copy_code_success' | t }}
+        </template>
+      </div>
+      <!-- /copy code -->
+      <!-- gift card pass -->
+      {% if gift_card.pass_url %}
+        <a href="{{ gift_card.pass_url }}" >
+          <img id="apple-wallet-badge"
+            src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}"
+            width="120"
+            height="40"
+            loading="lazy"
+            alt="Add To Apple Wallet">
+        </a>
+      {% endif %}
+      <!-- gift card pass -->
+      <!-- gift card footer buttons -->
+      <div class="gift-card__buttons no-print d-flex justify-content-between">
+        <a href="{{ shop.url }}"
+           class="btn btn-contact d-inline-flex"
+           target="_blank"
+           rel="noopener"
+           aria-describedby="a11y-new-window-message">
+          {{ 'gift_cards.issued.shop_link' | t }}
+        </a>
+        <button class="btn btn-contact d-inline-flex"
+                onclick="window.print();">
+                {{ 'gift_cards.issued.print_gift_card' | t }}
+        </button>
+      </div>
+      <!-- gift card footer buttons -->
+    </div>
+    <!-- gift card code -->
+  </main>
+  <!-- /main body info -->
+</div>
+
+{% schema %}
+  {
+    "name": "Gift card",
+    "class": "index-gift-card",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "main_logo",
+        "label": "Upload logo image"
+      },
+      {
+        "type": "range",
+        "id": "main_logo_max_width",
+        "min": 50,
+        "max": 200,
+        "step": 5,
+        "unit": "px",
+        "label": "Logo width",
+        "default": 150
+      },
+      {
+        "type": "checkbox",
+        "id": "show_logo",
+        "label": "Show logo",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Gift card image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "700 x 410px .png recommended",
+        "info": "You can upload a new image to replace the default gift card image."
+      }
+    ]
+  }
+{% endschema %}

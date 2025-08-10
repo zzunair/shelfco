@@ -1,0 +1,122 @@
+<form id="form-id" class="filter-form d-flex justify-content-between desktop-version-filter-form">
+  <ul class="nav nav-pills mr-auto main-menu mb-2 d-inline-flex" role="list">
+    {% for filter in filters %}
+      {% case filter.type %}
+        {% when 'list' %}
+          <li class="nav-item dropdown mr-1 bg-white border desktop tablet laptop mobile-hide">
+            <!-- header -->
+            <a
+              class="nav-link dropdown-toggle rounded-0"
+              data-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              {{ filter.label | escape }}
+            </a>
+            <!-- /header -->
+            <!-- tab dropdown -->
+            <div class="dropdown-menu mt-0 bg-white border">
+              <div class="filter-card-body pl-0 pb-2 text-left">
+                {% for value in filter.values %}
+                  {% if value.count >= 0 %}
+                    <div class="form-check pl-0 mb-0 pretty p-default p-fill p-has-focus p-bigger">
+                      <input
+                        type="checkbox"
+                        name="{{ value.param_name }}"
+                        value="{{ value.value }}"
+                        class="form-check-input filled-in"
+                        {% if value.active %}
+                          checked
+                        {% endif %}
+                        {% if value.count == 0 and value.active == false %}
+                          disabled
+                        {% endif %}
+                        id="{{ filter.label | escape }}-{{ forloop.index }}"
+                      >
+                      <div class="state p-primary-o pl-1">
+                        <label
+                          for="{{ filter.label | escape }}-{{ forloop.index }}"
+                          class="form-check-label text-capitalize font-weight-normal card-link-secondary"
+                          aria-label="{{ value.label | escape }}"
+                        >
+                          {{ value.label | escape }} ({{ value.count }})
+                        </label>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              {% if filter.active_values.size > 0 %}
+                <a
+                  href="{{ filter.url_to_remove | remove: '&view=extended' }}"
+                  class="d-flex mr-auto btn btn-contact reset-filter-button"
+                >
+                  {{ 'general.accessibility.reset' | t }}
+                </a>
+              {% endif %}
+            </div>
+            <!-- tab dropdown -->
+          </li>
+        {% when 'price_range' %}
+          {% if filter.type == 'price_range' %}
+            {% assign class = 'border-0' %}
+            <li class="nav-item dropdown mr-1 border bg-white desktop tablet laptop mobile-hide">
+              <!-- header -->
+              <a
+                class="nav-link dropdown-toggle rounded-0"
+                data-toggle="dropdown"
+                href="#"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                {{ filter.label | escape }}
+              </a>
+              <!-- /header -->
+              <!-- price dropdown -->
+              <div class="dropdown-menu mt-0 bg-white border price-dropdown-menu">
+                <div class="filter-card-body pl-0 text-left">
+                  {% render 'range-slider', filter: filter, class: class %}
+                </div>
+              </div>
+              <!-- /price dropdown -->
+            </li>
+          {% endif %}
+          <style media="screen">
+            .price-dropdown-menu {
+              min-width: 15rem;
+            }
+          </style>
+      {% endcase %}
+    {% endfor %}
+    <!-- mobile filter btn -->
+    <a
+      href="#"
+      class="btn btn-contact js-filter-toggle mobile-only tablet-hide laptop-hide"
+      data-toggle="collapse"
+      data-target="#main-navbar-1"
+      aria-label="{{ 'general.accessibility.filter' | t }}"
+    >
+      {{ 'general.accessibility.filter' | t }}
+    </a>
+    <!-- /mobile filter btn -->
+  </ul>
+</form>
+<div class="d-flex">
+  {% for filter in filters %}
+    {% for value in filter.active_values %}
+      <a
+        class="d-inline-flex text-left pb-2"
+        aria-current="page"
+        href="{{ value.url_to_remove | remove: '&view=extended' }}"
+      >
+        <span class="badge py-2 mr-1 badge-info bg-white border rounded-0 text-dark font-weight-normal">
+          {{ value.label | escape | remove: '&view=extended' -}}
+          {%- render 'icon-close-general' %}
+        </span>
+      </a>
+    {% endfor %}
+  {% endfor %}
+</div>

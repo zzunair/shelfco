@@ -1,0 +1,281 @@
+{% comment %}
+  Video section
+{% endcomment %}
+
+{%- liquid
+  assign _colClassLayout = 'container-fluid'
+  assign _wrapper = 'container-fluid px-0'
+  assign _roundedAll = ''
+  assign color = settings.btn_contact_text_color
+-%}
+
+<section
+  id="{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  class="video-slider-section"
+  data-section-type="video"
+  tabindex="0"
+>
+  <div
+    id="{{ section.id }}"
+    class="carousel slide"
+    data-ride="carousel"
+    data-interval="{% if section.settings.autoplay %}{{ section.settings.autoplay_speed }}{% else %}false{% endif %}"
+  >
+    <div class="container-fluid carousel-inner px-0">
+      {%- liquid
+        assign video_id = section.settings.video.id | default: section.settings.video_url.id
+
+        assign video_link = section.settings.video
+        assign controlSettings = 'controls'
+
+        if section.settings.autoplay_video
+          assign autoplaySettings = true
+          assign autoplay = '&autoplay=1'
+        else
+          assign autoplaySettings = false
+          assign autoplay = '&autoplay=0'
+        endif
+
+        if section.settings.play_sound
+          assign playSound = false
+          assign sound = '&muted=false'
+        else
+          assign playSound = true
+          assign sound = '&muted=true'
+        endif
+
+        if section.settings.enable_looping
+          assign loopSettings = true
+          assign loop = '&loop=1'
+        else
+          assign loopSettings = false
+          assign loop = '&loop=0'
+        endif
+      -%}
+      {% assign desktop_image = section.settings.image | default: section.settings.image %}
+
+      <div class="video-carousel-item carousel-item active h-100">
+        <div id="{{ section.id }}">
+          <div class="section_hero laptop desktop tablet mobile">
+            <div class="item">
+              <div class="section_hero-overlay-container {{ _wrapper }}">
+                <div class="section_hero-video-inner no-video-bg {{ _roundedAll }} section_full_width_img">
+                  <div class="section_hero-video">
+                    {%- if section.settings.video == null and section.settings.video_url != null -%}
+                      {%- if section.settings.video_url.type == 'youtube' -%}
+                        <iframe
+                          src="https://www.youtube.com/embed/{{ video_id }}?origin={{ shop.url }}&playsinline=1&preload=none&rel=0&enablejsapi=1{{ autoplay }}{{ sound }}{{ loop }}"
+                          class="js-youtube"
+                          allow="autoplay; encrypted-media"
+                          allowfullscreen
+                        ></iframe>
+                      {%- else -%}
+                        <iframe
+                          src="https://player.vimeo.com/video/{{ video_id }}?origin={{ shop.url }}&playsinline=1&preload=none&rel=0{{ autoplay }}{{ sound }}{{ loop }}"
+                          class="js-vimeo"
+                          allow="autoplay; encrypted-media"
+                          allowfullscreen
+                        ></iframe>
+                      {%- endif -%}
+                    {%- else -%}
+                      {{
+                        video_link
+                        | video_tag:
+                          image_size: '2048x',
+                          autoplay: autoplaySettings,
+                          loop: loopSettings,
+                          controls: controlSettings,
+                          muted: playSound,
+                          class: 'video-js lazy lazy--loaded img-fluid'
+                      }}
+                    {%- endif -%}
+                  </div>
+                  <div class="section_hero-image_wrapper {% if autoplaySettings == true %} hidden{% endif %}">
+                    {% if section.settings.image != blank %}
+                      {% assign widths = '450, 660, 900, 1320, 1800, 2136, 2400, 3600, 7680' %}
+                      {% assign height = '100vh' %}
+                      {% assign sizes = '100vw' %}
+                      {{
+                        desktop_image
+                        | image_url: width: 3840
+                        | image_tag:
+                          loading: '',
+                          height: height,
+                          sizes: sizes,
+                          widths: widths,
+                          class: 'section_hero-image hide-no-js',
+                          alt: desktop_image.alt
+                        | escape
+                      }}
+                    {% endif %}
+                  </div>
+                  {%- if section.settings.video != null or section.settings.video_url != null -%}
+                    <div class="video-controls-btn">
+                      <a class="video-control video-pause {% if autoplaySettings == false %}hidden{% endif %}" href="#">
+                        {%- render 'icon-pause', _color: color -%}
+                      </a>
+                      <a class="video-control video-play {% if autoplaySettings %}hidden{% endif %}" href="#">
+                        {%- render 'icon-play', _color: color -%}
+                      </a>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Video",
+  "class": "main-video",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Placeholder image"
+    },
+    {
+      "type": "header",
+      "content": "Shopify hosted video"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Upload video",
+      "info": "Select or upload your MP4 video"
+    },
+    {
+      "type": "header",
+      "content": "Or embed video from URL"
+    },
+    {
+      "type": "paragraph",
+      "content": "Shows when no Shopify hosted video is selected."
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "accept": ["youtube", "vimeo"],
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+      "label": "URL",
+      "info": "Use a YouTube or Vimeo URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay_video",
+      "label": "Autoplay",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_looping",
+      "label": "Video loop",
+      "default": true,
+      "info": "If looping is enabled, the video will repeat multiple times"
+    },
+    {
+      "type": "checkbox",
+      "id": "play_sound",
+      "label": "Video sound",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+       "name": "Video",
+        "category": "Content",
+        "settings": {
+  		}
+    }
+  ]
+}
+{% endschema %}
+
+<script defer src="{{ 'video.js' | asset_url }}"></script>
+
+{% style %}
+video::-webkit-media-controls {
+  display: none;
+}
+
+#{{ section.id }} > video::-webkit-media-controls-play-button {}
+
+#{{ section.id }} > video::-webkit-media-controls-volume-slider {}
+
+#{{ section.id }} > video::-webkit-media-controls-mute-button {}
+
+#{{ section.id }} > video::-webkit-media-controls-timeline {}
+
+#{{ section.id }} > video::-webkit-media-controls-current-time-display {}
+
+.section_hero-video {
+  position: absolute;
+  aspect-ratio: 16/9;
+}
+.section_hero-video video, .section_hero-video iframe {
+  width: 100vw;
+  height: 100%;
+  padding: 0;
+}
+.video-controls-btn {
+  position: absolute;
+}
+.section_hero-video-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+.video-controls-btn a svg {
+  background: var(--color-btn-contact-bg);
+  padding: 8px;
+  border-radius: 100%;
+  width: 60px;
+  height: 60px;
+}
+.section_hero-video-inner.hero-video-played .section_hero-image_wrapper {
+  display: none;
+}
+.video-controls-btn {
+  visibility: hidden;
+  opacity: 0;
+}
+.section_hero-video-inner:hover .video-controls-btn {
+  visibility: visible;
+  opacity: 1;
+}
+@media screen and (max-width: 1024px) {
+  .section_full_width_img.section_hero-video-inner {
+    height: unset;
+  }
+  .video-controls-btn a svg {
+    padding: 5px;
+    width: 40px;
+    height: 40px;
+  }
+  .section_hero-video-inner .video-controls-btn {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+@media screen and (max-width: 767px) {
+  .section_hero-video video, .section_hero-video iframe {
+    aspect-ratio: 16 / 9;
+  }
+  .section_hero-video {
+    aspect-ratio: unset;
+  }
+}
+{% endstyle %}

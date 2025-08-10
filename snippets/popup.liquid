@@ -1,0 +1,44 @@
+{% comment %}
+  Renders email popup when enabled via theme settings
+
+  Usage:
+  {% render 'popup' %}
+{% endcomment %}
+
+{% if settings.show_popup %}
+  {% unless settings.show_only_on_index and template != 'index' %}
+    {% unless settings.show_only_for_visitors and customer %}
+      {% capture section_settings %}
+        {
+          "apparitionDelay": {{ settings.apparition_delay | json }}
+        }
+      {% endcapture %}
+      <div
+        id="popupNotice"
+        data-wow-delay="{{ settings.apparition_delay | json }}"
+        data-section-settings="{{ section_settings }}"
+        class="wow fadeInUp box__banner style--box border rounded__all"
+        data-show="true"
+      >
+        <div class="content">
+          {% if settings.title != blank %}
+            <h2 class="newsletter-popup-heading text-left">{{ settings.title | escape }}</h2>
+          {% endif %}
+          {% if settings.shipping_intro != blank %}
+            {{ settings.shipping_intro }}
+          {% endif %}
+          {% if settings.show_newsletter %}
+            {% render 'newsletter-form' %}
+          {% endif %}
+        </div>
+        <!-- close button -->
+        <div id="close" class="close" aria-label="Close popup">
+          <span aria-hidden="true">
+            {% render 'icon-close-modal' %}
+          </span>
+        </div>
+        <!-- /close button -->
+      </div>
+    {% endunless %}
+  {% endunless %}
+{% endif %}

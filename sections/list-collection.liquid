@@ -1,0 +1,159 @@
+{% comment %}
+  List collection page
+{% endcomment %}
+
+{{ 'component-collection-list.css' | asset_url | stylesheet_tag: preload: true }}
+
+{%- liquid
+  if section.settings.collection_list_width == '3'
+    assign _rowLayout = 'row-of-3'
+  elsif section.settings.collection_list_width == '4'
+    assign _rowLayout = 'row-of-4'
+  endif
+-%}
+
+<div id="collection-list" class="wow fadeIn" data-wow-delay="300ms">
+  <section
+    id="{{ section.id }}"
+    data-section-id="{{ section.id }}"
+    data-section-type="collection-banners"
+    class="home-grid container collection-category"
+  >
+    
+      <div class="grid-wrapper">
+        {% for collection in collections %}
+       {% if collection.metafields.custom.hide.value != 'Yes' %}
+            {% assign collection_item_count = collection.all_products_count %}
+            {% assign collection_title = collection.title %}
+            {% assign collection_url = collection.url %}
+            {% assign bg_color_opacity = section.settings.bg_color_opacity %}
+            {% assign opacity = section.settings.opacity %}
+            {% assign collection_image = collection.image %}
+            {% assign collection_image = collection.featured_image %}
+
+            <div class="grid-item {{ _rowLayout }}">
+              <div class="blocker">
+                <a class="linkwrap" title="{{ collection_title | escape }}" href="{{ collection_url }}"></a>
+              </div>
+              <div class="image-wrapper">
+                <img
+                  class="img-fluid img-fluid-collection collection_image"
+                  src="{{ collection_image | img_url: '1000x' }}"
+                  data-widths="[600,800,1000,1200]"
+                  data-sizes="auto"
+                  loading="lazy"
+                  width="{{ collection_image.width }}"
+                  height="{{ collection_image.width | divided_by: collection_image.aspect_ratio | round }}"
+                  alt="{{ collection.title | escape }}"
+                  sizes="1000px"
+                  srcset="
+                    {% if collection_image.width >= 600 %}{{ collection_image | img_url: '600x' }} 600w,{% endif %}
+                    {% if collection_image.width >= 800 %}{{ collection_image | img_url: '800x' }} 800w,{% endif %}
+                    {% if collection_image.width >= 1000 %}{{ collection_image | img_url: '1000x' }} 1000w,{% endif %}
+                    {% if collection_image.width >= 1200 %}{{ collection_image | img_url: '1200x' }} 1200w{% endif %}
+                  "
+                >
+              </div>
+              <div class="overlay"></div>
+              <div class="text-wrapper">
+                <div class="text-title-wrapper">
+                  <h2 class="text-title card-title my-0 py-2">
+                    {{ collection_title | escape }}
+                  </h2>
+                </div>
+                <div class="text-cta">
+                  {% if collection_item_count >= 1 %}
+                    <span>{{ 'collections.collection_list.item_count' | t: count: collection_item_count }}</span>
+                  {% else %}
+                    <span>{{ 'collections.collection_list.item_count' | t: count: 0 }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+             {% endif %}
+        {% endfor %}
+      </div>
+  </section>
+</div>
+
+{%- style -%}
+  .text-title, .text-cta {
+    color: {{ section.settings.font_color }} !important;
+  }
+  .grid-item:hover {
+    transform: translateY(-0.5rem);
+   transition: ease 0.5s;
+  }
+  .grid-wrapper {
+    gap: 15px;
+  }
+  .overlay {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      opacity: {{ opacity }};
+      background: {{ bg_color_opacity }} !important;
+      pointer-events: none;
+      z-index: 0;
+ }
+  .grid-item:hover .overlay {
+    opacity: 0.35;
+  transition: ease 0.5s;    
+  }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Collection list",
+  "class": "index-home-list-collection",
+  "settings": [
+    {
+      "type": "select",
+      "id": "collection_list_width",
+      "options": [
+        {
+          "value": "4",
+          "label": "Row of 4"
+        },
+        {
+          "value": "3",
+          "label": "Row of 3"
+        }
+      ],
+      "label": "Section layout",
+      "info": "This option sets the width of the section",
+      "default": "4"
+    },
+    {
+      "type": "color",
+      "id": "font_color",
+      "label": "Font color",
+      "default": "#FFFFFF"
+    },
+            {
+          "type": "header",
+          "content": "Opacity",
+          "info": "The opacity settings specifies the transparency of the block."
+        },
+        {
+          "type": "color",
+          "id": "bg_color_opacity",
+          "label": "Background opacity color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "range",
+          "id": "opacity",
+          "min": 0,
+          "max": 1,
+          "step": 0.1,
+          "label": "Background opacity",
+          "default": 0.5
+        }
+  ]
+}
+{% endschema %}

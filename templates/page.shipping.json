@@ -1,0 +1,117 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "static-page",
+      "custom_css": [
+        ".container {width: 80%;}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "main_rich_text_8YXEET": {
+      "type": "main-rich-text",
+      "custom_css": [
+        "@media (min-width: 576px) {.container {width: 85%; }}"
+      ],
+      "settings": {
+        "padding_top": 56,
+        "padding_bottom": 0,
+        "title": "Shipping Policy",
+        "text": "<p><strong>All orders are processed within 2 to 3 business days</strong> of your purchase (excluding holidays). You will receive an order confirmation email upon purchase. You will receive another email once your order has shipped. Please <a href=\"/pages/contact-us\" title=\"Contact Us\"><span style=\"text-decoration:underline\"><strong>contact us</strong></span></a> if you do not receive these emails.<br/><br/>Shipping times are calculated based on the weight of the package and the shipping address and may vary. Shipping times indicated at checkout do not include our 2-3 business day processing time. <strong>We cannot guarantee any shipping times.</strong><br/><br/>Shelf & Co. ships to all states within the contiguous United States. <strong>We do not ship to P.O. boxes.</strong> Expedited shipping options will be available wherever applicable. <a href=\"/pages/contact-us\" title=\"Contact Us\"><span style=\"text-decoration:underline\"><strong>Contact us</strong></span></a> for more information about expedited shipping options.</p><p>Shipping rates are calculated based on order size and delivery location. Final shipping prices for each order will be displayed at checkout. Please <a href=\"https://shelf-co.com/pages/contact-us\" title=\"Contact Us\"><span style=\"text-decoration:underline\"><strong>contact us</strong></span></a> for further information about shipping options.</p>",
+        "button_text": "",
+        "button_url": ""
+      }
+    },
+    "main_faqs_yiQzGP": {
+      "type": "main-faqs",
+      "blocks": {
+        "text_MjEEwa": {
+          "type": "text",
+          "settings": {
+            "faq_title": "What qualifies an order as a freight delivery?",
+            "faq_content": "<p>If an order weighs over 160 pounds, the safest and most effective shipping method is freight delivery. The freight delivery method is specifically tailored for orders that contain large products or multiple items. </p>"
+          }
+        },
+        "text_pHXxFf": {
+          "type": "text",
+          "settings": {
+            "faq_title": "What does a freight delivery look like?",
+            "faq_content": "<p>For freight delivery, products will arrive on a wooden pallet. The products will be wrapped in plastic and secured to the pallet. </p>"
+          }
+        },
+        "text_TphQFN": {
+          "type": "text",
+          "settings": {
+            "faq_title": "How is the pallet delivered?",
+            "faq_content": "<p>A delivery service will arrive at your location with your pallet on a truck. The delivery service will have all of the necessary equipment to remove the pallet from the truck. Once removed from the truck, the pallet is placed in your driveway, garage, porch, or another covered location. The location's accessibility will determine the final dropoff place.</p>"
+          }
+        },
+        "text_KKN7gQ": {
+          "type": "text",
+          "settings": {
+            "faq_title": "Do freight deliveries offer tracking?",
+            "faq_content": "<p>Yes, once your order is shipped, you will receive a shipping confirmation email that includes a tracking number. Follow the link to the delivery service's website and enter the tracking number provided. </p>"
+          }
+        },
+        "text_GGXejE": {
+          "type": "text",
+          "settings": {
+            "faq_title": "How long do freight deliveries take?",
+            "faq_content": "<p>After we receive your order, it will take about 2-3 business days for us to package the products and prepare the pallet. Once the order has shipped, it takes about 3-6 business days to get to the final location. Transit times for freight deliveries can be slightly longer than standard shipping methods. </p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_MjEEwa",
+        "text_pHXxFf",
+        "text_TphQFN",
+        "text_KKN7gQ",
+        "text_GGXejE"
+      ],
+      "custom_css": [
+        ".container {padding: 5%;}",
+        ".faq-items-wrapper {width: 100%;}",
+        ".faq-item {word-break: normal;}",
+        "h2 {font-size: 2rem;}",
+        "p {line-height: 1.75;}"
+      ],
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "content_title": "Freight Deliveries",
+        "content_caption": "<p>Large shelving units are required to be shipped as a freight delivery. This means that your order will be delivered on a pallet. The pallet will be taken off of the truck by a driver and placed in a spot that is convenient for you. Freight delivery is a safer way to ship large orders with a smaller chance of product damage. Shipping times may vary for freight deliveries. Please <a href=\"/pages/contact-us\" title=\"Contact Us\"><span style=\"text-decoration:underline\"><strong>contact us</strong></span></a> if you have any further questions about freight deliveries.</p>"
+      }
+    },
+    "main_rich_text_V6Qg3x": {
+      "type": "main-rich-text",
+      "custom_css": [
+        "@media only screen and (min-width: 800px) {.container {width: 75%; }}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 80,
+        "title": "Our Commitment to Customer Service",
+        "text": "<p>If you have any concerns, please pick up the phone and call us. Our office is staffed with real people who answer phone calls and emails from customers. We're ready to offer advice and troubleshooting for anything from a first-time do-it-yourself project to planning the large-scale remodel of a room.</p>",
+        "button_text": "Contact Us",
+        "button_url": "shopify://pages/contact-us"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "main_rich_text_8YXEET",
+    "main_faqs_yiQzGP",
+    "main_rich_text_V6Qg3x"
+  ]
+}

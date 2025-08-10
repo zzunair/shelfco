@@ -1,0 +1,187 @@
+{% comment %}
+  Search page
+{% endcomment %}
+
+{{ 'component-collection.css' | asset_url | stylesheet_tag: preload: true }}
+
+<div
+  id="{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="search-template"
+  class="h-100 w-100 mx-10 collection-page-app"
+>
+  <section class="section-{{ section.id }}-padding products-background">
+    <div id="page-search" class="container search-page">
+      {% if search.performed and search.results.size > 0 %}
+        {% paginate search.results by 16 %}
+          {% if search.performed %}
+            <h1 class="text-center mb-5">
+              {% if search.results_count >= 1 %}
+                <span class="visually-hidden">{{ 'general.search.heading' | t: count: search.results_count }}:</span>
+                {{ 'general.search.results_with_count' | t: terms: search.terms, count: search.results_count }}
+              {% endif %}
+            </h1>
+          {% endif %}
+          <!-- search form -->
+          <div class="d-flex mb-3">
+            {% render 'search-form' %}
+          </div>
+          <div class="row">
+            {% render 'search-sidebar' %}
+            <div class="col-md-12 mb-1 px-0">
+              <div class="row products-on-page mx-auto px-0" data-next-url="{{ paginate.next.url }}">
+                {% for item in search.results %}
+                  {% case item.object_type %}
+                    {% when 'product' %}
+                      <a href="{{ item.url | within: collection }}" aria-label="{{ 'general.search.title' | t }}">
+                        {% render 'product-card', product: item %}
+                      </a>
+                    {% when 'article' %}
+                      <div
+                        class="col-lg-4 col-md-4 col-sm-12 col-xs-12 wow fadeIn pb-3 mb-0"
+                        data-wow-delay="300ms"
+                        tabindex="0"
+                      >
+                        <div class="blog-media mb-0">
+                          <div class="image-wrapper">
+                            <a href="{{ article.url }}" aria-label="{{ item.title }}">
+                              {% if item.image == blank %}
+                                {{ 'image' | placeholder_svg_tag }}
+                              {% else %}
+                                {% render 'responsive-image' with image: item.image, image_class: "d-block w-100 img-fluid", wrapper_class: "img-wrapper-class", lazy: "lazy", max_width: 1000, max_height: 500 %}
+                              {% endif %}
+                            </a>
+                          </div>
+                        </div>
+                        <div class="card border-0">
+                          <div class="card-body rounded-0 card-panel-bg">
+                            <div class="date-published d-flex justify-content-between">
+                              {% if section.settings.article_show_author %}
+                                <span class="blog-author d-inline-flex pb-1 mb-0">
+                                  {{- 'blogs.article.by_author' | t: author: item.author -}}
+                                </span>
+                              {% endif %}
+                              {% if section.settings.article_show_date %}
+                                <span class="blog-date d-inline-flex mb-0 pb-1">
+                                  {{- item.published_at | date: '%b %d, %Y' -}}
+                                </span>
+                              {% endif %}
+                            </div>
+                            <a href="{{ article.url }}" aria-label="{{ article.title | escape }}">
+                              <h3 class="newsletter-heading mb-0 pb-1">{{ item.title }}</h3>
+                            </a>
+                            <p class="card-text" tabindex="0">
+                              <small class="text-muted">
+                                <a href="{{ article.url }}" aria-label="{{ article.title | escape }}">
+                                  <span class="read-more d-inline-flex mb-0">{{ 'general.shop.read_more' | t }}</span>
+                                </a>
+                              </small>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    {% when 'page' %}
+                      <div
+                        class="col-lg-4 col-md-4 col-sm-12 col-xs-12 wow fadeIn pb-3 mb-0"
+                        data-wow-delay="300ms"
+                        tabindex="0"
+                      >
+                        <a href="{{ item.url }}" class="card-wrapper">
+                          <div class="card-grid card-search bg-white card-text-only">
+                            <div class="card-inner border">
+                              <div class="card-content">
+                                <h2 class="card-heading h3">{{ item.title | truncate: 50 | escape }}</h2>
+                              </div>
+                              <div class="card-badge">
+                                <span class="badge border">{{ 'general.search.page' | t }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                      </div>
+                  {% endcase %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          {% if paginate.pages >= 1 %}
+            <div class="container-fluid load-more-wrapper py-0">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="card rounded-0 border-0 text-center">
+                    <div class="mx-auto">
+                      {% render 'pagination', paginate: paginate, anchor: '', class: '' %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endpaginate %}
+      {% endif %}
+    </div>
+    <!-- no results -->
+    {% if search.results_count == 0 %}
+      <section id="{{ section.id }}" class="products section py-0 text-center EmptyState">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="content">
+                <h2 class="cart-page-title mt-3">{{ 'general.search.title' | t }}</h2>
+                <div class="rte">
+                  <p>{{ 'general.search.no_results_html' | t: terms: search.terms }}</p>
+                  <div class="d-flex mb-3 w-100">
+                    {% render 'search-form' %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {% endif %}
+    <!-- /no results -->
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Search",
+  "class": "index-search-template",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}

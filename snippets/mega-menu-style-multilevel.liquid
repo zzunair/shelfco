@@ -1,0 +1,86 @@
+<li class="nav-item dropdown has-megamenu mega-menu-style-multilevel rounded-0 {% if link.active %}active{% endif %}" aria-haspopup="true">
+  <a
+    id="dropdownMenuButton"
+    class="megamenu-item dropdown-toggle header__menu-item list-menu__item px-0 mx-0"
+    href="{{ link.url }}"
+    data-toggle="dropdown"
+    aria-label="{{ link.title }}{{ forloop.index }}"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    <span class="{% if link.active %} link-active{% endif %}">
+      {{ link.title | escape }}
+    </span>
+  </a>
+  <div
+    class="sub-menu megamenu dropdown-animate no-child-menu-items px-0"
+    aria-labelledby="dropdownMenuButton"
+    {% if link.object.size >= 11 %}
+      style="top: 35px;"
+    {% endif %}
+  >
+    <div class="container-fluid px-0 justify-content-center">
+      <div class="row w-100">
+        <div class="col-md-4 px-0 border">
+          <div class="dropdown-header megamenu-parent-header py-0">
+            <ul class="navbar-nav child-menu megamenu-parent-items" role="list">
+              {% for link in linklists[selected_megamenu].links %}
+                <li class="nav-item w-100 border-0 {% if link.active %}active{% endif %}">
+                  <a
+                    href="{{ link.url }}"
+                    data-megamenu="megamenu-item-{{ forloop.index }}"
+                    class="font-weight-bold w-100 border-0 menu-item header__menu-item list-menu__item {% if link.links.size > 0 %}dropdown-toggle{% endif %} {% if link.current %} menu-item--active{% endif %}"
+                  >
+                    {{ link.title | escape }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-8 border">
+          {% for link in linklists[selected_megamenu].links %}
+            {% if link.links.size > 0 %}
+            {% assign forLoopIndex = forloop.index %}
+            <div class="row h-100 megamenu-items-inner align-content-start megamenu-item-{{ forloop.index }}">
+              {% for childlink in link.links %}
+                <ul class="navbar-nav child-menu {{ _colClass }} px-0 py-0" role="list" aria-label="submenu">
+                  <div class="dropdown-header py-0">
+                    <li class="dropdown-menu-item w-100 border-0 {% if childlink.active %}active{% endif %}">
+                      <a
+                        href="{{ childlink.url }}"
+                        class="font-weight-bold w-100 border-0 menu-item header__menu-item list-menu__item {% if childlink.current %} menu-item--active{% endif %}"
+                        {% if childlink.current %}
+                          aria-current="page"
+                        {% endif %}
+                        tabindex="{% if forLoopIndex == 1 %}0{% else %}-1{% endif %}"
+                      >
+                        {{ childlink.title | escape }}
+                      </a>
+                    </li>
+                  </div>
+                  {% for grandchildlink in childlink.links %}
+                    <li class="dropdown-menu-item w-100 border-0 {% if grandchildlink.active %}active{% endif %}">
+                      <a
+                        href="{{ grandchildlink.url }}{% if grandchildlink.type == 'product_link' %}{% if grandchildlink.object.variants.size > 1 %}?variant={{ grandchildlink.object.variants.first.id }}{% endif %}{% endif %}"
+                        class="w-100 py-2"
+                        aria-label="{{ grandchildlink.title }}{{ forloop.index }}"
+                        {% if grandchildlink.current %}
+                          aria-current="page"
+                        {% endif %}
+                        tabindex="{% if forLoopIndex == 1 %}0{% else %}-1{% endif %}"
+                      >
+                        {{ grandchildlink.title | escape }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endfor %}
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</li>

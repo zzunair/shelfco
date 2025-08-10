@@ -1,0 +1,188 @@
+{% comment %}
+  Blog page
+{% endcomment %}
+
+{% paginate blog.articles by section.settings.blog_limit %}
+  {% if blog.articles.size > 0 %}
+    {% assign article_image = article.image | default: article.image %}
+    <section id="{{ section.id }}" class="js-blog-editorial section-{{ section.id }}-padding">
+      <div class="container">
+        <div class="col-md-12 row mx-auto px-0">
+          <div class="content w-100 d-block">
+            <h1 class="content-intro page-name text-center my-0">
+              {{ blog.title | escape }}
+            </h1>
+          </div>
+          <!-- blog content -->
+          <div class="{% if section.settings.sb_blog_linklist != blank %}col-md-9 px-0{% else %}col-md-12 px-0{% endif %}">
+            <!-- blog listings -->
+            <div class="blog-section section row pb-0">
+              {% for article in blog.articles %}
+                <div class="col-lg-4 col-md-4 col-sm-12 mb-4 col-xs-12 col-">
+                  <div class="blog-media">
+                    <!-- image -->
+                    <div class="image-wrapper rounded__all">
+                      {% if article.image == blank %}
+                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg rounded__all' }}
+                      {% else %}
+                        <a href="{{ article.url }}" aria-label="{{ article.title }}">
+                          <!-- article image -->
+                          <div class="section_hero-overlay-container">
+                            <div class="no-video-bg">
+                              <div class="section_hero-image_wrapper">
+                                {{
+                                  article.image
+                                  | image_url: width: 2048
+                                  | image_tag:
+                                    class: 'hide-no-js img-fluid card-img-top rounded__all grid-media-image aspect-ratio__square',
+                                    widths: '360, 533, 600, 800, 1000, 1200, 1400,1600',
+                                    height: article.image.height,
+                                    width: article.image.width,
+                                    loading: 'lazy',
+                                    alt: article.image.alt
+                                  | escape
+                                }}
+                              </div>
+                            </div>
+                          </div>
+                          <!-- /article image -->
+                        </a>
+                      {% endif %}
+                    </div>
+                    <!-- /image -->
+                    <!-- content -->
+                    <div class="card rounded-0 border-0 card-panel-bg">
+                      <div class="card-body rounded-0 card-panel-bg px-0 pb-0">
+                        <a href="{{ article.url }}" aria-label="{{ article.title }}">
+                          <label class="text-left d-block mb-2">{{ blog.title | escape }}</label>
+                          <h4 class="wow fadeIn">{{ article.title | escape }}</h4>
+                        </a>
+                        <p class="card-text post-description wow fadeIn">
+                          {% if article.excerpt != '' %}
+                            {{ article.excerpt }}
+                          {% else %}
+                            {{ article.content | strip_html | truncatewords: 20 }}
+                          {% endif %}
+                        </p>
+                        <a href="{{ article.url }}" class="btn btn-contact" aria-label="{{ article.title }}">
+                          {{ 'blogs.article.read_more' | t }}
+                        </a>
+                      </div>
+                    </div>
+                    <!-- end content -->
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+            <!-- end blog listings -->
+          </div>
+          <!-- end blog content -->
+          <!-- sidebar -->
+          {% if section.settings.sb_blog_linklist != blank %}
+          <div class="col-md-3 section px-0">
+            {% render 'sidebar-blog' %}
+          </div>
+          {% endif %}
+          <!-- end sidebar -->
+        </div>
+      </div>
+      {% if paginate.pages > 1 %}
+        {% render 'pagination', paginate: paginate, anchor: '', class: '' %}
+      {% endif %}
+    </section>
+  {% else %}
+    <section id="{{ section.id }}" class="section-{{ section.id }}-padding text-center EmptyState">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="content">
+              <h2 class="cart-page-title mt-3">{{ 'blogs.general.no_articles' | t: blog_title: blog.title }}</h2>
+              <div class="rte">
+                <a
+                  href="{{ routes.root_url }}"
+                  class="btn btn-contact size-content-fit"
+                  aria-label="{{ 'blogs.general.empty_button' | t }}"
+                >
+                  {{ 'blogs.general.empty_button' | t }}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": "Blog page",
+  "class": "index-home-blog-editorial",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "blog_limit",
+      "label": "Article limit",
+      "min": 3,
+      "max": 15,
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "sb_blog_linklist",
+      "label": "Show menu",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "sb_blog_linklist_heading",
+      "label": "Heading",
+      "default": "Categories"
+    },
+    {
+      "type": "richtext",
+      "id": "sb_blog_linklist_description",
+      "label": "Body text",
+      "default": "<p>Text to go here</p>"
+    },
+    {
+      "type": "link_list",
+      "id": "sb_blog_linklist_list",
+      "label": "Pick menu"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}

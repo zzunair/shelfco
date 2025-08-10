@@ -1,0 +1,34 @@
+{% if label == blank %}
+  {% assign label = 'general.search.placeholder' | t %}
+{% endif %}
+<predictive-search class="w-100">
+  <form action="{{ routes.search_url }}" method="get" role="search">
+    <div class="input-group mb-1">
+      <label class="d-none d-print-block sr-only" for="searchTerms">{{ 'general.search.title' | t }}</label>
+      <input
+        id="Search"
+        type="search"
+        name="q"
+        class="form-control js-search-input text-left h-auto"
+        value="{{ search.terms | escape }}"
+        role="combobox"
+        aria-expanded="false"
+        aria-owns="predictive-search-results"
+        aria-controls="predictive-search-results"
+        aria-haspopup="listbox"
+        aria-autocomplete="list"
+        aria-label="{{ 'general.search.placeholder' | t }}"
+        placeholder="{{ 'general.search.placeholder' | t }}"
+        tabindex="0"
+      >
+      <button
+        type="submit"
+        class="btn btn-main rounded__btn h-100 js-search-submit p-2"
+        aria-label="{{ 'general.search.submit' | t }}"
+      >
+        {% render 'icon-search', _color: 'white' %}
+      </button>
+    </div>
+    <ul class="search-results" id="predictive-search" tabindex="-1"></ul>
+  </form>
+</predictive-search>

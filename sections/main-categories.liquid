@@ -1,0 +1,260 @@
+{% comment %}
+  Collection tiles section
+{% endcomment %}
+
+{%- liquid
+  assign _colClassLayout = 'container'
+
+  if section.settings.category_list_width == '3'
+    assign _colLayout = 'col-md-4 col-lg-4'
+  elsif section.settings.category_list_width == '2'
+    assign _colLayout = 'col-md-6 col-lg-6'
+  endif
+-%}
+
+<section
+  id="{{ section.id }}"
+  class="{{ _colClassLayout }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="categories"
+  tabindex="-1"
+>
+  <div class="section-{{ section.id }}-padding" tabindex="-1">
+    <div class="wow fadeIn" {{ block.shopify_attributes }} data-wow-delay="300ms">
+      <div class="row">
+        <!-- Header -->
+        <div class="col-md-12">
+          {% if section.settings.section_header != blank %}
+            <div class="title text-center pt-0">
+              <h2 class="mb-0">{{ section.settings.section_header }}</h2>
+            </div>
+          {% endif %}
+        </div>
+        <!-- /Header -->
+        {% for block in section.blocks %}
+          {% assign collection_selected = block.settings.collection %}
+          {% assign custom_collection_selected_img = block.settings.image %}
+
+          {% if collection_selected != blank %}
+            {% assign collection_title = collection_selected.title %}
+            {% assign collection_url = collection_selected.url %}
+            {% assign collection_selected_img = collection_selected.products.first %}
+            {% assign collection_selected_featured_img = collection_selected.featured_image %}
+          {% else %}
+            {% assign collection_title = 'collections.general.collection_title' | t %}
+            {% assign collection_url = '#' %}
+          {% endif %}
+
+          <div class="col-xs-12 col-sm-12 {{ _colLayout }} card border-0 rounded__all mb-0">
+            <div class="product-upsell-block py-0 mb-2">
+              <div class="product-upsell-inner-wrp">
+                <div class="product-upsell-inner rounded__all">
+                  <div class="row w-100 mx-auto">
+                    <!-- collection images -->
+                    {% unless collection_selected == blank %}
+                      <div class="col-xs-3 col-sm-3 col-md-3 px-0 text-left">
+                        <a href="{{ collection_url }}">
+                          {% if block.settings.image == blank %}
+                            {% if collection_selected_featured_img != blank %}
+                              {{
+                                collection_selected_featured_img
+                                | image_url: width: 500
+                                | image_tag:
+                                  class: 'img-fluid rounded__all pr-0',
+                                  widths: '50, 100, 150',
+                                  height: 100,
+                                  width: 100,
+                                  loading: 'lazy',
+                                  alt: collection_selected_featured_img.alt
+                                | escape
+                              }}
+                            {% else %}
+                              {{
+                                collection_selected_img
+                                | image_url: width: 500
+                                | image_tag:
+                                  class: 'img-fluid rounded__all pr-0',
+                                  widths: '50, 100, 150',
+                                  height: 100,
+                                  width: 100,
+                                  loading: 'lazy',
+                                  alt: collection_selected_img.alt
+                                | escape
+                              }}
+                            {% endif %}
+                          {% else %}
+                            {{
+                              custom_collection_selected_img
+                              | image_url: width: 500
+                              | image_tag:
+                                class: 'img-fluid rounded__all pr-0',
+                                widths: '50, 100, 150',
+                                height: 100,
+                                width: 100,
+                                loading: 'lazy',
+                                alt: custom_collection_selected_img.alt
+                              | escape
+                            }}
+                          {% endif %}
+                        </a>
+                      </div>
+                    {% endunless %}
+                    <!-- /collection images -->
+                    <!-- collection info -->
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                      <div class="h5 mb-0">
+                        <a href="{{ collection_url }}" class="footer-link focus-inset">
+                          {% unless block.settings.feature_title == blank %}
+                            <span class="h5 text-left grid-card-title">
+                              {{ block.settings.feature_title }}
+                            </span>
+                          {% else %}
+                            <span class="h5 text-left grid-card-title">
+                              {{ collection_title }}
+                            </span>
+                          {% endunless %}
+                        </a>
+                      </div>
+                    </div>
+                    <!-- /collection info -->
+                    <!-- collection btn -->
+                    <div class="col-xs-3 col-sm-3 col-md-3 px-0">
+                      <div class="product-upsell-btn-wrp text-right">
+                        <a
+                          href="{{ collection_url }}"
+                          class="product-upsell-btn btn btn-contact bg-transparent border focus-inset"
+                          tabindex="0"
+                        >
+                          {% render 'icon-arrow-right' %}
+                        </a>
+                      </div>
+                    </div>
+                    <!-- /collection btn -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+  "name": "Collection tiles",
+	"class": "main-categories",
+	"max_blocks": 6,
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    },
+    {
+      "type": "text",
+      "id": "section_header",
+      "label": "Heading",
+      "default": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "category_list_width",
+      "options": [
+        {
+          "value": "2",
+          "label": "Row of 2"
+        },
+        {
+          "value": "3",
+          "label": "Row of 3"
+        }
+      ],
+      "label": "Section layout",
+      "info": "Set the number of collections per row",
+      "default": "3"
+    }
+	],
+	"blocks": [
+    {
+      "type": "custom_html",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "100 x 100px .png recommended",
+          "info": "Use your own custom image."
+        },
+        {
+          "type": "text",
+          "id": "feature_title",
+          "label": "Heading",
+          "info": "Replace the collection title with a custom title."
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Pick a collection"
+        }
+	    ]
+    }
+	],
+  "presets": [
+    {
+      "name": "Collection tiles",
+      "category": "Content",
+      "settings": {},
+      "blocks": [
+          {
+           "type": "custom_html",
+            "settings": {
+              "collection": "/collections/all"
+            }
+          },
+          {
+           "type": "custom_html",
+            "settings": {
+              "collection": "/collections/all"
+            }
+          },
+          {
+           "type": "custom_html",
+           "settings": {
+             "collection": "/collections/all"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}

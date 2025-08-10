@@ -1,0 +1,155 @@
+{% if product != blank %}
+  {%- liquid
+    assign current_variant = product.selected_or_first_available_variant | default: product.variants.first
+    assign current_selling_plan_allocation = current_variant.selected_selling_plan_allocation
+
+    if current_selling_plan_allocation == null and current_variant.requires_selling_plan == false
+      assign current_selling_plan_allocation = current_variant.selling_plan_allocations | first
+    endif
+
+    assign offer = current_selling_plan_allocation | default: current_variant
+
+    if product == empty
+      assign onboarding = true
+      assign title = 'general.accessibility.pick_your_product' | t
+      assign price = 'general.accessibility.zero_price' | t
+    endif
+
+    if has_selected_variant
+      assign target = product.selected_or_first_available_variant
+    else
+      assign target = product
+    endif
+
+    assign compare_at_price = target.compare_at_price | default: 2000
+    assign price = target.price | default: 2000
+    assign offer_amount = offer.price | default: 2000
+
+    assign money_price = price | money
+    assign offer_price = offer_amount | money
+    assign compare_price = compare_at_price | money
+
+    if settings.currency_code_enabled
+      assign money_price = price | money_with_currency
+      assign offer_price = offer_amount | money_with_currency
+      assign compare_price = compare_at_price | money_with_currency
+    endif
+
+    if target == product and product.price_varies
+      assign money_price = 'products.product.from_price_html' | t: price: money_price
+    endif
+  -%}
+
+  <div class="slide-hotspot-product-wrapper {{ class }} wow fadeInRight rounded__all" data-wow-delay="1000ms">
+    <a
+      href="{{ product.url | within: collection }}{% if product.variants.size > 1 %}?variant={{ product.selected_or_first_available_variant.id }}{% endif %}"
+      class="full-unstyled-link"
+      aria-label="{{ product.title }}"
+    >
+      <div class="slide-hotspot-product border">
+        <span class="hotspot-wrp-icon"></span>
+        <!-- prices -->
+        <div class="product-content main-content options-styles-unit-price py-1">
+          <div class="d-inline-flex" data-id="{{ product.id }}">
+            <span class="card-information__text h5 mb-0 text-decoration-none p-lh" tabindex="0">
+              <!-- product price -->
+              <span class="price__regular js-price money money_price" data-default-price="{{ money_price }}">
+                {% if offer.selling_plan %}
+                  {{ offer_price }}
+                {% else %}
+                  {{ money_price }}
+                {% endif %}
+              </span>
+              <!-- /product price -->
+              <!-- product compare price -->
+              {% if target.compare_at_price > target.price %}
+                <s class="price__sale ml-0 js-price-compare">
+                  <span class="money money_price">{{ compare_price }}</span>
+                </s>
+              {% endif %}
+              <!-- /product compare price -->
+            </span>
+          </div>
+          <!-- unit pricing -->
+          {% if current_variant.unit_price_measurement.reference_value >= 1 %}
+            <div class="d-inline-flex" data-id="{{ product.id }}">
+              <span class="unit-price caption{% if product.available == false or product.selected_or_first_available_variant.unit_price_measurement == nil %} hidden{% endif %}">
+                <!-- unit price -->
+                <span class="hidden">{{ 'products.product.unit_price' | t }}</span>
+                {% if product.variants.size > 1 %}
+                  <span>
+                    <span
+                      class="js-unit-price money"
+                      data-unit-price="{{ current_variant.unit_price_measurement.reference_value | money }}"
+                    >
+                      {{ current_variant.unit_price | money }}
+                    </span>
+                    <span aria-hidden="true">/</span>
+                    <span class="">&nbsp;{{ 'general.accessibility.unit_price_separator' | t }}&nbsp;</span>
+                  </span>
+                {% endif %}
+                <!-- /unit price -->
+                <!-- unit measure -->
+                <span
+                  class="js-unit-measure"
+                  data-unit-measure="{{ current_variant.unit_price_measurement.reference_value }}"
+                >
+                  {% if current_variant.unit_price_measurement.reference_value != 1 %}
+                    {{ current_variant.unit_price_measurement.reference_value }}
+                  {% endif %}
+                  {{ current_variant.unit_price_measurement.reference_unit }}
+                </span>
+                <!-- /unit measure -->
+              </span>
+            </div>
+            <!-- /unit pricing -->
+          {% endif %}
+        </div>
+        <!-- /prices -->
+        <!-- title -->
+        <div class="product-content card-information">
+          <div class="card-information__wrapper mb-0">
+            <span class="card-information__text h5 mr-0">{{ product.title }}</span>
+          </div>
+        </div>
+        <!-- /title -->
+      </div>
+    </a>
+  </div>
+{% endif %}
+
+{% style %}
+  .slide-hotspot-product .card-information__text {
+      font-size: var(--text-xsmall);
+  }
+  .slide-hotspot-product .card-information__wrapper {
+      line-height: var(--line-height);
+  }
+  .slide-hotspot-product {
+      max-width: 180px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 10px 12px 14px;
+      box-shadow: 0 1em 2em -0.5em #00000059;
+      border-radius: var(--global-btn-corner-style);
+      -moz-border-radius: var(--global-btn-corner-style);
+      -webkit-border-radius: var(--global-btn-corner-style);
+  }
+  .hotspot-product.slide-hotspot-mobile {
+      top: 50%;
+      right: 15px;
+      z-index: 10;
+      justify-content: end;
+      display: flex;
+  }
+  .slide-hotspot-product-wrapper a:focus,
+  .slide-hotspot-product-wrapper a:hover {
+      outline: 2px solid var(--color-font-1);
+      outline-offset: 0.1rem;
+      box-shadow: 0 0 0 0.3rem rgb(var(--color-font-1)),0 0 0.5rem 0.4rem rgba(var(--color-font-1),.7);
+      border-radius: var(--global-btn-corner-style);
+      -moz-border-radius: var(--global-btn-corner-style);
+      -webkit-border-radius: var(--global-btn-corner-style);
+  }
+{% endstyle %}

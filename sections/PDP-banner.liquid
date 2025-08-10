@@ -1,0 +1,147 @@
+<link rel="stylesheet" href="{{ 'PDP-banner.css' | asset_url }}">
+
+
+<section class="PDP-banner">
+  <div class="PDP-banner__container" style="background-image: url({{ section.settings.image | img_url: 'master' }});">
+    {% if section.settings.show_content %}
+
+      <div class="PDP-banner__content" style="background-color: {{ section.settings.background_color }};">
+        <p class="PDP-banner__text PDP-banner__subtitle1" style="color: {{ section.settings.subtitle2_color }};">{{ section.settings.subtitle2 }}</p>
+        <h1 class="PDP-banner__title" style="color: {{ section.settings.title_color }};">{{ section.settings.title }}</h1>
+        <div class="PDP-banner__subtitles">
+          <p class="PDP-banner__text PDP-banner__subtitle2" style="color: {{ section.settings.subtitle1_color }};">{{ section.settings.subtitle1 }}</p>
+        </div>
+        {%- if section.settings.button_text != blank -%}
+          <a href="javascript:void(0)" class="PDP-banner__button" style="background-color: {{ section.settings.button_color }};">{{ section.settings.button_text }}</a>
+        {%- endif -%}
+      </div>
+    {% endif %}
+  </div>
+  <div class="PDP-banner-bottom-bar">
+    <div class="PDP-banner-bottom-bar__content-left">
+      <ul>
+        <li>
+          <img src="https://cdn.shopify.com/s/files/1/0044/5084/4707/files/pencil.jpg?v=1749118401" alt="Free Design Help">
+          <p>Free Design Help</p>
+        </li>
+        <li>
+          <img src="https://cdn.shopify.com/s/files/1/0044/5084/4707/files/dollarsign.jpg?v=1749118293" alt="Free Design Help">
+          <p>Best Price Guarantee</p>
+        </li>
+      </ul>
+    </div>
+    <div class="PDP-banner-bottom-bar__content-right">
+      <ul>
+        <li>
+          <img src="https://cdn.shopify.com/s/files/1/0044/5084/4707/files/trust-badge.jpg?v=1749118377" alt="Award winning design">
+          <p>Award winning design</p>
+        </li>
+        <li>
+          <img src="https://cdn.shopify.com/s/files/1/0044/5084/4707/files/screw-driver.jpg?v=1749118389" alt="Easy Install">
+          <p>Easy Install</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<style>
+  .PDP-banner__button:hover {
+    /* background-color: #000000; */
+    color: #ffffff;
+  }
+  @media all and (max-width: 768px) {
+   .PDP-banner__container{
+    background-image: url({{ section.settings.image_mobile | img_url: 'master' }}) !important;
+   }
+  }
+</style>
+
+
+
+{% schema %}
+  {
+    "name": "PDP Banner",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "BackgroundImage"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_mobile",
+        "label": "BackgroundImage Mobile"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_content",
+        "label": "Show Content",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "html",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "title_color",
+        "label": "Title Color",
+        "default": "#000000"
+      },
+      {
+        "type": "text",
+        "id": "subtitle1",
+        "label": "Subtitle"
+      },
+      {
+        "type": "color",
+        "id": "subtitle1_color",
+        "label": "Subtitle Color",
+        "default": "#000000"
+      },
+      {
+        "type": "text",
+        "id": "subtitle2",
+        "label": "Subtitle"
+      },
+      {
+        "type": "color",
+        "id": "subtitle2_color",
+        "label": "Subtitle Color",
+        "default": "#000000"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      },
+      {
+        "type": "color",
+        "id": "button_color",
+        "label": "Button Color",
+        "default": "#000000"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button Link"
+      }
+    ],
+    "presets": [
+      {
+        "name": "PDP Banner",
+        "settings": {
+        }
+      }
+    ]
+  }
+{% endschema %}

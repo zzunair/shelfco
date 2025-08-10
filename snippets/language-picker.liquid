@@ -1,0 +1,34 @@
+{% comment %}
+  Renders language selector
+
+  Usage:
+  {% render 'language-picker' %}
+{% endcomment %}
+
+{% if settings.enable_languages and localization.available_languages.size >= 1 %}
+  {% assign locale_selector = true %}
+{% endif %}
+
+{% if locale_selector %}
+  {% form 'localization', class: 'shopify-language-form', id: 'language_Code' %}
+    <div class="about-title text-left pb-2">
+      <label class="px-0">{{ 'general.accessibility.select_language' | t }}</label>
+    </div>
+    <select name="language_code" class="slct lang-slct select2 js-language-change border" tabindex="0" aria-label="{{ 'general.accessibility.language' | t }}">
+      <option value="" disabled selected>{{ 'general.accessibility.language' | t }}</option>
+      {% for locale in localization.available_languages %}
+        <option id="localeItem"
+                lang="{{ locale.iso_code }}"
+                value="{{ locale.iso_code }}"
+                {% if locale.iso_code == localization.language.iso_code %} selected="selected"{% endif %}
+                aria-label="{{ locale.endonym_name }}"
+                {% if locale.iso_code == localization.language.iso_code %}aria-current="true"{% endif %}
+                data-value="{{ locale.iso_code }}">
+          {{ locale.endonym_name | capitalize }}
+        </option>
+      {% endfor %}
+    </select>
+    <label class="sr-only hidden" for="language_code">{{ 'general.accessibility.language' | t }}</label>
+    <input type="hidden" id="language_code" name="language_code" value="{{ localization.language.iso_code }}">
+  {% endform %}
+{% endif %}

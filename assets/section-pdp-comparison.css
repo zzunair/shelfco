@@ -1,0 +1,126 @@
+
+.pdp-comparison {
+  background-color: #E0E0E0;
+  padding: 60px 0;
+}
+
+.pdp-comparison__container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pdp-comparison__heading {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 40px;
+  font-weight: 600;
+}
+
+.pdp-comparison__table {
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+.pdp-comparison__feature-column,
+.pdp-comparison__product-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.pdp-comparison__product-column--highlighted {
+  background-color: #d6e9fb;
+}
+
+.product-column--highlighted .pdp-comparison__header{
+    background-color: #c0dff5;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #63b0c0;
+}
+
+.product-column--highlighted .pdp-comparison__feature-row{
+    background-color: #c0dff5;
+    border-bottom: 1px solid #63b0c0;
+}
+
+.product-column--highlighted .pdp-comparison__feature-row:last-child{
+    border-bottom: none;
+}
+
+.pdp-comparison__header {
+  padding: 20px;
+  font-weight: 600;
+  font-size: 18px;
+  text-align: center;
+  background-color: white;
+  border-bottom: 1px solid #eee;
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.pdp-comparison__stars {
+  color: #4a90e2;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.pdp-comparison__feature-row {
+  padding: 20px 15px;
+  border-bottom: 1px solid #eee;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+}
+
+.pdp-comparison__feature-column .pdp-comparison__feature-row {
+  font-weight: 500;
+}
+
+.pdp-comparison__product-column--highlighted .pdp-comparison__feature-row {
+  background-color: #d6e9fb;
+}
+
+@media screen and (max-width: 767px) {
+  .pdp-comparison__table {
+    flex-direction: row;
+  }
+  
+  .pdp-comparison__feature-column {
+    /* display: none; */
+  }
+  
+  .pdp-comparison__product-column {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .pdp-comparison__feature-row {
+    position: relative;
+    /* padding-top: 40px; */
+    height: 80px;
+  }
+  
+  .pdp-comparison__feature-row:before {
+    content: attr(data-feature);
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  .product-column--highlighted .pdp-comparison__header{
+    flex-direction: column;
+    height: 80px;
+  }
+}
+

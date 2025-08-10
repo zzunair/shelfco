@@ -1,0 +1,61 @@
+<li class="nav-item dropdown has-megamenu rounded-0 {% if link.active %}active{% endif %}" aria-haspopup="true">
+  <a
+    id="dropdownMenuButton"
+    class="megamenu-item dropdown-toggle header__menu-item list-menu__item px-0 mx-0"
+    href="{{ link.url }}"
+    aria-label="{{ link.title }}{{ forloop.index }}"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    <span class="{% if link.active %} link-active{% endif %}">
+      {{ link.title | escape }}
+    </span>
+  </a>
+  <div
+    class="sub-menu megamenu dropdown-animate border"
+    aria-labelledby="dropdownMenuButton"
+    {% if link.object.size >= 11 %}
+      style="top: 35px;"
+    {% endif %}
+  >
+    <div class="{{ _colClassLayout }} px-0 mb-4">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row h-100">
+            {% for childlink in linklists[selected_megamenu].links %}
+              <ul class="navbar-nav child-menu {{ _colClass }} px-0 py-2" role="list" aria-label="submenu">
+                <div class="dropdown-header py-0">
+                  <li class="dropdown-menu-item w-100 border-0 {% if childlink.active %}active{% endif %}">
+                    <a
+                      href="{{ childlink.url }}"
+                      class="font-weight-bold w-100 border-0 menu-item header__menu-item list-menu__item {% if childlink.current %} menu-item--active{% endif %}"
+                      {% if childlink.current %}
+                        aria-current="page"
+                      {% endif %}
+                    >
+                      {{ childlink.title | escape }}
+                    </a>
+                  </li>
+                </div>
+                {% for grandchildlink in childlink.links %}
+                  <li class="dropdown-menu-item w-100 border-0 {% if grandchildlink.active %}active{% endif %}">
+                    <a
+                      href="{{ grandchildlink.url }}{% if grandchildlink.type == 'product_link' %}{% if grandchildlink.object.variants.size > 1 %}?variant={{ grandchildlink.object.variants.first.id }}{% endif %}{% endif %}"
+                      class="w-100 py-2"
+                      aria-label="{{ grandchildlink.title }}{{ forloop.index }}"
+                      {% if grandchildlink.current %}
+                        aria-current="page"
+                      {% endif %}
+                    >
+                      {{ grandchildlink.title | escape }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>

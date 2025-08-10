@@ -1,0 +1,60 @@
+{% comment %}
+  Renders a product label on a product card
+
+  Usage:
+  {% render 'product-labels' %}
+{% endcomment %}
+
+{% liquid
+  assign current_variant = product.selected_or_first_available_variant | default: product.variants.first
+  assign current_selling_plan_allocation = current_variant.selected_selling_plan_allocation
+
+  if current_selling_plan_allocation == nil and current_variant.requires_selling_plan == false
+   assign current_selling_plan_allocation = current_variant.selling_plan_allocations | first
+  endif
+
+  assign offer = current_selling_plan_allocation | default: current_variant
+%}
+
+<div class="global-product-labels w-100 d-flex justify-content-between">
+  <!-- product on sale -->
+  {% if product.available and product.compare_at_price > product.price %}
+    <span class="badge badge-sale badge-pill badge-primary mb-1 mr-0 on-sale border">
+      {{ 'products.product.on_sale' | t }}
+      {% if section.settings.show_savings %}
+      &ndash; {{ 'general.accessibility.save' | t }} {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%
+      {% endif %}
+    </span>
+  {% endif %}
+  <!-- /product on sale -->
+  <!-- product subscription -->
+  {% if offer.selling_plan %}
+  {% if offer.compare_at_price > offer.price %}
+    <span class="badge badge-sale badge-pill badge-primary mb-1 mr-0 subscribe-save border">
+      {{ 'general.accessibility.subscribe' | t }}{% if section.settings.show_savings %} &ndash; {{ offer.compare_at_price | minus: offer.price | times: 100.0 | divided_by: offer.compare_at_price | round }}%{% endif %}
+    </span>
+  {% endif %}
+  {% endif %}
+  <!-- /product subscription -->
+  <!-- product sold out -->
+  {% unless product.available %}
+    <span class="badge badge-sold-out badge-pill badge-primary mb-1 mr-0 sold-out border">
+      {{ 'products.product.sold_out' | t }}
+    </span>
+  {% endunless %}
+  <!-- end product sold out -->
+  <!-- product pre-order -->
+  {% if product.available and product.tags contains 'pre-order' and section.settings.preorder_enabled %}
+    <span class="badge badge-preorder badge-pill badge-secondary mb-1 mr-0 pre-order border">
+      {{ 'products.product.pre_order' | t }}
+    </span>
+  {% endif %}
+  <!-- /product pre-order -->
+  <!-- product new -->
+  {% if product.available and product.tags contains 'new' and section.settings.new_enabled %}
+    <span class="badge badge-sale badge-pill badge-secondary mb-1 mr-0 new-item border">
+      {{ 'products.product.new' | t }}
+    </span>
+  {% endif %}
+  <!-- /product new -->
+</div>

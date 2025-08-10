@@ -1,0 +1,223 @@
+{% comment %}
+  Renders a quick add button on product cards.
+
+  Usage:
+  {% render 'quick-form' %}
+{% endcomment %}
+
+{%- liquid
+  assign has_multiple_variants = false
+  if product.variants.size > 1
+    assign has_multiple_variants = true
+  endif
+
+  assign has_single_variant = false
+  if product.options.size == 1
+    assign has_single_variants = true
+  endif
+
+  assign has_stock_remaining = false
+  if product.variants.inventory_quantity == 0
+    assign has_stock_remaining = true
+  endif
+
+  assign has_multiple_options = false
+  if product.options.size > 1
+    assign has_multiple_options = true
+  endif
+
+  assign has_selected_variant = false
+  if product.available
+    assign has_selected_variant = true
+  endif
+
+  assign can_add_to_cart = false
+  if has_selected_variant and product.selected_or_first_available_variant.available
+    assign can_add_to_cart = true
+  elsif has_multiple_variants == false and product.available
+    assign can_add_to_cart = true
+  endif
+
+  assign hide_default_title = false
+  if product.variants.first.title contains 'Default Title' or product.title contains 'Sample'
+    assign hide_default_title = true
+  endif
+
+  if has_multiple_variants
+  assign variants_with_quantity_json = product.variants | json
+
+  unless variants_with_quantity_json contains 'inventory_quantity'
+    for variant in product.variants
+      assign replace_hook_variant_id = '"id":' | append: variant.id
+      assign replace_id_plus_inventory = replace_hook_variant_id | append: ',' | append: '"inventory_quantity":' | append: variant.inventory_quantity
+      assign variants_with_quantity_json = variants_with_quantity_json | replace: replace_hook_variant_id, replace_id_plus_inventory
+    endfor
+  endunless
+
+  assign data_variants = variants_with_quantity_json | url_param_escape
+  endif
+
+  assign current_variant = product.selected_or_first_available_variant
+  assign current_selling_plan_allocation = current_variant.selected_selling_plan_allocation
+
+  if current_selling_plan_allocation == nil and current_variant.requires_selling_plan == false
+   assign current_selling_plan_allocation = current_variant.selling_plan_allocations | first
+  endif
+-%}
+
+<!-- start product add to cart form -->
+{% assign class = 'add-to-cart-form form-product-id-' | append: product.id  %}
+ {% if product.selected_or_first_available_variant.inventory_policy == 'continue' %}
+   {% assign inventory_quantity = 100 %}
+ {% else %}
+   {% assign inventory_quantity = product.selected_or_first_available_variant.inventory_quantity %}
+ {% endif %}
+{% form 'product', product, data-product-form: '', data-product-handle: product.handle, data-enable-history-state: 'true', class: class, data-variants: data_variants %}
+<input id="js-product-id"
+       class="js-variant-id js-variant-radio"
+       type="hidden"
+       name="id"
+       value="{% if has_selected_variant %}{{ product.selected_or_first_available_variant.id }}{% else %}{{ product.variants.first.id }}{% endif %}"
+       data-inventory-tracking="{% if has_selected_variant and current_variant.inventory_management == 'shopify' %}1{% else %}0{% endif %}"
+       data-inventory-policy="{% if current_variant.inventory_policy != 'continue' %}1{% else %}0{% endif %}"
+       data-available="{% if current_variant.available %}1{% else %}0{% endif %}"
+       data-inventory-quantity="{% if current_selling_plan_allocation == nil %}{{ inventory_quantity }}{% else %}1{% endif %}">
+<input type="hidden" id="no-qty-selector" class="input-text qty text js-quantity-field-pdp" min="1" max="1" name="quantity" value="1" autocomplete="off" aria-label="quantity">
+
+  <!-- options to select -->
+  <div class="selector-wrapper product-category form-group mb-0 no-Js" {{ block.shopify_attributes }} {% if hide_default_title %} hidden{% endif %}>
+    {%- liquid
+      for option in product.options_with_values
+        assign option_name = 'option' | append: option.position
+        assign class = 'py-0'
+        assign class2 = 'd-none'
+        assign heightSelect = 'h-auto'
+
+        assign selected = false
+        if has_selected_variant
+          assign selected = product.selected_or_first_available_variant[option_name]
+        endif
+
+        render 'product-option-row', product: product with option: option, option_name: option_name, class: class, class2: class2, heightSelect: heightSelect, type: 'select', selected: current_variant[option_name]
+        if product.options.size > 1
+          break;
+        endif;
+      endfor
+    -%}
+  </div>
+  <select id="ProductSelect-{{ section.id }}" class="product-form__variants no-js" style="display:none">
+    {% for variant in product.variants %}
+      <option value="{{ variant.id }}" {% if variant == current_variant %} selected="selected" {% endif %}>
+        {{ variant.title }}{% if variant.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}
+      </option>
+    {% endfor %}
+  </select>
+  <!-- end product options -->
+
+{% if product.options.size <= 1 and product.selling_plan_groups.size == 0 %}
+  {% if hide_default_title == false %}
+  <span class="quick-select" data-id="{{ product.id }}">
+  {% if product.requires_selling_plan %}
+  <input type="hidden" name="selling_plan" value="{{ product.selected_or_first_available_variant.selling_plan_allocations[0].selling_plan.id }}">
+  {% endif %}
+  <!-- if JS is disabled -->
+  <noscript>
+    <div class="product-option-row d-flex pb-2 {% if product.variants.size <= 1 %} hidden{% endif %}">
+      <label for="select-{{ option_name }}" class="sr-only" aria-label="{{ option_name }}">
+        <span class="option-name d-inline-flex">{{ 'general.accessibility.purchase_options' | t | escape }}</span>
+      </label>
+      <div class="option-values d-inline-flex">
+        <div id="product-variants" class="styled-select dropup">
+          <select name="id" class="variation-select no-js">
+            {% for variant in product.variants %}
+            {% if variant.available %}
+              <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
+                {{ variant.title }}
+              </option>
+            {% else %}
+              <option disabled="disabled">{{ variant.title }}-{{ 'products.product.sold_out' | t | escape }}</option>
+            {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+    </div>
+  </noscript>
+  <!-- /if JS is disabled -->
+  </span>
+  {% endif %}
+  <!-- quick add to cart button -->
+  <span class="d-inline-flex quick-form w-100" data-id="{{ product.id }}">
+    <div class="add-to-cart__wrapper mt-0 w-100" {{ block.shopify_attributes }}>
+      <div class="add-to-cart__submit w-wrapper pb-0">
+        <div class="atc-container mb-0">
+          <!-- add to cart button -->
+          <button
+            type="submit"
+            name="add"
+            class="btn btn-contact mb-0 mx-auto w-100 add-to-cart-button {{ _btnClass }}"
+            {% if current_variant.available == false %}disabled{% endif %} aria-label="{{ 'products.product.add_to_cart' | t }}" data-soldout="{{ btn_txt_soldout }}" data-add="{{ btn_txt }}">
+            <span class="js-btn-cta d-inline-block position-relative" data-addbtn="{{ btn_txt }}" data-soldout="{{ btn_txt_soldout }}" data-offerbtn="{{ btn_txt_selling }}" data-adding-cart="{{ btn_adding }}" data-added-cart="{{ btn_added }}">
+              {% if current_variant.available %}
+              {{ 'products.product.add_to_cart' | t }}
+              {% else %}
+              {{ 'products.product.sold_out' | t }}
+              {% endif %}
+            </span>
+            <!-- Loader -->
+            <span class="ldld ldbtn default em-2 d-inline-block light align-items-center hidden"></span>
+          </button>
+          <!-- / add to cart button -->
+        </div>
+      </div>
+    </div>
+  </span>
+<!-- quick add to cart button -->
+<!-- VIEW PRODUCT IF MORE THAN 1 OPTION -->
+{% elsif product.options.size > 1 or product.selling_plan_groups.size > 0 %}
+<span class="d-block quick-form w-100" data-id="{{ product.id }}">
+  <div class="add-to-cart__wrapper mt-0 w-100" {{ block.shopify_attributes }}>
+    <div class="add-to-cart__submit w-wrapper pb-0">
+      <div class="atc-container mb-0">
+        <!-- view product -->
+     {% if current_variant.available %}
+        <a href="{{ product.url | within: collection }}{% if product.variants.size >= 1 %}?variant={{ product.first_available_variant.id }}{% endif %}"
+           type="text"
+           class="btn btn-contact mb-0 mx-auto w-100 add-to-cart-button {{ _btnClass }}">
+          <span class="js-btn-cta d-inline-block position-relative">
+            {{ 'products.product.view_product' | t }}
+                      </span>
+                 </a>
+            {% else %}
+          <button
+            type="submit"
+            name="add"
+            class="btn btn-contact mb-0 mx-auto w-100 add-to-cart-button {{ _btnClass }}"
+            {% if current_variant.available == false %}disabled{% endif %} aria-label="{{ 'products.product.add_to_cart' | t }}" data-soldout="{{ btn_txt_soldout }}" data-add="{{ btn_txt }}">
+            <span class="js-btn-cta d-inline-block position-relative" data-addbtn="{{ btn_txt }}" data-soldout="{{ btn_txt_soldout }}" data-offerbtn="{{ btn_txt_selling }}" data-adding-cart="{{ btn_adding }}" data-added-cart="{{ btn_added }}">
+              {{ 'products.product.sold_out' | t }}
+            </span>
+          </button>
+            {% endif %}
+       <!-- view product -->
+      </div>
+    </div>
+  </div>
+</span>
+<!-- END VIEW PRODUCT IF MORE THAN 1 OPTION -->
+{% endif %}
+<!-- PRODUCT DATA FOR JS -->
+<div class="currentVariantObject d-none">{{ current_variant | json }}</div>
+{% endform %}
+
+{% style %}
+.btn-contact {
+  font-size: 12px;
+}
+  .btn-contact:hover {
+  font-size: 12px;
+}
+  .btn-contact:focus {
+  font-size: 12px;
+}
+{% endstyle %}

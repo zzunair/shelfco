@@ -1,0 +1,397 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main_slider_cKKW7N": {
+      "type": "main-slider",
+      "blocks": {
+        "image_V6Gpm9": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/BIG_BOY_White_2ff294e1-2050-4577-9839-65708852b9a2.jpg",
+            "slide_title": "BIG BOY Floating Shelf",
+            "slide_caption": "Modern floating shelves in a variety of natural wood finishes",
+            "slide_url": "shopify://collections/floating-shelf-kits",
+            "font_color": "#2a3640",
+            "bg_color": "#ffffff",
+            "product": ""
+          }
+        },
+        "image_p3XeJz": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/MAXX_Black_-_Metal_Lifestyle_2_13b52c17-644e-4133-a206-f3d13005ee0b.jpg",
+            "slide_title": "MAXX Modern Shelving Unit",
+            "slide_caption": "Unique storage solutions tailored to fit your space",
+            "slide_url": "shopify://collections/maxx-shelving-units",
+            "font_color": "#2a3640",
+            "bg_color": "#ffffff",
+            "product": ""
+          }
+        },
+        "image_4DGidj": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/beam_header_d551fd07-9921-405a-8af7-bed2120457cc.jpg",
+            "slide_title": "Shelf Boards & Supports",
+            "slide_caption": "Design custom shelving with our beautiful and functional shelf components",
+            "slide_url": "shopify://collections/shelf-components",
+            "font_color": "#2a3640",
+            "bg_color": "#ffffff",
+            "product": ""
+          }
+        },
+        "image_d6J8Dj": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/border_header_2.jpg",
+            "slide_title": "Decorative Shelf Kits",
+            "slide_caption": "Create living spaces that are stylish and useful with all-in-one shelf kits",
+            "slide_url": "shopify://collections/deco-shelves",
+            "font_color": "#2a3640",
+            "bg_color": "#ffffff",
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_V6Gpm9",
+        "image_p3XeJz",
+        "image_4DGidj",
+        "image_d6J8Dj"
+      ],
+      "custom_css": [
+        ".new-image-slideshow .carousel-indicators {left: 5%;}",
+        ".new-image-slideshow .section_hero-overlay {left: 5%;}"
+      ],
+      "settings": {
+        "autoplay": true,
+        "show_pagination": true,
+        "autoplay_speed": 6000
+      }
+    },
+    "main_promo_banner_YaxkkU": {
+      "type": "main-promo-banner",
+      "custom_css": [
+        ".section-banner .banner-wrapper {width: 100%;}"
+      ],
+      "settings": {
+        "padding_top": 80,
+        "padding_bottom": 0,
+        "typography_banner": "The Best Home Shelving at the Best Prices",
+        "typography_btn": "",
+        "typography_url": "",
+        "background_color": "rgba(0,0,0,0)",
+        "font_color": "#2a3640",
+        "border_color": "rgba(0,0,0,0)"
+      }
+    },
+    "home_collection_list_7nAGHa": {
+      "type": "home-collection-list",
+      "blocks": {
+        "featured_collection_DADijF": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "lium-decorative-shelving-units",
+            "image": "shopify://shop_images/lium_tile.jpg",
+            "section_title": "Unique Shelving Units",
+            "font_color": "#ffffff",
+            "bg_color_opacity": "#000000",
+            "opacity": 7
+          }
+        },
+        "featured_collection_ktWn6p": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "floating-shelf-kits",
+            "section_title": "Modern Floating Shelves",
+            "font_color": "#ffffff",
+            "bg_color_opacity": "#000000",
+            "opacity": 7
+          }
+        },
+        "featured_collection_PUE6y6": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "shelf-components",
+            "image": "shopify://shop_images/Purist_Lifestyle_weiss_weiss_Spider_schwarz01.jpg",
+            "section_title": "Personalized Boards & Supports",
+            "font_color": "#ffffff",
+            "bg_color_opacity": "#000000",
+            "opacity": 7
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_DADijF",
+        "featured_collection_ktWn6p",
+        "featured_collection_PUE6y6"
+      ],
+      "custom_css": [
+        ".grid-wrapper {gap: 10px;}",
+        ".home-grid {width: 95%;}"
+      ],
+      "settings": {
+        "collection_list_width": "4",
+        "show_view_all": false,
+        "collection_button": "Shop all",
+        "slide_url": "shopify://collections/all"
+      }
+    },
+    "main_image_with_text_bigBzm": {
+      "type": "main-image-with-text",
+      "blocks": {
+        "image_mBFcFm": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/15.png",
+            "content_title": "SALE",
+            "content_caption": "BOON 1x1 Oak<br>Square and Rectangular Shelves",
+            "content_button": "SHOP NOW",
+            "content_url": "shopify://products/boon-cube-storage-shelf-1x1-discontinued-oak"
+          }
+        }
+      },
+      "block_order": [
+        "image_mBFcFm"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".title {color: #d14728;}",
+        ".paragraph {font-size: x-large;}",
+        ".btn-contact {font-size: large;}",
+        ".border {border: 1px solid white;}"
+      ],
+      "settings": {
+        "padding_top": 60,
+        "padding_bottom": 20,
+        "switchLayout": "2"
+      }
+    },
+    "main_custom_liquid_6EYBx7": {
+      "type": "main-custom-liquid",
+      "settings": {
+        "custom_liquid": "",
+        "padding_top": 68,
+        "padding_bottom": 20
+      }
+    },
+    "main_featured_collection_qHeVML": {
+      "type": "main-featured-collection",
+      "blocks": {
+        "collection_XkB7P9": {
+          "type": "collection",
+          "settings": {
+            "collection": "whats-trending"
+          }
+        }
+      },
+      "block_order": [
+        "collection_XkB7P9"
+      ],
+      "custom_css": [],
+      "settings": {
+        "padding_top": 100,
+        "padding_bottom": 80,
+        "section_header": "Browse our most popular shelves",
+        "products_to_limit": 10,
+        "image_ratio": "square",
+        "show_secondary_image": true,
+        "show_rating": true
+      }
+    },
+    "main_custom_liquid_erfbTB": {
+      "type": "main-custom-liquid",
+      "custom_css": [
+        ".container {background: #f1f3f5; padding-right: 0px; padding-left: 0px;}"
+      ],
+      "settings": {
+        "custom_liquid": "<div class=\"yotpo-widget-instance\" data-yotpo-instance-id=\"571100\" data-yotpo-product-id=\"{{product.id}}\" data-yotpo-cart-product-id=\"{{item.product.id}}\"></div>",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "main_rich_text_6JJxhf": {
+      "type": "main-rich-text",
+      "custom_css": [
+        "h2 {font-size: 2rem;}",
+        "p {font-size: 1.2rem;}"
+      ],
+      "settings": {
+        "padding_top": 80,
+        "padding_bottom": 0,
+        "title": "Explore our newest collaborations!",
+        "text": "<p>Check out the innovative ways interior design experts are showcasing their Shelf & Co shelves!</p>",
+        "button_text": "Button label",
+        "button_url": ""
+      }
+    },
+    "171933151508b05c53": {
+      "type": "apps",
+      "blocks": {
+        "instafeed_app_block_yxC6Th": {
+          "type": "shopify://apps/instafeed/blocks/app-block/c447db20-095d-4a10-9725-b5977662c9d5",
+          "settings": {
+            "title": "",
+            "title_color": "",
+            "alignment": "center",
+            "background_color": "",
+            "feed_id": "",
+            "html_area": ""
+          }
+        }
+      },
+      "block_order": [
+        "instafeed_app_block_yxC6Th"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 80
+      }
+    },
+    "main_rich_text_wfXdaD": {
+      "type": "main-rich-text",
+      "disabled": true,
+      "custom_css": [
+        "h2 {font-size: 2rem;}",
+        "p {font-size: 1.2rem;}"
+      ],
+      "settings": {
+        "padding_top": 80,
+        "padding_bottom": 0,
+        "title": "Transform your space with a personalized shelving unit",
+        "text": "<p>Work with our expert design team to create the ideal shelving solution for your space</p>",
+        "button_text": "",
+        "button_url": ""
+      }
+    },
+    "main_hero_banner_wxUp4L": {
+      "type": "main-hero-banner",
+      "blocks": {
+        "image_HRFzPk": {
+          "type": "image",
+          "settings": {
+            "hero_image_before": "shopify://shop_images/IMG_7497_2.jpg",
+            "hero_image_after": "shopify://shop_images/IMG_7497_c3c294cb-c400-49a6-b20e-64ca4412eb89.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_HRFzPk"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".icv__label {font-size: 1.4rem;}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 80
+      }
+    },
+    "main_shop_by_concern_MEnEwD": {
+      "type": "main-shop-by-concern",
+      "blocks": {
+        "image_QfjLnc": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Altura_Lifestyle_weiss_white_Lite_anthrazit_01_-_Copy.jpg",
+            "content_title": "Choose your shelf board",
+            "content_button": "Shop Boards",
+            "content_url": "shopify://collections/shelf-boards"
+          }
+        },
+        "image_tpdX44": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Altura_Lifestyle_weiss_white_Lite_anthrazit_02_1_9de1c79a-a64f-42ff-af39-a75bba4ffaa6.jpg",
+            "content_title": "Select your shelf support",
+            "content_button": "Shop Supports",
+            "content_url": "shopify://collections/shelf-supports"
+          }
+        },
+        "image_H9kXbe": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Altura_Lifestyle_weiss_white_Lite_anthrazit_01.jpg",
+            "content_title": "Delivery right to your doorstep!",
+            "content_button": "Start Designing",
+            "content_url": "shopify://collections/shelf-components"
+          }
+        }
+      },
+      "block_order": [
+        "image_QfjLnc",
+        "image_tpdX44",
+        "image_H9kXbe"
+      ],
+      "custom_css": [
+        "h2 {font-size: 1.4rem;}",
+        "h1 {font-size: 2rem;}",
+        ".title {padding-top: 5%; padding-bottom: 5%;}"
+      ],
+      "settings": {
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "section_header": "<h1>Create your own shelving solution!</h1>",
+        "image": "shopify://shop_images/Altura_Lifestyle_weiss_white_Lite_anthrazit_01.jpg"
+      }
+    },
+    "165362935370c39462": {
+      "type": "main-newsletter",
+      "blocks": {
+        "16536293537a1280cf-0": {
+          "type": "heading",
+          "settings": {
+            "heading": "Subscribe to our emails"
+          }
+        },
+        "a5f46df5-0d56-40d2-b8bf-451d5fb78248": {
+          "type": "paragraph",
+          "settings": {
+            "paragraph": "Be the first to know about new collections and exclusive offers."
+          }
+        },
+        "16536293537a1280cf-2": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "16536293537a1280cf-0",
+        "a5f46df5-0d56-40d2-b8bf-451d5fb78248",
+        "16536293537a1280cf-2"
+      ],
+      "custom_css": [
+        "@media screen and (min-width: 30rem) {.container {width: 75%; }}"
+      ],
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "background_color": "#eaebec",
+        "font_color": "#212529"
+      }
+    }
+  },
+  "order": [
+    "main_slider_cKKW7N",
+    "main_promo_banner_YaxkkU",
+    "home_collection_list_7nAGHa",
+    "main_image_with_text_bigBzm",
+    "main_custom_liquid_6EYBx7",
+    "main_featured_collection_qHeVML",
+    "main_custom_liquid_erfbTB",
+    "main_rich_text_6JJxhf",
+    "171933151508b05c53",
+    "main_rich_text_wfXdaD",
+    "main_hero_banner_wxUp4L",
+    "main_shop_by_concern_MEnEwD",
+    "165362935370c39462"
+  ]
+}

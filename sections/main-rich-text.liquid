@@ -1,0 +1,165 @@
+{% comment %}
+  Rich text section
+{% endcomment %}
+
+{%- liquid
+  assign _colClassLayout = 'container'
+-%}
+
+<section
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding wow fadeIn"
+  data-section-id="{{ section.id }}"
+  data-section-type="home-intro-content"
+  data-wow-delay="300ms"
+  tabindex="0"
+>
+  <div data-placement_fullwidth="1" class="custom-widget-wrapper">
+    <div class="{{ _colClassLayout }}" {{ block.shopify_attributes }}>
+      {% unless section.settings.title == blank %}
+        <div data-wow-delay="200ms">
+          <h2 class="text-left pb-2">{{ section.settings.title | escape }}</h2>
+        </div>
+      {% endunless %}
+      {% if section.settings.text != blank %}
+        {{ section.settings.text }}
+      {% endif %}
+      <div class="row pt-2">
+        <div class="col-md-12 rte">
+          <div class="row">
+            {% for block in section.blocks %}
+              <div class="{% if section.blocks.size == 1 %}col-md-12{% else %}col-md-6 col-lg-6 col-sm-12 col-xs-12{% endif %}">
+                <div class="wow fadeIn text-left rte">
+                  <h4 class="text-left mb-2">
+                    {{ block.settings.title }}
+                  </h4>
+                  {{ block.settings.text }}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          {% unless section.settings.button_url == blank %}
+            <a
+              href="{{ section.settings.button_url }}"
+              class="btn btn-contact no-underline"
+              aria-label="{{ section.settings.button_text | escape }}"
+            >
+              {{ section.settings.button_text | escape }}
+            </a>
+          {% endunless %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+  "name": "Rich text",
+  "class": "main-rich-text",
+  "max_blocks": 2,
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Talk about your brand"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Body text",
+      "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button label",
+      "default": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Link",
+      "default": "/collections/all"
+    }
+	],
+  "blocks": [
+    {
+      "type": "custom_html",
+      "name": "Rich text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Talk about your brand"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Body text",
+          "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rich text",
+      "category": "Content",
+      "settings": {
+      },
+      "blocks": [
+        {
+         "type": "custom_html",
+         "settings": {
+           "title": "Talk about your brand",
+          "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+          }
+        },
+        {
+        "type": "custom_html",
+        "settings": {
+          "title": "Talk about your brand",
+          "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}

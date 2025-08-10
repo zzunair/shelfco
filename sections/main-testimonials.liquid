@@ -1,0 +1,158 @@
+{% comment %}
+  Testimonials section
+{% endcomment %}
+
+{%- liquid
+  assign _colClassLayout = 'container'
+-%}
+
+<section
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding"
+  data-section-id="{{ section.id }}"
+  data-section-type="reviews"
+  tabindex="0"
+>
+  <div class="{{ _colClassLayout }}">
+    <div class="{{ _colClassLayout }} wow fadeIn px-0" {{ block.shopify_attributes }} data-wow-delay="300ms">
+      {% unless section.settings.section_header == blank %}
+        <h2 class="text-center p-0">{{ section.settings.section_header }}</h2>
+      {% endunless %}
+      <div class="row pt-4">
+        {% for block in section.blocks %}
+          <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 card border-0 rounded__all mb-4">
+            <div class="card-body p-0 wow fadeIn" data-wow-delay="300ms">
+              <div class="{{ section.id }}is-bg-{{ forloop.index0 }} p-4 card-panel-bg border rounded__all">
+                <span class="stars w-100 pb-1" style="--rating: {{ block.settings.star_review_number }};"></span>
+                {% unless block.settings.feature_text == blank %}
+                  <em>
+                    <p class="card-text card-text-list mb-0 py-2 text-left">
+                      {{ block.settings.feature_text }}
+                    </p>
+                  </em>
+                {% endunless %}
+                {% unless block.settings.feature_title == blank %}
+                  <h5 class="h5 my-2 text-left">
+                    {{ block.settings.feature_title }}
+                  </h5>
+                {% endunless %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+  "name": "Testimonials",
+	"class": "main-testimonials",
+	"max_blocks": 3,
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    },
+    {
+      "type": "text",
+      "id": "section_header",
+      "label": "Heading",
+      "default": "Reviews"
+    }
+	],
+	"blocks": [
+    {
+      "type": "custom_html",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature_title",
+          "label": "Heading",
+          "default": "Customer's name"
+        },
+        {
+          "type": "richtext",
+          "id": "feature_text",
+          "label": "Body text",
+          "default": "<p>Your review comments to go here.</p>"
+        },
+        {
+          "type": "range",
+          "id": "star_review_number",
+          "min": 1,
+          "max": 5,
+          "step": 0.1,
+          "label": "Star rating",
+          "default": 3.5
+        }
+		  ]
+    }
+	],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "category": "Content",
+      "settings": {
+      },
+      "blocks": [
+        {
+         "type": "custom_html",
+         "settings": {
+            "feature_title": "Customer's name",
+            "feature_text": "<p>Your review comments to go here.</p>",
+            "star_review_number": 3
+          }
+        },
+        {
+          "type": "custom_html",
+          "settings": {
+            "feature_title": "Customer's name",
+            "feature_text": "<p>Your review comments to go here.</p>",
+            "star_review_number": 3
+           }
+         },
+         {
+           "type": "custom_html",
+           "settings": {
+             "feature_title": "Customer's name",
+             "feature_text": "<p>Your review comments to go here.</p>",
+             "star_review_number": 3
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}

@@ -1,0 +1,235 @@
+{% comment %}
+  Multicolumn section
+{% endcomment %}
+
+{%- liquid
+  assign section_header = section.settings.section_header
+-%}
+
+<section
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding"
+  data-section-id="{{ section.id }}"
+>
+  <div class="blog-section row wow fadeIn">
+    <div class="col-md-12">
+        <div class="js-multi-column">
+          <div class="container slider-container multiple" tabindex="-1">
+            <!-- Header -->
+            {% if section_header != blank %}
+              <div class="featured-multi-column-title">
+                <h2 class="text-left" id="{{ section_header }}">{{ section_header }}</h2>
+              </div>
+            {% endif %}
+            <!-- /Header -->
+            <div class="row" id="id_{{ section.id }}">
+              {% for block in section.blocks %}
+                {% assign section_img = block.settings.image %}
+                {% assign section_title = block.settings.section_title %}
+                {% assign section_caption = block.settings.section_caption %}
+                {% assign section_button = block.settings.section_button %}
+                {% assign section_url = block.settings.section_url %}
+                <div
+                  class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xl-2"
+                  data-wow-delay="300ms"
+                  tabindex="0"
+                >
+                  <div class="blog-media">
+                    <div class="image-wrapper">
+                        {% if section_img == blank %}
+                          {{ 'image' | placeholder_svg_tag: 'placeholder-svg border rounded__all' }}
+                        {% else %}
+                          {% render 'responsive-image' with image: section_img, image_class: "d-block w-100 img-fluid grid-media-image rounded__all", wrapper_class: "img-wrapper-class", lazy: "lazy", max_width: 1000, max_height: 1000, media_size: section.settings.image_ratio %}
+                        {% endif %}
+                    </div>
+                  </div>
+                  <div class="card border-0">
+                        <h3 class="newsletter-heading">
+                          {{- section_title -}}
+                        </h3>
+                      <div class="d-flex">
+                        <span class="w-100 text-left rte">
+                          {{- section_caption -}}
+                        </span>
+                      </div>
+                      {% if section_button != blank %}
+                        <div class="buttons-wrapper justify-content-start">
+                          <a
+                            href="{{ section_url }}"
+                            class="btn btn-contact"
+                            aria-label="{{ section_button }}"
+                            tabindex="0"
+                          >
+                            {{ section_button }}
+                          </a>
+                        </div>
+                      {% endif %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Multicolumn",
+  "class": "main-multi-column",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    },
+    {
+      "type": "text",
+      "id": "section_header",
+      "label": "Heading",
+      "default": "Multicolumn"
+    },
+    {
+      "type": "select",
+      "id": "switchLayout",
+      "label": "Columns per row",
+      "options": [
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "default": "adapt",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        }
+      ],
+      "default": "square"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "custom_html",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "1000 x 1000px .jpg recommended"
+        },
+        {
+          "type": "text",
+          "id": "section_title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "section_caption",
+          "label": "Caption",
+          "default": "<p>Share information with your customers.</p>"
+        },
+        {
+          "type": "text",
+          "id": "section_button",
+          "label": "Button label",
+          "default": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "section_url",
+          "label": "Link",
+          "default": "/collections/all"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Multicolumn",
+      "category": "Content",
+      "settings": {
+      },
+      "blocks": [
+        {
+         "type": "custom_html",
+         "settings": {
+            "image": "",
+            "section_title": "Heading",
+            "section_caption": "<p>Share information with your customers.</p>",
+            "section_button": "Button label"
+          }
+        },
+        {
+         "type": "custom_html",
+         "settings": {
+            "image": "",
+            "section_title": "Heading",
+            "section_caption": "<p>Share information with your customers.</p>",
+            "section_button": "Button label"
+          }
+        },
+        {
+         "type": "custom_html",
+         "settings": {
+            "image": "",
+            "section_title": "Heading",
+            "section_caption": "<p>Share information with your customers.</p>",
+            "section_button": "Button label"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  .col-xs-4 {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+{% endstyle %}

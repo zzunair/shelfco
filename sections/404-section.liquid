@@ -1,0 +1,28 @@
+{% comment %}
+  404 page
+{% endcomment %}
+
+<section id="{{ section.id }}" class="section py-0 text-center EmptyState">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="content">
+          <h2 class="cart-page-title mt-3">{{ 'general.404.title' | t }}</h2>
+          <div class="rte">
+            <p>{{ 'general.404.subtext_html' | t }}</p>
+            <a href="{{ routes.root_url }}" class="btn btn-main size-content-fit" aria-label="{{ 'customer.login.cancel' | t }}">{{ 'customer.login.cancel' | t }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "404",
+    "class": "static-404",
+    "settings": [
+    ]
+  }
+{% endschema %}

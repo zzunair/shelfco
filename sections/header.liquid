@@ -1,0 +1,317 @@
+{% comment %}
+  Header section
+{% endcomment %}
+
+{%- liquid
+  assign _colClassLayout = 'container'
+-%}
+<!-- header -->
+{% if section.settings.header_style == 'center' %}
+  {% render 'header-center', _colClassLayout: _colClassLayout, main_logo: section.settings.main_logo %}
+{% elsif section.settings.header_style == 'left' %}
+  {% render 'header-left', _colClassLayout: _colClassLayout, main_logo: section.settings.main_logo %}
+{% endif %}
+<!-- sticky product -->
+{% render 'sticky-product-form' %}
+<!-- mobile header -->
+{% render 'mobile-nav', section: section %}
+<!-- breadcrumbs -->
+{% render 'breadcrumbs', _colClassLayout: _colClassLayout %}
+
+{% schema %}
+  {
+    "name": "Header",
+    "class": "index-home-header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "main_logo",
+        "label": "Upload logo image"
+      },
+      {
+        "type": "range",
+        "id": "main_logo_max_width",
+        "min": 50,
+        "max": 200,
+        "step": 5,
+        "unit": "px",
+        "label": "Logo width",
+        "default": 150
+      },
+      {
+        "type": "select",
+        "id": "search_contact",
+        "options": [
+          {
+            "value": "search",
+            "label": "Search"
+          },
+          {
+            "value": "button",
+            "label": "Social"
+          }
+        ],
+        "label": "Pick option",
+        "info": "You will need to add social profile links via Theme settings > Social media for icons to show ",
+        "default": "search"
+      },
+      {
+        "type": "checkbox",
+        "id": "account_hide",
+        "label": "Enable account",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "search_hide",
+        "label": "Enable search or social",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "header_layout",
+        "options": [
+          {
+            "value": "stacked",
+            "label": "Stacked"
+          },
+          {
+            "value": "absolute",
+            "label": "Overlay"
+          }
+        ],
+        "label": "Header layout",
+        "info": "Choose your header style",
+        "default": "stacked"
+      },
+      {
+        "type": "color",
+        "id": "menucolor",
+        "label": "Menu text color"
+      },
+      {
+        "type": "select",
+        "id": "header_style",
+        "options": [
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "left",
+            "label": "Left"
+          }
+        ],
+        "label": "Menu style",
+        "info": "Choose your menu style",
+        "default": "left"
+      },
+      {
+        "type": "link_list",
+        "id": "main_linklist",
+        "label": "Main menu",
+        "default": "main-menu"
+      }
+    ],
+    "blocks" : [
+     {
+      "type": "megamenu",
+      "name": "Mega menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "itemtitle",
+          "label": "Menu item title",
+          "info": "The menu item title must be same as menu item, where you want to show a mega menu."
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Multi level menu",
+          "info": "Choose the correct menu, which have multiple levels."
+    		},
+        {
+          "type": "select",
+          "id": "megamenu_style",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "multilevel",
+              "label": "Multi level"
+            }
+          ],
+          "label": "Mega menu style",
+          "info": "Choose your menu style",
+          "default": "default"
+        },
+        {
+          "type": "select",
+          "id": "mega-menu",
+          "options": [
+            {
+              "value": "3",
+              "label": "3 columns"
+            },
+            {
+              "value": "4",
+              "label": "4 columns"
+            }
+          ],
+          "label": "Mega menu layout",
+          "info": "To adjust the menu item's listed columns",
+          "default": "3"
+        }
+      ]
+    },
+    {
+      "type": "menu-promotion",
+      "name": "Promotion",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Menu promotions are shown in dropdown menus."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Link name",
+          "info": "The name of any top-level link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "promo_heading",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{%- style -%}
+  .cart-block {
+      align-items: center;
+      display: flex;
+      align-content: inherit;
+      justify-content: end;
+  }
+  input.search-term:focus {
+    	outline: none;
+      border: 1px solid var(--color-body-text);
+      background: var(--color-body-bg) !important;
+      transition-duration: 300ms;
+      transition-timing-function: ease-in-out;
+      transition-delay: 100ms;
+  }
+  {% if template != 'index' %}
+  .dropdown-toggle::after {
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='Icon Icon--select-arrow' role='presentation' viewBox='0 0 19 12'%3E%3Cpolyline fill='none' stroke='{{ settings.body_font_text | remove: "#" | prepend: "%23" }}' points='17 2 9.5 10 2 2' fill-rule='evenodd' stroke-width='2' stroke-linecap='square'%3E%3C/polyline%3E%3C/svg%3E") no-repeat;
+  }
+  {% endif %}
+   {% if section.settings.header_layout == 'stacked' and template == 'index' %}
+  .dropdown-toggle::after {
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='Icon Icon--select-arrow' role='presentation' viewBox='0 0 19 12'%3E%3Cpolyline fill='none' stroke='{{ settings.body_font_text | remove: "#" | prepend: "%23" }}' points='17 2 9.5 10 2 2' fill-rule='evenodd' stroke-width='2' stroke-linecap='square'%3E%3C/polyline%3E%3C/svg%3E") no-repeat;
+  }
+  {% endif %}
+  {% if settings.sticky_logo %}
+  .sticky {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      left: 0;
+      animation: smoothScroll 100ms forwards;
+      background-color: var(--color-body-bg);
+      z-index: 997;
+  }
+  {% endif %}
+    #accordion .card {
+        border-radius: 0;
+        box-shadow: none;
+        margin-bottom: 0px;
+        border-bottom: none;
+    }
+    #accordion .card .card-header {
+        background: transparent;
+        padding: 0;
+    }
+    #accordion .card .card-header label {
+        margin-bottom: 0;
+    }
+    #accordion .card .card-header a {
+        display: block;
+        padding: 10px 12px;
+        letter-spacing: var(--letter-spacing);
+        font-size: var(--font-size-base);
+        font-family: var(--font-stack-header);
+    }
+    #accordion .card .card-header a:before {
+        content: " ";
+        position: absolute;
+        top: 15px;
+        right: 0px;
+        width: 15px;
+        height: 15px;
+        font-family: "FontAwesome";
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='Icon Icon--select-arrow' role='presentation' viewBox='0 0 19 12'%3E%3Cpolyline fill='none' stroke='{{ settings.body_font_text | remove: "#" | prepend: "%23" }}' points='17 2 9.5 10 2 2' fill-rule='evenodd' stroke-width='2' stroke-linecap='square'%3E%3C/polyline%3E%3C/svg%3E") no-repeat;
+        align-items: center;
+        display: flex;
+        align-content: center;
+    }
+    #accordion .card .card-header a.collapsed:before {
+        content: " ";
+        top: 15px;
+        right: 0px;
+        width: 15px;
+        height: 15px;
+        font-family: "FontAwesome";
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='Icon Icon--select-arrow' role='presentation' viewBox='0 0 19 12'%3E%3Cpolyline fill='none' stroke='{{ settings.body_font_text | remove: "#" | prepend: "%23" }}' points='17 2 9.5 10 2 2' fill-rule='evenodd' stroke-width='2' stroke-linecap='square'%3E%3C/polyline%3E%3C/svg%3E") no-repeat;
+        align-items: center;
+        display: flex;
+        align-content: center;
+    }
+   {% if section.settings.header_layout == 'absolute' and template == 'index' %}
+     {% assign menucolor = section.settings.menucolor %}
+     .dropdown-toggle::after {
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='Icon Icon--select-arrow' role='presentation' viewBox='0 0 19 12'%3E%3Cpolyline fill='none' stroke='{{ settings.body_font_text | remove: "#" | prepend: "%23" }}' points='17 2 9.5 10 2 2' fill-rule='evenodd' stroke-width='2' stroke-linecap='square'%3E%3C/polyline%3E%3C/svg%3E") no-repeat;
+      }
+      .header-layout-absolute.position-relative .single-menu-item > .dropdown-toggle::after, .header-layout-absolute.position-relative .has-megamenu > .dropdown-toggle::after {
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='Icon Icon--select-arrow' role='presentation' viewBox='0 0 19 12'%3E%3Cpolyline fill='none' stroke='{{ menucolor | remove: "#" | prepend: "%23" }}' points='17 2 9.5 10 2 2' fill-rule='evenodd' stroke-width='2' stroke-linecap='square'%3E%3C/polyline%3E%3C/svg%3E") no-repeat;
+      }
+      .header-layout-absolute.position-relative .menu>ul>li .sub-menu span:hover {
+        color: var(--color-body-text);
+      }
+     .header-layout-absolute.position-relative .menu>ul>li a:not(.sub-menu a),
+     .header-layout-absolute.position-relative .site-header-logo-link {
+       color: {{ menucolor }};
+     }
+     .header-layout-absolute.position-relative .link-active {
+       color: {{ menucolor }};
+       text-decoration: underline !important;
+     }
+     .position-relative.link-active {
+       color: var(--color-body-text);
+       text-decoration: underline !important;
+     }
+     .header-layout-absolute.position-relative .form-control {
+       border: var(--global-border-weight) solid var(--color-border);
+     }
+   {% endif %}
+{%- endstyle -%}

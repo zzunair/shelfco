@@ -1,0 +1,133 @@
+.PDP-banner {
+  position: relative;
+}
+
+.PDP-banner__container {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 700px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+}
+
+.PDP-banner__content {
+  text-align: center;
+  background-color: #585555;
+  padding: 20px 30px;
+  border-radius: 30px;
+  margin-bottom: 0px;
+  z-index: 9;
+  min-height: 235px;
+  display: flex;
+  width: 620px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid #000; */
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: -110px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.PDP-banner__title {
+  color: #ffffff;
+  font-size: 48px;
+  font-weight: 700;
+  /* margin-bottom: 10px; */
+  /* padding-bottom: 10px; */
+  /* border-bottom: 1px solid #ffffff; */
+}
+
+.PDP-banner__text {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.PDP-banner__subtitles {
+  /* display: flex; */
+  justify-content: space-between;
+  gap: 10px;
+}
+
+p.PDP-banner__text.PDP-banner__subtitle1 {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+p.PDP-banner__text.PDP-banner__subtitle2 {
+  font-weight: 700;
+  font-size: 22px;
+}
+
+section.PDP-banner {
+  margin-bottom: 30px;
+}
+
+.PDP-banner__button{
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 30px;
+  text-decoration: none;
+  display: inline-block;
+  width: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.PDP-banner-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.PDP-banner-bottom-bar__content-left ul, .PDP-banner-bottom-bar__content-right ul {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 150px;
+  padding: 0px;
+  list-style: none;
+}
+
+.PDP-banner-bottom-bar__content-left ul p, .PDP-banner-bottom-bar__content-right ul p {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 0px;
+}
+
+.PDP-banner-bottom-bar__content-left li, .PDP-banner-bottom-bar__content-right li {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+}
+
+.PDP-banner-bottom-bar__content-left img, .PDP-banner-bottom-bar__content-right img {
+  width: 30px;
+  mix-blend-mode: hard-light;
+}
+
+@media all and (max-width: 768px) {
+    .PDP-banner__content {
+        width: 90%;
+        bottom: -10px;
+    }
+    .PDP-banner__subtitles {
+        flex-direction: column;
+        gap: 0px;
+    }
+    .PDP-banner-bottom-bar{
+      display: none;
+    }
+}

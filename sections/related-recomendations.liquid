@@ -1,0 +1,95 @@
+{% comment %}
+  Related products section on product page
+{% endcomment %}
+
+<section
+  id="{{ section.id }}"
+  class="dynamic-recommendation-section related-recomendations-section d-none w-100 section-{{ section.id }}-padding no-Js wow fadeIn"
+  data-wow-delay="300ms"
+  data-url="{{ routes.product_recommendations_url }}.json?section_id={{ section.id }}&product_id={{ product.id }}&limit=10&intent=related"
+>
+  <div class="collection-list">
+    <div class="product-item collection-block-info mb-0">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 px-0 related-slider-parent w-100">
+            <!-- Header -->
+            <div class="col-md-12">
+              {% if section.settings.section_header != blank %}
+                <div class="title text-left pt-0">
+                  <h4 class="text-left mb-0">{{ section.settings.section_header }}</h4>
+                </div>
+              {% endif %}
+            </div>
+            <!-- /Header -->
+            <div class="slider-container multiple" tabindex="-1" data-sectionid="{{ section.id }}">
+              <!-- inserted via js -->
+              <div id="product_related_body" class="pt-0 row" data-sectionid="{{ section.id }}"></div>
+              <!-- /inserted via js -->
+            </div>
+            <div class="controls-rel recommendations-slider-controls">
+              <button role="button" aria-label="Previous" class="glider-prev prev-btn rel-btn-prev">
+                {% render 'icon-prev' %}
+              </button>
+              <button role="button" aria-label="Next" class="glider-next next-btn rel-btn-next">
+                {% render 'icon-next' %}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Related products",
+  "class": "related-products-section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    },
+    {
+      "type": "paragraph",
+      "content": "Use related products to recommend products that are similar to the current product. [Learn more](/admin/apps/search-and-discovery)"
+    },
+    {
+      "type": "text",
+      "id": "section_header",
+      "label": "Heading",
+      "default": "Related products"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}

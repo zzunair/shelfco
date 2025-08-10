@@ -1,0 +1,156 @@
+{%- liquid
+  assign t = template | split: '.' | first
+-%}
+{% unless template == 'index' or template == 'cart' or template == 'list-collections' or template == '404' %}
+<section class="page-header d-none d-sm-block">
+  <div class="{{ _colClassLayout }}">
+    <div class="row">
+      <div class="col-md-12 p-0">
+        <div class="content text-center">
+          <nav class="breadcrumb py-0" role="navigation" aria-label="breadcrumb">
+            {% case t %}
+            {% when 'page' %}
+              <ol class="breadcrumb mb-0 pl-0 py-0" aria-labelledby="breadcrumblabel">
+                <li class="breadcrumb-item focus-inset">
+                  <a href="{{ routes.root_url }}" class="a-top-link" aria-label="{{ 'general.breadcrumbs.home' | t }}">
+                    {{ 'general.breadcrumbs.home' | t }}
+                  </a>
+                </li>
+                <li class="breadcrumb-item focus-inset" aria-current="page">
+                  <a href="{{ page.url }}" class="a-top-link {% if page.handle == page.handle %}active{% endif %}">
+                    {{ page.title }}
+                  </a>
+                </li>
+              </ol>
+              {% when 'product' %}
+              <ol class="breadcrumb mb-0 pl-0 py-0" aria-labelledby="breadcrumblabel">
+                <li class="breadcrumb-item focus-inset">
+                  <a href="{{ routes.root_url }}" class="a-top-link" aria-label="{{ 'general.breadcrumbs.home' | t }}">
+                    {{ 'general.breadcrumbs.home' | t }}
+                  </a>
+                </li>
+                {% if collection.url %}
+                <li class="breadcrumb-item focus-inset">
+                  <a href="{{ collection.url }}" class="a-top-link">
+                    {{ collection.title }}
+                  </a>
+                </li>
+                {% endif %}
+                <li class="breadcrumb-item focus-inset" aria-current="product" >
+                  <a href="{{ product.url }}" class="a-top-link {% if product.handle == product.handle %}active{% endif %}">
+                    {{ product.title }}
+                  </a>
+                </li>
+              </ol>
+              {% when 'collection' and collection.handle %}
+              {% if current_tags %}
+                {% capture url %}/collections/{{ collection.handle }}{% endcapture %}
+                <ol class="breadcrumb mb-0 pl-0 py-0" aria-labelledby="breadcrumblabel">
+                  <li class="breadcrumb-item focus-inset">
+                    <a href="{{ routes.root_url }}" class="a-top-link" aria-label="{{ 'general.breadcrumbs.home' | t }}">
+                      {{ 'general.breadcrumbs.home' | t }}
+                    </a>
+                  </li>
+                  <li class="breadcrumb-item focus-inset" aria-current="collection">
+                    {{ current_tags | join: " + " }}
+                  </li>
+                </ol>
+              {% else %}
+              <ol class="breadcrumb mb-0 pl-0 py-0" aria-labelledby="breadcrumblabel">
+                <li class="breadcrumb-item focus-inset">
+                  <a href="{{ routes.root_url }}" class="a-top-link" aria-label="{{ 'general.breadcrumbs.home' | t }}">
+                    {{ 'general.breadcrumbs.home' | t }}
+                  </a>
+                </li>
+                <li class="breadcrumb-item focus-inset">
+                  <a href="{{ collection.url }}" class="a-top-link {% if collection.handle == collection.handle %}active{% endif %}">
+                    {{ collection.title }}
+                  </a>
+                </li>
+              </ol>
+              {% endif %}
+              {% when 'blog' %}
+              {% if current_tags %}
+                <ol class="breadcrumb mb-0 pl-0 py-0" aria-labelledby="breadcrumblabel">
+                  <li class="breadcrumb-item focus-inset">
+                    <a href="{{ routes.root_url }}" class="a-top-link" aria-label="{{ 'general.breadcrumbs.home' | t }}">
+                      {{ 'general.breadcrumbs.home' | t }}
+                    </a>
+                  </li>
+                  <li class="breadcrumb-item focus-inset">
+                    <a href="{{ blog.url }}" class="a-top-link {% if blog.handle == blog.handle %}active{% endif %}" aria-label="{{ blog.title }}">
+                      {{ blog.title }}
+                    </a>
+                  </li>
+                  <li class="breadcrumb-item focus-inset" aria-current="blog">
+                    {{ current_tags | join: " + " }}
+                  </li>
+                </ol>
+              {% else %}
+              <ol class="breadcrumb mb-0 pl-0 py-0" aria-labelledby="breadcrumblabel">
+                <li class="breadcrumb-item focus-inset">
+                  <a href="{{ routes.root_url }}" class="a-top-link" aria-label="{{ 'general.breadcrumbs.home' | t }}">
+                    {{ 'general.breadcrumbs.home' | t }}
+                  </a>
+                </li>
+                <li class="breadcrumb-item focus-inset">
+                  <a href="{{ blog.url }}" class="a-top-link {% if blog.handle == blog.handle %}active{% endif %}" aria-label="{{ blog.title }}">
+                    {{ blog.title }}
+                  </a>
+                </li>
+              </ol>
+              {% endif %}
+              {% when 'article' %}
+              <ol class="breadcrumb mb-0 pl-0 py-0" aria-labelledby="breadcrumblabel">
+                <li class="breadcrumb-item focus-inset">
+                  <a href="{{ routes.root_url }}" class="a-top-link">
+                    {{ 'general.breadcrumbs.home' | t }}
+                  </a>
+                </li>
+                <li class="breadcrumb-item focus-inset">
+                  <a href="{{ blog.url }}" class="a-top-link" aria-label="{{ blog.title }}">
+                    {{ blog.title }}
+                  </a>
+                </li>
+                <li class="breadcrumb-item focus-inset" aria-current="article">
+                  <a href="{{ article.url }}" class="a-top-link {% if article.handle == article.handle %}active{% endif %}">
+                    {{ article.title }}
+                  </a>
+                </li>
+              </ol>
+              {% else %}
+              <ol class="breadcrumb mb-0 pl-0 py-0" aria-labelledby="breadcrumblabel">
+                <li class="breadcrumb-item focus-inset">
+                  <a href="{{ routes.root_url }}" class="a-top-link" aria-label="{{ 'general.breadcrumbs.home' | t }}">
+                    {{ 'general.breadcrumbs.home' | t }}
+                  </a>
+                </li>
+                <li class="breadcrumb-item focus-inset" aria-current="page">
+                  <a href="{{ page_title.url }}" class="a-top-link {% if page_title.handle == page_title.handle %}active{% endif %}">
+                    {{ page_title }}
+                  </a>
+                </li>
+              </ol>
+            {% endcase %}
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endunless %}
+
+{%- style -%}
+[aria-current="product"] {
+  pointer-events: none;
+  cursor: default;
+  text-decoration: none;
+  color: var(--color-body-text);
+}
+[aria-current="page"] {
+  pointer-events: none;
+  cursor: default;
+  text-decoration: none;
+  color: var(--color-body-text);
+}
+{%- endstyle -%}

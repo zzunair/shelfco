@@ -1,0 +1,147 @@
+{% comment %}
+  Welcome text section
+{% endcomment %}
+
+{% if section.settings.text != blank %}
+  <section id="{{ section.id }}" class="section_wrapper" tabindex="0">
+    <div class="section-{{ section.id }}-padding">
+      <div class="container">
+        <h2 class="section_heading-title wow fadeIn rte" data-wow-delay="300ms">
+          {{ section.settings.text }}
+        </h2>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Welcome text",
+  "class": "home-rich-text",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Body text",
+      "default": "Share information about your brand with your customers."
+    },
+    {
+      "type": "color",
+      "id": "welcome_bgcolor",
+      "label": "Background",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "color",
+      "id": "welcome_textcolor_2",
+      "label": "First gradient color",
+      "default": "#1B1B1B"
+    },
+    {
+      "type": "color",
+      "id": "welcome_textcolor_1",
+      "label": "Second gradient color",
+      "default": "#1B1B1B"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Welcome text",
+      "category": "Content"
+    }
+  ]
+}
+{% endschema %}
+
+{%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+      background-color: {{ section.settings.welcome_bgcolor }};
+    }
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+    .section_heading-title {
+      background-image: linear-gradient(270deg, {{ section.settings.welcome_textcolor_1 | color_to_rgb | color_modify: 'alpha', 1 }}, {{ section.settings.welcome_textcolor_2 | color_to_rgb | color_modify: 'alpha', 1 }} 100%);
+      color: #0000;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+      -webkit-background-clip: text;
+      background-clip: text;
+  }
+    .section_wrapper {
+      margin-bottom: 0px;
+    }
+    .section_heading {
+      padding: 50px 15px;
+    }
+    @media screen and (min-width: 641px) {
+      .section_heading {
+        padding: 50px 0 50px;
+      }
+    }
+    @media screen and (min-width: 641px) {
+      .section_heading-text_wrapper {
+        max-width: 1300px;
+        margin: auto;
+      }
+    }
+    .section_heading-title {
+      font-size: var(--text-medium);
+      line-height: var(--line-height);
+      margin-bottom: 0 !important;
+    }
+    @media screen and (min-width: 1191px) {
+      .section_heading-title {
+        font-size: var(--text-xlarge);
+        text-align: center;
+        line-height: var(--line-height);
+        margin: 0px 15%;
+      }
+    }
+    @media screen and (max-width: 1190px) {
+      .section_heading-title {
+        font-size: var(--text-medium);
+        text-align: center;
+        line-height: var(--line-height);
+        margin: 0px 5%;
+      }
+    }
+    .section_heading-paragraph {
+      font-size: var(--text-small);
+      font-weight: var(--font-weight-body);
+      line-height: var(--line-height);
+      letter-spacing: var(--letter-spacing);
+      margin-top: 20px;
+    }
+    @media screen and (min-width: 641px) {
+      .section_heading-paragraph {
+        text-align: center;
+        margin: 20px 23% 0;
+      }
+    }
+{%- endstyle -%}

@@ -1,0 +1,41 @@
+{% comment %}
+  Renders currency selector
+
+  Usage:
+  {% render 'currency-picker' %}
+{% endcomment %}
+
+{% if settings.show_multiple_currencies and localization.available_countries.size >= 1 %}
+  {% assign country_selector = true %}
+{% endif %}
+
+{% if country_selector %}
+  <div class="js-currency-picker mr-2">
+    {% form 'localization', class: 'shopify-currency-form', id: 'country_Code' %}
+      <div class="about-title text-left pb-2">
+        <label class="pl-0">{{ 'general.accessibility.country' | t }}</label>
+      </div>
+      <select id="selectboxid" name="currency" class="select-el w-100 currency js-currency-change select2 border">
+        {% for country in localization.available_countries %}
+          <option
+            value="{{ country.iso_code }}"
+            {% if country.iso_code == localization.country.iso_code %}
+              selected
+            {% endif %}
+            {% if country.iso_code == localization.country.iso_code %}
+              aria-current="true"
+            {% endif %}
+          >
+            {{ country.name -}}
+            <span class="localization-form-currency"
+              >({{ country.currency.iso_code }}
+              {{ country.currency.symbol }})</span
+            >
+          </option>
+        {% endfor %}
+      </select>
+      <label class="sr-only hidden" for="countryCode">{{ 'general.accessibility.country' | t }}</label>
+      <input type="hidden" id="countryCode" name="country_code" value="{{ localization.country.iso_code }}">
+    {% endform %}
+  </div>
+{% endif %}

@@ -1,0 +1,465 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "static-page",
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "main_custom_liquid_MUCB9r": {
+      "type": "main-custom-liquid",
+      "custom_css": [
+        ".col-md-12 {text-align: center;}",
+        "a.btn.btn-contact {margin: 2%; font-size: medium;}"
+      ],
+      "settings": {
+        "custom_liquid": "<a class=\"btn btn-contact\" href=\"#Products\">PRODUCTS</a>\n<a class=\"btn btn-contact\" href=\"#Ordering\">ORDERING</a>\n<a class=\"btn btn-contact\"href=\"#Shipping\">SHIPPING</a>\n<a class=\"btn btn-contact\" href=\"#Returns & Exchanges\">RETURNS & EXCHANGES</a>",
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "main_custom_liquid_Erirt3": {
+      "type": "main-custom-liquid",
+      "settings": {
+        "custom_liquid": "<p id=\"Products\"></p>",
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    },
+    "main_promo_banner_dLMxeY": {
+      "type": "main-promo-banner",
+      "custom_css": [
+        "@media only screen and (min-width: 800px) {.typography-banner {padding-left: 50px; }}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "typography_banner": "PRODUCTS",
+        "typography_btn": "",
+        "typography_url": "",
+        "background_color": "#2a3640",
+        "font_color": "#fafafa",
+        "border_color": "#fafafa"
+      }
+    },
+    "main_faqs_3UiVqK": {
+      "type": "main-faqs",
+      "blocks": {
+        "text_Q3eczE": {
+          "type": "text",
+          "settings": {
+            "faq_title": "Do you make custom shelves?",
+            "faq_content": "<p>No, unfortunately, we do not make any custom shelves. All of the products we have available are listed on our website along with the dimensions that we offer.</p>"
+          }
+        },
+        "text_4WfAND": {
+          "type": "text",
+          "settings": {
+            "faq_title": "Can I cut my shelves?",
+            "faq_content": "<p>No, we do not recommend you cut your shelves or make any modifications. Any changes made to the shelf will damage the structural integrity and the shelf will not be as strong. If you make any modifications to your shelf, you will not be eligible for any returns, exchanges, or refunds.</p>"
+          }
+        },
+        "text_dFEnMU": {
+          "type": "text",
+          "settings": {
+            "faq_title": "How do I know what shelf boards and shelf supports are compatible?",
+            "faq_content": "<p>Once you have decided which shelf board you are interested in, you can visit the Wood Shelf Supports or Glass Shelf Supports page. On each shelf support product page, there will be information about compatible shelves listed at the bottom of the product specifications. Make sure that the material, thickness, and dimensions of the shelf board are compatible with the shelf support.</p>"
+          }
+        },
+        "text_gAEj3t": {
+          "type": "text",
+          "settings": {
+            "faq_title": "Can I use my own shelf boards or shelf supports with Shelf & Co products?",
+            "faq_content": "<p>Yes, if you already have shelf boards or shelf supports, you can pair them with our products. Check the product specifications to make sure that your products are compatible with our products. Specifications are listed on each product page. If you are unsure if the products are compatible, please contact us.</p>"
+          }
+        },
+        "text_QWb8yC": {
+          "type": "text",
+          "settings": {
+            "faq_title": "Do you offer samples?",
+            "faq_content": "<p>Yes, we offer free samples for the majority of our shelves. If you visit our FREE SAMPLES page, you can select the product you are interested in a receive a small swatch that displays the material and finish of the shelf. There is a limit of 2 of each sample per order.</p>"
+          }
+        },
+        "text_efbEjJ": {
+          "type": "text",
+          "settings": {
+            "faq_title": "How do I know what components I will need for my shelving unit?",
+            "faq_content": "<p>Each shelving unit has a unique set of components. If you are looking to create a personalized configuration for your shelving unit, you can submit a Design Consultation for expert help. You will work with our design team to create your personalized configuration. Once you are satisfied with your unit, we will send you a premade shopping cart that contains all of the components you will need for your shelving unit.</p>"
+          }
+        },
+        "text_DFJtp3": {
+          "type": "text",
+          "settings": {
+            "faq_title": "Can I expand my shelving unit after it has been assembled?",
+            "faq_content": "<p>Yes, all of our shelving units are designed to be expanded at any point. Contact us or submit a Design Consultation to determine what components you will need to reconfigure your shelving unit.</p>"
+          }
+        },
+        "text_aHfPJV": {
+          "type": "text",
+          "settings": {
+            "faq_title": "Do you offer installation services?",
+            "faq_content": "<p>No, we do not offer any installation services. We provide installation guides and diagrams on our Assembly Instructions page.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_Q3eczE",
+        "text_4WfAND",
+        "text_dFEnMU",
+        "text_gAEj3t",
+        "text_QWb8yC",
+        "text_efbEjJ",
+        "text_DFJtp3",
+        "text_aHfPJV"
+      ],
+      "custom_css": [
+        ".faq-items-wrapper {width: 95%;}",
+        ".faq-item {word-break: normal;}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "content_title": "",
+        "content_caption": ""
+      }
+    },
+    "main_custom_liquid_tdcTaN": {
+      "type": "main-custom-liquid",
+      "settings": {
+        "custom_liquid": "<p id=\"Ordering\"></p>",
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    },
+    "main_promo_banner_KJkJnx": {
+      "type": "main-promo-banner",
+      "custom_css": [
+        "@media only screen and (min-width: 800px) {.typography-banner {padding-left: 50px; }}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "typography_banner": "ORDERING",
+        "typography_btn": "",
+        "typography_url": "",
+        "background_color": "#2a3640",
+        "font_color": "#fafafa",
+        "border_color": "#fafafa"
+      }
+    },
+    "main_faqs_4pdTUf": {
+      "type": "main-faqs",
+      "blocks": {
+        "text_wqtEYU": {
+          "type": "text",
+          "settings": {
+            "faq_title": "Why can't I add the full quantity of product I need to my shopping cart?",
+            "faq_content": "<p>If you are only able to add a specific amount to your shopping cart, that means that is all of the stock that is available at this time. We will only list the products that we currently have in stock for sale on our website. If you can’t add the full quantity you need to your shopping cart, please contact us for further details.</p>"
+          }
+        },
+        "text_F9nfpy": {
+          "type": "text",
+          "settings": {
+            "faq_title": "What do I do if the product I want is out of stock?",
+            "faq_content": "<p>If the product you want is out of stock, you can sign up to receive stock notifications. Go to the product page and click on the size and color that you are interested in. Click on the “Notify me when available” button and enter your email address. Then, you will receive an email from us as soon as that product is available for purchase. Please contact us if you have any questions about lead times.</p>"
+          }
+        },
+        "text_rKN9MD": {
+          "type": "text",
+          "settings": {
+            "faq_title": "I have placed an order, but I want to make changes to my shipping information.",
+            "faq_content": "<p>Changes to any orders must be made within 24 business hours of the original purchase. If your order has already been shipped, we may not be able to accommodate your changes. Please contact us directly if you would like to make any changes to your order.</p>"
+          }
+        },
+        "text_Pt4GRQ": {
+          "type": "text",
+          "settings": {
+            "faq_title": "I have placed an order, but I want to make changes to the products I purchased.",
+            "faq_content": "<p>Changes to any orders must be made within 24 business hours of the original purchase. If your order has already been shipped, we may not be able to accommodate your changes. If the total price of your order increases, you will need to complete the invoice for the remaining balance before we can begin processing your order. Please contact us directly if you would like to make any changes to your order.</p>"
+          }
+        },
+        "text_7iMtMR": {
+          "type": "text",
+          "settings": {
+            "faq_title": "I am missing pieces from my order.",
+            "faq_content": "<p>If you are missing pieces from your order, please contact us immediately. Let us know what pieces you are missing and how many you need. Once we receive that information from you, we will contact you with further information regarding your replacement product.</p>"
+          }
+        },
+        "text_zYPNND": {
+          "type": "text",
+          "settings": {
+            "faq_title": "Do you offer a military discount?",
+            "faq_content": "<p>Yes, Shelf & Co. is proud to offer a 15% discount on all products for both current and former armed forces members. We ask that you provide a visual copy of any of the following identifications.</p><ul><li>Common Access card</li><li>Uniform Services ID card</li><li>DD Form 214</li></ul><p>Please complete our request form <a href=\"https://form.jotform.com/231453936096159\" title=\"https://form.jotform.com/231453936096159\">HERE</a> to receive your discount code that can be used at checkout. This discount can't be combined with any other discounts or promotions.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_wqtEYU",
+        "text_F9nfpy",
+        "text_rKN9MD",
+        "text_Pt4GRQ",
+        "text_7iMtMR",
+        "text_zYPNND"
+      ],
+      "custom_css": [
+        ".faq-items-wrapper {width: 95%;}",
+        ".faq-item {word-break: normal;}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "content_title": "",
+        "content_caption": ""
+      }
+    },
+    "main_custom_liquid_ALbF8h": {
+      "type": "main-custom-liquid",
+      "settings": {
+        "custom_liquid": "<p id=\"Shipping\"></p>",
+        "padding_top": 0,
+        "padding_bottom": 100
+      }
+    },
+    "main_promo_banner_hqkXrY": {
+      "type": "main-promo-banner",
+      "custom_css": [
+        "@media only screen and (min-width: 800px) {.typography-banner {padding-left: 50px; }}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "typography_banner": "SHIPPING",
+        "typography_btn": "",
+        "typography_url": "",
+        "background_color": "#2a3640",
+        "font_color": "#fafafa",
+        "border_color": "#fafafa"
+      }
+    },
+    "main_faqs_3WGMA4": {
+      "type": "main-faqs",
+      "blocks": {
+        "text_BmnbPJ": {
+          "type": "text",
+          "settings": {
+            "faq_title": "How much does shipping cost?",
+            "faq_content": "<p>Shipping rates are calculated based on order size and delivery location. Final shipping prices for each order will be displayed at checkout. Please <a href=\"https://shelf-co.com/pages/contact-us\" title=\"Contact Us\"><strong>contact us</strong></a> for further information about shipping options.</p>"
+          }
+        },
+        "text_iaTR8N": {
+          "type": "text",
+          "settings": {
+            "faq_title": "How long will it take for me to receive my order?",
+            "faq_content": "<p>It takes about 2-3 business days for us to process and package your order. Once your order has shipped, it will take about another 2-6 business days to get to you depending on your location. Shipping times may vary over the holidays. Please contact us for a more detailed delivery time estimate.</p>"
+          }
+        },
+        "text_eP7zxp": {
+          "type": "text",
+          "settings": {
+            "faq_title": "Do you offer expedited shipping?",
+            "faq_content": "<p>We can offer expedited shipping for an extra charge. Expedited shipping orders received before 11:00 AM CST will be sent out the same day. Expedited shipping orders received after 11:00 AM CST will be sent out the following business day. Please contact us directly to get an expedited shipping quote.</p>"
+          }
+        },
+        "text_mkhTew": {
+          "type": "text",
+          "settings": {
+            "faq_title": "Do you ship to Canada?",
+            "faq_content": "<p>We can offer shipping to Canada on a case-by-case basis. If you are interested in placing an order with shipping to Canada, please contact us directly and we can get a shipping quote.</p>"
+          }
+        },
+        "text_cKcmih": {
+          "type": "text",
+          "settings": {
+            "faq_title": "How do I track my order?",
+            "faq_content": "<p>Once your order has been shipped, you will receive a shipping confirmation email. The shipping confirmation email will contain tracking information and a tracking number. If you have any questions regarding tracking, please contact us.</p>"
+          }
+        },
+        "text_3Kejh8": {
+          "type": "text",
+          "settings": {
+            "faq_title": "What shipping method is used to send my order?",
+            "faq_content": "<p>We use a combination of shipping partners including FedEx, USPS, and UPS. For larger orders, we will send the order as a freight delivery using a Less Than Truckload carrier, including Este Express, Old Dominion, or FedEx Freight. Once your order has shipped, you will receive a shipping confirmation email that will state the shipping method used with tracking information.</p>"
+          }
+        },
+        "text_h3zg3P": {
+          "type": "text",
+          "settings": {
+            "faq_title": "What is a freight delivery?",
+            "faq_content": "<p>When your order is larger than 170 lbs, it will need to be sent as a freight delivery. This means that the order will be packaged on a wood pallet and sent to you using a Less Than Truckload carrier, such as Estes Express, Old Dominion, or FedEx Freight. Once your order has been shipped, you will receive a shipping confirmation email with tracking details. The carrier will reach out to you to set up a delivery time that is convenient for you.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_BmnbPJ",
+        "text_iaTR8N",
+        "text_eP7zxp",
+        "text_mkhTew",
+        "text_cKcmih",
+        "text_3Kejh8",
+        "text_h3zg3P"
+      ],
+      "custom_css": [
+        ".faq-items-wrapper {width: 95%;}",
+        ".faq-item {word-break: normal;}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "content_title": "",
+        "content_caption": ""
+      }
+    },
+    "main_custom_liquid_TjQzB6": {
+      "type": "main-custom-liquid",
+      "settings": {
+        "custom_liquid": "<p id=\"Returns & Exchanges\"></p>",
+        "padding_top": 0,
+        "padding_bottom": 100
+      }
+    },
+    "main_promo_banner_FktA6k": {
+      "type": "main-promo-banner",
+      "custom_css": [
+        "@media only screen and (min-width: 800px) {.typography-banner {padding-left: 50px; }}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "typography_banner": "RETURNS & EXCHANGES",
+        "typography_btn": "",
+        "typography_url": "",
+        "background_color": "#2a3640",
+        "font_color": "#fafafa",
+        "border_color": "#fafafa"
+      }
+    },
+    "main_faqs_8kmzFx": {
+      "type": "main-faqs",
+      "blocks": {
+        "text_t8erQQ": {
+          "type": "text",
+          "settings": {
+            "faq_title": "What if my product arrives damaged?",
+            "faq_content": "<p>If your product arrives damaged, you must contact us within 30 days of receiving your order. Please fill out the Damages Form with your order information, a picture of the damaged product, and the product specifications. Once we receive this information, we will contact you with further information regarding your replacement product.</p>"
+          }
+        },
+        "text_iq3hCx": {
+          "type": "text",
+          "settings": {
+            "faq_title": "How do I return my order?",
+            "faq_content": "<p>We accept returns within 90 days of the purchase date. If the product is in new and resaleable condition, with the original packaging intact, you are eligible for a return. Visit our Returns and Exchanges page and follow the link to the Returns Portal to submit a returns form. If you would like us to send you a return label, please indicate that on the returns form. Once we receive your order, we will issue your refund with the return shipping costs deducted. All clearance products are final sale and are not eligible for a return. Please note, all shipping charges are non-refundable.</p>"
+          }
+        },
+        "text_yRAPhF": {
+          "type": "text",
+          "settings": {
+            "faq_title": "How do I exchange my order?",
+            "faq_content": "<p>We will accept exchanges within 90 days of the purchase date. If the product is in new and resaleable condition, with the original packaging intact, you are eligible for an exchange. Submit a return of the original product and place a new order for the new product. Visit our Returns and Exchanges page and follow the link to the Returns Portal to submit a returns form for the original product. If you would like us to send you a return label, please indicate that on the returns form. Once we receive your order, we will issue your refund with the return shipping costs deducted. All clearance products are final sale and are not eligible for a return. Please note, all shipping charges are non-refundable.</p>"
+          }
+        },
+        "text_EDHU33": {
+          "type": "text",
+          "settings": {
+            "faq_title": "Why haven't I received my return label yet?",
+            "faq_content": "<p>Once we receive a return request from you stating that you would like us to send you a return label, we will create a label for you through FedEx. You will receive the label as an attachment in an email from FedEx. This email often ends up in the junk or spam folder, so be sure to double-check there. If you do not receive your return label within 24 business hours of submitting your return request, please contact us directly and we will resend your label.</p>"
+          }
+        },
+        "text_Gk6kBA": {
+          "type": "text",
+          "settings": {
+            "faq_title": "Why haven't I received my refund yet?",
+            "faq_content": "<p>When you send a return to us, you can monitor the tracking number to see when the product arrives to us. Once we receive the product, it will take a few business days for our warehouse to process the return and complete the paperwork. We will issue a refund as soon as we receive the paperwork from our warehouse. Refunds can sometimes take a few business days to be fully completed after the refund is issued by us. If you have any questions about your refund, please contact us directly.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_t8erQQ",
+        "text_iq3hCx",
+        "text_yRAPhF",
+        "text_EDHU33",
+        "text_Gk6kBA"
+      ],
+      "custom_css": [
+        ".faq-items-wrapper {width: 95%;}",
+        ".faq-item {word-break: normal;}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "content_title": "",
+        "content_caption": ""
+      }
+    },
+    "faq": {
+      "type": "static-faq",
+      "blocks": {
+        "0557da68-80a9-4ee5-96c7-265ada87a680": {
+          "type": "tab",
+          "settings": {
+            "title": "Delivery & Lead Times",
+            "body": "<p>Erickson delivers your orders from our own Sydney warehouse and partner warehouses around the country. Not all of our products are available for immediate delivery and may be subject to the lead time changes.</p>"
+          }
+        },
+        "79ef9133-7bf5-41f2-9c9e-d9542e235c4e": {
+          "type": "tab",
+          "settings": {
+            "title": "Exchanges & Returns",
+            "body": "<p>Please choose carefully as refunds are not provided for change of mind or incorrect selection. We recommend you carefully preview any orders before proceeding with your order.</p>"
+          }
+        },
+        "05a7090d-89e6-4264-8563-7f2ecc5ebc4c": {
+          "type": "tab",
+          "settings": {
+            "title": "Product Care",
+            "body": "<p>Please note the information contained in this guide should be treated as a recommendation only and no warranty is implied since results may vary.</p>"
+          }
+        },
+        "76e101d4-04f5-4449-8f81-3b7fd2dc9528": {
+          "type": "tab",
+          "settings": {
+            "title": "Warranty Terms",
+            "body": "<p>Customers who have purchased products from Erickson and experience product failure within the manufacturer warranty period may be entitled to make a warranty claim to cover the costs of repair or replacement of the product.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "0557da68-80a9-4ee5-96c7-265ada87a680",
+        "79ef9133-7bf5-41f2-9c9e-d9542e235c4e",
+        "05a7090d-89e6-4264-8563-7f2ecc5ebc4c",
+        "76e101d4-04f5-4449-8f81-3b7fd2dc9528"
+      ],
+      "disabled": true,
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "main_custom_liquid_MUCB9r",
+    "main_custom_liquid_Erirt3",
+    "main_promo_banner_dLMxeY",
+    "main_faqs_3UiVqK",
+    "main_custom_liquid_tdcTaN",
+    "main_promo_banner_KJkJnx",
+    "main_faqs_4pdTUf",
+    "main_custom_liquid_ALbF8h",
+    "main_promo_banner_hqkXrY",
+    "main_faqs_3WGMA4",
+    "main_custom_liquid_TjQzB6",
+    "main_promo_banner_FktA6k",
+    "main_faqs_8kmzFx",
+    "faq"
+  ]
+}

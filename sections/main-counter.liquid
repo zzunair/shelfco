@@ -1,0 +1,266 @@
+{% comment %}
+  Featured statistics section
+{% endcomment %}
+
+{%- liquid
+  if settings.show_page_transition
+    assign _animatedCounter = 'counter_change'
+  else
+    assign _animatedCounter = ''
+  endif
+-%}
+
+<section
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding {{ _animatedCounter }} bg-counter wow fadeIn position-relative {% if section.blocks.size == 0 %}d-none{% endif %}"
+  data-wow-duration="200ms"
+  data-wow-delay="500ms"
+>
+  <div class="container">
+    <div class="row">
+      {% case section.blocks.size %}
+        {% when 0 %}
+
+        {% when 1 %}
+          {% assign column_width = 'counter-text-wide' %}
+        {% when 2 %}
+          {% assign column_width = 'counter-text-grid' %}
+      {% endcase %}
+      <div class="{{ column_width }} counter_item text-center justify-content-center w-100">
+        {% for block in section.blocks %}
+          {% assign block_speed = '' %}
+          {% if forloop.first == true %}
+            {% assign block_speed = block_speed | append: '300ms' %}
+          {% else %}
+            {% assign block_speed = block_speed | append: '500ms' %}
+          {% endif %}
+          <div
+            class="col-md-12 wow fadeInDown"
+            data-wow-delay="{{ block_speed }}"
+            data-wow-duration="{{ block_speed }}"
+          >
+            <div class="counter-summary d-flex text-center">
+              <h3
+                class="counter-num counter-heading break-all text-custom"
+                data-count-up="{{ block.settings.icon_number }}"
+              >
+                {{ block.settings.icon_number }}
+              </h3>
+              {% if block.settings.icon_caption != null %}
+                <span class="h4 text-custom">{{ block.settings.icon_unit }}</span>
+              {% endif %}
+            </div>
+            {% if block.settings.icon_caption != null %}
+              <span class="h4 text-custom">{{ block.settings.icon_caption }}</span>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured statistics",
+  "class": "featured-counter",
+  "max_blocks": 2,
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "id": "bg_color",
+      "type": "color",
+      "label": "Background color",
+      "default": "#212529"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "color",
+      "id": "font_color",
+      "label": "Text color",
+      "default": "#FAFAFA"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Statistic",
+      "settings": [
+        {
+          "type": "number",
+          "id": "icon_number",
+          "label": "Featured counter number",
+          "info": "This is the animated number counter.",
+          "default": 100
+        },
+        {
+          "type": "text",
+          "id": "icon_caption",
+          "label": "Body text",
+          "default": "Add text here"
+        },
+        {
+          "type": "text",
+          "id": "icon_unit",
+          "label": "Unit",
+          "default": "Hours",
+          "info": "You can add addtional text to show a unit of measure; for example (Hours)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+     "name": "Featured statistics",
+      "category": "Content",
+      "settings": {},
+      "blocks": [
+          {
+           "type": "image",
+            "settings": {
+              "icon_number": 10,
+              "icon_caption": "Countries shipped too.",
+              "icon_unit": ""
+            }
+          },
+          {
+           "type": "image",
+            "settings": {
+              "icon_number": 300,
+              "icon_caption": "Happy customers.",
+              "icon_unit": ""
+            }
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  .featured-counter {
+      z-index: 9;
+      position: relative;
+  }
+  @media screen and (min-width: 700px) {
+    .counter-text-wide {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+      gap: 10px;
+      justify-items: center;
+    }
+    .counter-text-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr;
+      gap: 10px;
+      justify-items: center;
+    }
+  }
+  .counter-summary {
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    align-items: center;
+  }
+  .break-all {
+      overflow-wrap: anywhere;
+  }
+  .counter-heading {
+      font-size: calc(min(15vw, 1400px * 0.15) / 2 * 1.5);
+      font-weight: var(--font-weight-header);
+  }
+  .counter-text-wide, .counter-text-grid {
+      gap: 3rem;
+      align-items: start;
+      display: grid;
+  }
+  .bg-counter {
+      background: {{ section.settings.bg_color }};
+  }
+  .text-custom {
+      color: {{ section.settings.font_color }};
+  }
+{%- endstyle -%}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    //element
+    const featuredCounterSection = document.querySelectorAll(".counter_item");
+    //for all elements
+    featuredCounterSection.forEach(function(item) {
+      // console.log(item);
+      const showAnimation = function(entries) {
+        const [entry] = entries;
+        // console.log(entry);
+        if(entry.isIntersecting){
+          if(document.querySelector('.counter_change') != null) {
+            let valueDisplays = document.querySelectorAll(".counter-num");
+            let interval = 2000;
+            //for each value
+            valueDisplays.forEach((valueDisplay) => {
+              let startValue = 0;
+              let endValue = parseInt(valueDisplay.getAttribute("data-count-up"));
+              let duration = Math.floor(interval / endValue);
+              let counter = setInterval(function () {
+                startValue += 1;
+                valueDisplay.textContent = startValue;
+                if (startValue == endValue) {
+                  clearInterval(counter);
+                }
+              }, duration);
+            });
+          }
+          console.log('Start animation')
+        }
+        else {
+          return;
+        }
+      }
+      const runAnimationObserver = new IntersectionObserver(showAnimation, {
+        root: null,
+        rootMargin: '150px'
+      });
+      if(item != null) {
+        runAnimationObserver.observe(item);
+      }
+    });
+  });
+</script>

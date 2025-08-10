@@ -1,0 +1,43 @@
+<!-- faq accordian -->
+{%- if section.blocks.size > 0 -%}
+<div id="{{ section.id }}" class="product-accordion mt-2" data-section-id="{{ section.id }}" data-section-type="faq-section" aria-label="">
+  <div class="product-accordion-item mt-2">
+    {% for block in section.blocks %}
+    <span class="py-2 faq-title">{{ block.settings.title | escape }}</span>
+    <div class="content bg-transparent">
+        {{ block.settings.body }}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+<!-- / faq accordian -->
+
+{% schema %}
+  {
+  "name": "FAQs",
+  "class": "index-faqs",
+	"max_blocks": 30,
+  "settings": [],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Text",
+          "default": "<p>Add extra product information, such as size guides or technical data.</p>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,161 @@
+{% comment %}
+  Renders a product media carousel on mobile. Should be used with 'produt-model.js'
+  Also see 'app.js'
+  Also see 'accessibility.js'
+
+  Usage:
+  {% render 'product-media' %}
+{% endcomment %}
+
+{% assign first_model = product.media | where: 'media_type', 'model' | first %}
+
+<div class="col-md-12 px-0">
+  <div class="container px-0">
+    <div class="glider-contain">
+      <div class="glider">
+        <div
+          id="product-image"
+          class="product-images js-product-slideshow position-relative"
+          data-product-single-media-group>
+          <div class="position-absolute product-alerts" tabindex="-1">
+            {% render 'product-labels', product: product %}
+          </div>
+          <!-- slides -->
+          <div
+            class="slides {% if product.media.size > 1 %}js-slides {% endif %}mb-0 align-items-center justify-content-center no-Js h-100"
+            tabindex="-1">
+            {% if product.media.size > 0 %}
+              {% for media in product.media %}
+                <!-- apply lazy loading to all images except the first -->
+                {% unless forloop.first %}
+                  {% assign first = first | append: 'lazy' %}
+                {% endunless %}
+                <!-- /apply lazy loading to all images except the first -->
+                {% capture id %}media-{{ media.id }}{% endcapture %}
+                {% case media.media_type %}
+                  {% when 'image' %}
+                    <div
+                      class="single-product-image"
+                      {% if media.attached_to_variant %}
+                        data-variant="{{ media.variants.first.id }}"
+                      {% endif %}
+                        data-media-id="{{ media.id }}">
+                      <a
+                        href="{{ media.src | img_url: '2048x', crop: 'center' }}"
+                        data-fslightbox="gallery"
+                        data-caption="{{ product.title }}"
+                        data-width="2048"
+                        data-height="2048"
+                        aria-label="{{ product.title }}"
+                        class="focus-inset">
+                        {% render 'responsive-image' with image: media, image_class: "img-fluid lazyload", wrapper_class: "img-wrapper-class", max_width: 2048, max_height: 2048, lazy: lazy %}
+                      </a>
+                    </div>
+                  {% when 'external_video' %}
+                    {% assign video_class = 'js-' | append: media.host %}
+                    {% if media.host contains 'vimeo' %}
+                      <div
+                        class="external-video-container external-video-container-vimeo single-product-image-video"
+                        data-media-id="{{ media.id }}">
+                        <a data-src="{{ media.sources[1].url }}" data-width="960" data-height="540" class="focus-inset">
+                          {{ media | external_video_url: autoplay: autoplay, preload: 'none', loop: loop, muted: false | external_video_tag: class: video_class, height: '540', width: '1000', loading: 'lazy' }}
+                        </a>
+                      </div>
+                    {% else %}
+                      <div
+                        class="external-video-container external-video-container-youtube single-product-image-external-video youtube-container my-0"
+                        data-media-id="{{ media.id }}">
+                        <a data-src="{{ media.sources[1].url }}" data-width="960" data-height="540" class="focus-inset">
+                          {{ media | external_video_url: autoplay: autoplay, preload: 'none', loop: loop, muted: false | external_video_tag: class: video_class, height: '540', width: '1000', loading: 'lazy' }}
+                        </a>
+                      </div>
+                    {% endif %}
+                  {% when 'video' %}
+                    <div class="video-container single-product-image-video" data-media-id="{{ media.id }}">
+                      <a data-src="{{ media.sources[1].url }}" data-width="960" data-height="540" class="focus-inset">
+                        {{ media | video_tag: controls: true, preload: 'none', loop: loop, muted: true, autoplay: autoplay, loading: 'lazy', width: '1000', image_size: '1000x' }}
+                      </a>
+                    </div>
+                  {% when 'model' %}
+                    <!-- 3d model -->
+                    <div class="model-container primary-media-container" tabindex="0" data-product-media-type-model>
+                      <product-model class="deferred-media media no-js-hidden" data-media-id="{{ media.id }}">
+                        <button id="Deferred-Poster-Modal-{{ media.id }}" class="deferred-media__poster" type="button">
+                          <span class="deferred-media__poster-button motion-reduce">
+                            {% render 'icon-3d-badge' %}
+                          </span>
+                          {% render 'responsive-image' with image: media, image_class: "img-fluid", wrapper_class: "img-wrapper-class", max_width: 1000, max_height: 1000, lazy: "" %}
+                        </button>
+                        <!-- add shopify-model-viewer-ui to template on click -->
+                        <template>
+                          {{ media | media_tag: image_size: '2048x', toggleable: true }}
+                        </template>
+                        <!-- /add shopify-model-viewer-ui to template on click -->
+                      </product-model>
+                      <button
+                        class="button btn btn-main rounded-0 w-100 product__xr-button view-in-your-space mobile laptop-hide desktop-hide tablet-hide"
+                        type="button"
+                        aria-label="{{ 'products.product.xr_button' | t }}"
+                        data-shopify-xr
+                        data-shopify-model3d-id="{{ media.id }}"
+                        data-shopify-title="title"
+                        data-shopify-xr-hidden>
+                        {% render 'icon-3d-badge' %}
+                        {{ 'products.product.xr_button' | t }}
+                      </button>
+                    </div>
+                    <!-- 3d model -->
+                  {% else %}
+                    <div
+                      class="single-product-image border"
+                      {% if media.attached_to_variant %}
+                        data-variant="{{ media.variants.first.id }}"
+                      {% endif %}
+                      data-media-id="{{ media.id }}">
+                      <a
+                        href="{{ media.src | img_url: '2048x', crop: 'center' }}"
+                        data-fslightbox="lightbox-basic"
+                        data-caption="{{ product.title }}"
+                        data-width="2048"
+                        data-height="2048"
+                        aria-label="{{ product.title }}"
+                        class="focus-inset">
+                        {% render 'responsive-image' with image: media, image_class: "img-fluid", wrapper_class: "img-wrapper-class", max_width: 2048, max_height: 2048, lazy: "" %}
+                      </a>
+                    </div>
+                {% endcase %}
+              {% endfor %}
+            {% else %}
+              <!-- blank image -->
+              {{ 'product-3' | placeholder_svg_tag: 'placeholder-svg border-0 rounded__all' }}
+              <!-- / blank image -->
+            {% endif %}
+          </div>
+          <!-- pagination controls -->
+          {% if product.media.size > 1 and product.featured_image != blank %}
+            <div id="controls" class="product-medaia-slider-controls">
+              <button class="glider-btn glider-prev previous" aria-label="left align">{% render 'icon-prev' %}</button>
+              <button class="glider-btn glider-next next" aria-label="right align">{% render 'icon-next' %}</button>
+            </div>
+          {% endif %}
+          <!-- /pagination controls -->
+          {% render 'product-thumbnails' %}
+          <!-- if no JS -->
+          <noscript class="noscript-product">
+            <div class="single-product-image">
+              <a
+                href="{{ product.featured_image.src | img_url: '1000x', crop: 'center' }}"
+                data-width="550"
+                data-height="550"
+                aria-label="{{ product.title }}">
+                {% render 'responsive-image' with image: product.featured_image.src, image_class: "img-fluid", wrapper_class: "img-wrapper-class", max_width: 1000, max_height: 1000 %}
+              </a>
+            </div>
+          </noscript>
+          <!-- END if no JS -->
+          <!-- /slides -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

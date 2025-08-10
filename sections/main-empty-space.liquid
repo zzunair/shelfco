@@ -1,0 +1,32 @@
+{% comment %}
+  Empty space section
+{% endcomment %}
+
+{% assign no_space = section.settings.height | plus: 0 %}
+
+{% if no_space > 0 %}
+<div id="empty_space_{{ section.id }}" class="row empty_space" data-section-id="{{ section.id }}" data-section-type="blog-layout" aria-label="" style="height:{{ no_space }}px">
+  <span class="empty_space_inner"></span>
+</div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Empty space",
+    "class": "main-empty-space",
+    "settings": [
+      {
+        "type": "text",
+        "id": "height",
+        "label": "Height px",
+        "default": "40"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Empty space",
+        "category": "Content"
+      }
+    ]
+  }
+{% endschema %}

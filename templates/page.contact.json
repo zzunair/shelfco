@@ -1,0 +1,102 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "static-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "main_welcome_text_KamNDq": {
+      "type": "main-welcome-text",
+      "custom_css": [],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "text": "Connect with Shelf & Co!",
+        "welcome_bgcolor": "#ffffff",
+        "welcome_textcolor_2": "#2a3640",
+        "welcome_textcolor_1": "#2a3640"
+      }
+    },
+    "contact": {
+      "type": "static-contact-form",
+      "blocks": {
+        "image_HCize4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/6_170b6737-f5e9-419d-96a9-16743b56eeb4.png",
+            "text": "<p>(866) 618-0629</p>"
+          }
+        },
+        "image_LUzRHX": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/7_0094bdc2-3faf-4ca3-b619-4bc06388add3.png",
+            "text": "<p>hello@shelf-co.com</p>"
+          }
+        },
+        "image_tKPCtN": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/8_850808b3-b138-4bbd-a575-4173b14ca52a.png",
+            "text": "<p>Monday-Friday<br/>8:00 AM - 4:00 PM CST</p>"
+          }
+        },
+        "image_3HpE9L": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Your_paragraph_text.png",
+            "text": "<p>5017 Boone Ave N Ste 200<br/>New Hope, MN 55428</p>"
+          }
+        }
+      },
+      "block_order": [
+        "image_HCize4",
+        "image_LUzRHX",
+        "image_tKPCtN",
+        "image_3HpE9L"
+      ],
+      "custom_css": [
+        "@media screen and (min-width: 768px) {.cta-wrapper {display: grid; grid-template-columns: auto auto; }}",
+        ".contact-form {margin-bottom: 20px; width: 100%;}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "background_color": "#ffffff",
+        "font_color": "#2a3640"
+      }
+    },
+    "main_rich_text_gfWdEU": {
+      "type": "main-rich-text",
+      "custom_css": [
+        "@media only screen and (min-width: 800px) {.container {width: 75%; }}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 80,
+        "title": "Our Commitment to Customer Service",
+        "text": "<p>If you have any concerns, please pick up the phone and call us. Our office is staffed with real people who answer phone calls and emails from customers. We're ready to offer advice and troubleshooting for anything from a first-time do-it-yourself project to planning the large-scale remodel of a room.</p>",
+        "button_text": "",
+        "button_url": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "main_welcome_text_KamNDq",
+    "contact",
+    "main_rich_text_gfWdEU"
+  ]
+}

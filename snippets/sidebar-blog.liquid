@@ -1,0 +1,33 @@
+{% assign list_temp = section.settings.sb_blog_linklist_list %}
+{% if linklists[list_temp] != empty %}
+{% assign list = linklists[list_temp] %}
+<div class="widget mb-0 mt-0">
+  <div class="card border-0 rounded-0">
+    <div class="card-body pt-0 px-0 pb-2">
+      {% if section.settings.sb_blog_linklist_heading != blank %}
+      <h5 class="collection-description pb-1 pl-0">
+        {{ section.settings.sb_blog_linklist_heading }}
+      </h5>
+      {% endif %}
+      {% if section.settings.sb_blog_linklist_description != blank %}
+      <p class="collection-description mb-0 pl-0">
+        {{ section.settings.sb_blog_linklist_description }}
+      </p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+<div id="accordion">
+  {% for my_link in list.links %}
+    <div class="card border-0">
+      <div class="card-header-no-link border-0" id="heading-{{ my_link.title }}">
+        <h5 class="blog-category-title">
+          <a href="{{ my_link.url }}" class="no-icon" aria-label="{{ my_link.title }}">
+            {{ my_link.title }}
+          </a>
+        </h5>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}

@@ -1,0 +1,105 @@
+{% comment %}
+  This is used to create CSS custom variables with Liquid references
+{% endcomment %}
+
+{%- liquid
+  assign header_font = settings.header_font_new
+  assign base_font = settings.base_font_new
+  assign base_font_bold = base_font | font_modify: 'weight', 'bolder'
+  assign base_font_italic = base_font | font_modify: 'style', 'italic'
+  assign base_font_bold_italic = base_font_bold | font_modify: 'style', 'italic'
+  assign header_font_bold = header_font | font_modify: 'weight', 'bolder'
+  assign header_font_italic = header_font | font_modify: 'style', 'italic'
+  assign header_font_bold_italic = header_font | font_modify: 'style', 'italic'
+-%}
+
+<style>
+  {{ header_font | font_face: font_display: 'swap' }}
+  {{ header_font_bold | font_face: font_display: 'swap' }}
+  {{ header_font_italic | font_face: font_display: 'swap' }}
+  {{ header_font_bold_italic | font_face: font_display: 'swap' }}
+  {{ base_font | font_face: font_display: 'swap' }}
+  {{ base_font_bold | font_face: font_display: 'swap' }}
+  {{ base_font_italic | font_face: font_display: 'swap' }}
+  {{ base_font_bold_italic | font_face: font_display: 'swap' }}
+
+:root {
+  --color-white: white;
+  --color-black: black;
+  --font-weight-body--bold: {{ base_font_bold.weight | default: 700 }};
+  --font-weight-header--bold: {{ header_font_bold.weight | default: 700 }};
+  --duration-short: 100ms;
+  --duration-default: 200ms;
+  --duration-long: 500ms;
+  --letter-spacing: 0.5px;
+  --line-height: 1.2;
+  --text-xxsmall: 12px;
+  --text-xsmall: 15px;
+  --text-small: 22px;
+  --text-regular: 28px;
+  --text-medium: 32px;
+  --text-large: 52px;
+  --text-xlarge: 60px;
+  --text-xxlarge: 90px;
+  --color-placeholder: {{ '#e8e8e8' }};
+  --font-size-base: {{ settings.body_base_size | plus: 0 | append: 'px' }};
+  --font-stack-header: {{ header_font.family }}, {{ header_font.fallback_families }};
+  --font-weight-header: {{ header_font.weight }};
+  --font-style-header: {{ header_font.style }};
+  --font-stack-body: {{ base_font.family }}, {{ base_font.fallback_families }};
+  --font-weight-body: {{ base_font.weight }};
+  --font-style-body: {{ base_font.style }};
+  --global-btn-style: {{ settings.button_style_global }};
+  --global-btn-text-style: {{ settings.button_style_global }};
+  --global-btn-corner-style: {{ settings.button_radius | plus: 0 | append: 'px' }};
+  --global-border-weight: {{ settings.border_weight | plus: 0 | append: 'px' }};
+  --color-body-bg: {{ settings.body_background_color }};
+  --color-body-text: {{ settings.body_font_text }};
+  --color-body-text-link: {{ settings.btn_contact_bg_color_hover }};
+  --color-border: {{ settings.border_background_color | color_to_rgb | color_modify: 'alpha', 0.5 }};
+  --color-btn-main-bg: {{ settings.btn_contact_bg_color }};
+  --color-btn-main-text: {{ settings.btn_contact_text_color }};
+  --color-btn-main-border: {{ settings.btn_contact_border_color }};
+  --color-btn-main-text-hover: {{ settings.btn_contact_text_color_hover }};
+  --color-btn-contact-bg: {{ settings.btn_contact_bg_color }};
+  --color-btn-contact-text: {{ settings.btn_contact_text_color }};
+  --color-btn-contact-bg-hover: {{ settings.btn_contact_bg_color_hover }};
+  --color-btn-contact-text-hover: {{ settings.btn_contact_text_color_hover }};
+  --color-sale-light-bg: {{ settings.sales_badge_bg_color }};
+  --color-sale-light-text: {{ settings.sales_badge_text_color }};
+  --color-soldout-bg: {{ settings.soldout_badge_bg_color }};
+  --color-soldout-text: {{ settings.soldout_badge_text_color }};
+  --color-sale-dark-bg: {{ settings.sales_badge_bg_color_dark }};
+  --color-sale-dark-text: {{ settings.sales_badge_text_color_dark }};
+  --color-newsletter-bg: {{ settings.newsletter_background_color }};
+  --color-newsletter-heading: {{ settings.newsletter_heading_color }};
+  --color-newsletter-subheading: {{ settings.newsletter_caption_color }};
+  --color-newsletter-btn-bg: {{ settings.newsletter_button_color }};
+  --color-shipping-bg: {{ settings.tpro_bgcolor }};
+  --color-shipping-text: {{ settings.tpro_textcolor }};
+  --color-background-1: {{ settings.background_color_1 }};
+  --color-font-1: {{ settings.color_1 }};
+  --color-background-2: {{ settings.background_color_2 }};
+  --color-font-2: {{ settings.color_2 }};
+  --color-cart-badge-bg: {{ settings.badge_background_color }};
+  --color-cart-badge-text: {{ settings.badge_text_color }};
+  --color-cookies-bg: {{ settings.cookies_bg_color }};
+  --color-cookies-text: {{ settings.cookies_title_color }};
+  --color-countdown-bg: {{ settings.countdown_bgcolor }};
+  --color-countdown-text: {{ settings.countdown_textcolor }};
+  --color-alert-bg: {{ settings.alert_message }};
+  --color-alert-text: {{ settings.alert_message_text }};
+}
+</style>
+<script>
+  // IE11 does not have support for CSS variables, so we have to polyfill them
+  if (!(((window || {}).CSS || {}).supports && window.CSS.supports('(--a: 0)'))) {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2';
+    script.onload = function() {
+      cssVars({});
+    };
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+</script>

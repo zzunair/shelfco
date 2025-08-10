@@ -1,0 +1,99 @@
+<div class="collection-sorting col-md-12 mb-2 filter-wrapper">
+  <form id="form-id" class="filter-form mobile-version-filter-form">
+    {% for filter in filters %}
+      {% case filter.type %}
+        {% when 'list' %}
+          <div id="accordion">
+            <div class="card border-0">
+              <!-- header -->
+              <div class="card-header" id="heading-{{ forloop.index }}">
+                <span>
+                  <a
+                    href="#"
+                    class="collapsed pl-0"
+                    data-toggle="collapse"
+                    data-target="#collapse-{{ filter.label | escape | replace: ' ', '-' }}"
+                    aria-expanded="true"
+                    aria-controls="collapse-{{ filter.label | escape }}"
+                    aria-labelledby="{{ filter.label | escape }}"
+                  >
+                    <span>{{ filter.label | escape }}</span>
+                  </a>
+                </span>
+              </div>
+              <!-- header -->
+              <!-- tab -->
+              {% for value in filter.values %}
+                <div
+                  id="collapse-{{ filter.label | escape | replace: ' ', '-' }}"
+                  class="col-side collapse show"
+                  aria-labelledby="{{ filter.label }}"
+                  data-parent="#accordion"
+                >
+                  <div class="card-body pl-0">
+                    <div class="list-unstyled mb-0">
+                      {% if value.count >= 0 %}
+                        <div class="form-check pl-0 mb-0 pretty p-default p-fill p-has-focus p-bigger">
+                          <input
+                            type="checkbox"
+                            name="{{ value.param_name }}"
+                            value="{{ value.value }}"
+                            class="form-check-input filled-in"
+                            {% if value.active %}
+                              checked
+                            {% endif %}
+                            {% if value.count == 0 and value.active == false %}
+                              disabled
+                            {% endif %}
+                            id="{{ filter.label | escape }}-{{ forloop.index }}"
+                          >
+                          <div class="state p-primary-o pl-1">
+                            <label
+                              for="{{ filter.label | escape }}-{{ forloop.index }}"
+                              class="form-check-label ttext-capitalize card-link-secondary"
+                              aria-label="{{ value.label | escape }} "
+                            >
+                              {{- value.label | escape }} ({{ value.count }})</label
+                            >
+                          </div>
+                        </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+              <!-- /tab -->
+              {% if filter.active_values.size > 0 %}
+                <a
+                  href="{{ filter.url_to_remove | remove: '&view=extended' }}"
+                  class="d-flex mr-auto btn btn-contact reset-filter-button"
+                >
+                  {{ 'general.accessibility.reset' | t }}
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        {% when 'price_range' %}
+          {% if filter.type == 'price_range' %}
+            {% assign class = 'border' %}
+            {% render 'range-slider', filter: filter, class: class %}
+          {% endif %}
+      {% endcase %}
+    {% endfor %}
+
+    {% unless filters == blank %}
+      <!-- clear all options from filter -->
+      <div class="d-flex justify-content-between w-100 ml-0 pb-0 my-2 mr-0">
+        <a class="d-inline-flex" href="{{ filter.url_to_remove | remove: '&view=extended' }}">
+          <span class="clear-button bage">
+            <span class="pl-0 pr-2 align-middle">
+              {{ 'general.accessibility.clear' | t }}
+            </span>
+            {% render 'icon-close-general' %}
+          </span>
+        </a>
+      </div>
+      <!-- /clear all options from filter -->
+    {% endunless %}
+  </form>
+</div>

@@ -1,0 +1,10 @@
+{% assign cart_size = cart.total_price | divided_by: 100 %}
+{% assign gift_threshold = settings.free_gift_threshold | times: 100 %}
+{% assign gift_product_required = settings.cart_gwp_product_1 %}
+{% assign gift_product_condtional = settings.cart_gwp_product_2 %}
+{% assign product1 = all_products[gift_product_required] %}
+{% assign product2 = all_products[gift_product_condtional] %}
+{% assign gift_id_1 = product1.first_available_variant.id %}
+{% assign gift_id_2 = product2.first_available_variant.id %}
+{% assign gift_price = product1.price %}
+<input type="hidden" id="js-gift-id" data-threshold="{{ gift_threshold }}" data-required="{% if gift_id_1 %}{{ gift_id_1}}{% endif %}" data-price="{{ gift_price }}" data-conditional="{% if gift_id_2 %}{{ gift_id_2 | default: product.selected_or_first_available_variant.id }}{% endif %}" class="js-gift" name="" value="{{ gift_id_1 | default: product.selected_or_first_available_variant.id }}">

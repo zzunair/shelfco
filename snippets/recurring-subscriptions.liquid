@@ -1,0 +1,191 @@
+	{% if product.selling_plan_groups.size > 0 %}
+	{% assign current_variant = product.selected_or_first_available_variant %}
+	<input type="hidden" name="variant-id" value="{{ current_variant.id }}">
+	<input type="hidden" name="product-id" value="{{ product.id }}">
+	<input type="hidden" name="p-selected-selling-plan-id" value="{{ product.selected_selling_plan.id }}"/>
+	<input type="hidden" name="v-selected-selling-plan-id" value="{{ current_variant.selected_selling_plan_allocation.selling_plan.id | json  | default: '' }}"/>
+
+	<label class="widget_title mb-2">{{ 'general.accessibility.purchase_options' | t }}</label>
+	<fieldset id="loop-widget-fieldset"
+						data-current-variant-id="{{ current_variant.id }}"
+						data-current-selling-plan-id="{{ product.selected_selling_plan.id }}"
+						data-current-selling-plan-name="{{ product.selected_selling_plan.name }}">
+
+		<!-- one time purchase input -->
+		{% assign one_time = "false" %}
+		{% unless product.requires_selling_plan %}
+		{% assign one_time = "true" %}
+		<div class="spg-grid py-2 px-3 one-time-bottom" name="spg-one-time-purchase">
+			<div class="form-check pl-0 mb-0 pretty p-default p-round p-fill p-has-focus p-bigger">
+				<input type="radio"
+							 name="loop_purchase_option"
+							 id="loop-one-time-purchase"
+							 {% unless product.selected_selling_plan %}checked{% endunless %}>
+				 <div class="state p-primary-o pl-1">
+					 <label for="loop-one-time-purchase">{{ 'general.accessibility.one_time' | t }}</label>
+				</div>
+			</div>
+			{% for variant in product.variants %}
+				<div class="spg-price" name="variant-price" data-spg-variant-ids="{{ variant.id }}">
+					<label>{{ variant.price | money }}&nbsp;{{ 'general.accessibility.each' | t }}</label>
+				</div>
+			{% endfor %}
+			</div>
+		{% endunless %}
+		<!-- one time purchase input -->
+		<!-- subscribe options -->
+		{% assign selected_selling_plan = product.selected_selling_plan %}
+		{% for spg in product.selling_plan_groups %}
+			<input type="hidden" name="spg" id="spg-{{ spg.id }}" value="{{ spg | json }}">
+			<div class="spg-grid py-2 px-3"
+					 data-spg-variant-ids="{% for variant in product.variants %}
+					 {% assign isVariantPresent = false %}
+					 {% for v-plan in variant.selling_plan_allocations %}
+						{% if v-plan.selling_plan_group_id == spg.id %}
+							{% assign isVariantPresent = true %}
+							{% break %}
+						{% endif %}
+					 {% endfor %}
+					 {% if isVariantPresent %}{{ variant.id }},{% endif %}
+					{% endfor %}">
+
+				<div class="form-check pl-0 mb-0 pretty p-default p-round p-fill p-has-focus p-bigger">
+					<input type="radio"
+								 class="spg-radio-input"
+								 name="loop_purchase_option"
+								 id="loop-spg-{{ spg.id }}-{{ spg.selling_plans[0].id }}-{{ spg.selling_plans[0].name }}"
+					{% if spg.selling_plan_selected %}checked{% endif %}>
+					 <div class="state p-primary-o pl-1">
+						<label for="loop-spg-{{ spg.id }}-{{ spg.selling_plans[0].id }}-{{ spg.selling_plans[0].name }}">{{ 'general.accessibility.subscribe' | t }}</label>
+					</div>
+				</div>
+
+				{% for variant in product.variants %}
+					{% for v_sp in variant.selling_plan_allocations %}
+						{% if v_sp.selling_plan_group_id != spg.id %}
+							{% continue %}
+						{% endif %}
+						<!-- only show 1 price in forloop -->
+						{% if forloop.first == true %}
+						<div class="spg-price" data-spg-variant-ids="{{ variant.id }}" data-selling-plan-id="{{ v_sp.selling_plan.id }}">
+							<label>{{ v_sp.per_delivery_price | money }}&nbsp;{{ 'general.accessibility.each' | t }}</label>
+						</div>
+						{% endif %}
+					{% endfor %}
+				{% endfor %}
+				<div class="spg-select-options">
+					<label for="spg-select-{{ spg.id }}" class="font-weight-normal mb-2">{{ 'general.accessibility.delivery_frequency' | t }}</label>
+					<select id="spg-select-{{ spg.id }}" class="reccuring-option h-100 select2 border" name="selling_plan" >
+						<option id="default" value="{{ s_plan[0].id }}" disabled="disabled">{{ 'general.accessibility.please_select' | t }}</option>
+						{% for s_plan in spg.selling_plans %}
+							<option data-selling-plan-name="{{ s_plan.name }}" value="{{ s_plan.id }}" {% if one_time == "false" %}{% if forloop.first %} selected="true" {% endif %}{% endif %} {% if s_plan.selected %}selected value="{{ s_plan.name }}"{% endif %}>
+								{{ s_plan.name }}
+							</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+		{% endfor %}
+		<!-- END subscribe options -->
+	</fieldset>
+{% endif %}
+
+{%- style -%}
+#loop-widget-fieldset {
+		border: var(--global-border-weight) solid var(--color-border);
+		border-radius: var(--global-btn-corner-style);
+    -moz-border-radius: var(--global-btn-corner-style);
+    -webkit-border-radius: var(--global-btn-corner-style);
+}
+input#loop-one-time-purchase {
+	 -webkit-appearance: none;
+	 -moz-appearance: none;
+	  appearance: none;
+		height: 10px;
+}
+input[type='radio']:after {
+		width: 15px;
+		height: 15px;
+		border-radius: 15px;
+		top: 0px;
+		left: 0px;
+		position: relative;
+		background-color: var(--color-body-text-link);
+		content: '';
+		display: inline-block;
+		visibility: visible;
+		border: var(--global-border-weight) solid var(--color-border);
+}
+input[type='radio']:checked:after {
+		width: 15px;
+		height: 15px;
+		border-radius: 15px;
+		top: -2px;
+		left: -1px;
+		position: relative;
+		background-color: var(--color-body-text);
+		content: '';
+		display: inline-block;
+		visibility: visible;
+		border: var(--global-border-weight) solid var(--color-border);
+}
+.one-time-bottom {
+		border-bottom: var(--global-border-weight) solid var(--color-border);
+}
+.spg-grid {
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		align-items: center;
+		grid-gap: 10px;
+		grid-template-areas: "radio-ip label price";
+		justify-items: normal;
+}
+.spg-grid .plan-option {
+		background-color: yellow;
+}
+.spg-price {
+		display: none;
+		grid-area: price;
+}
+.spg-radio-input:not(:checked) ~ .spg-select-options {
+		display: none;
+}
+.spg-select-options {
+		grid-column: 1 / -1;
+		display: grid;
+}
+{% for variant in product.variants %}
+	[data-spg-variant-ids*="{{ variant.id }}"] {
+		display: none;
+	}
+
+	{% if variant.selling_plan_allocations.size == 0 %}
+		[data-current-variant-id="{{ variant.id }}"] {
+			display: none;
+		}
+	{% else %}
+	[data-current-variant-id="{{ variant.id }}"] {
+			display: block;
+		}
+	{% endif %}
+
+	[data-current-variant-id="{{variant.id}}"] .spg-grid[data-spg-variant-ids*="{{variant.id}}"] {
+		display: grid;
+	}
+
+	[data-current-variant-id="{{variant.id}}"] .spg-price[data-spg-variant-ids="{{variant.id}}"] {
+		display: block;
+	}
+{% endfor %}
+
+{% for spg in product.selling_plan_groups %}
+	{% for sp in spg.selling_plans %}
+		[data-selling-plan-id="{{ sp.id }}"] {
+			visibility: visible;
+		}
+		[data-current-selling-plan-id="{{ sp.id }}"] .spg-price[data-selling-plan-id="{{ sp.id }}"] {
+			visibility: visible;
+		}
+	{% endfor %}
+{% endfor %}
+{%- endstyle -%}

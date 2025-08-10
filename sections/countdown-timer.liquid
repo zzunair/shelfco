@@ -1,0 +1,94 @@
+{% comment %}
+  Countdown timer section
+{% endcomment %}
+
+{% if section.settings.countdown_timer_text != blank and section.settings.countdown_timer_date != blank %}
+<div id="{{ section.id }}" class="tpro-wrapper-countdown observer wow fadeIn" data-wow-delay="300ms">
+  <div class="container">
+    <div class="tpro-countdown text-center">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <div class="background">
+            {% assign countdownStarted = section.settings.countdown_timer_text | escape %}
+            {% assign countdownEnded = section.settings.countdown_timer_text_ended | escape %}
+            {% assign countdownDate = section.settings.countdown_timer_date | escape %}
+            <div id="counter-wrapper" class="js-countdown-wrapper d-block my-0 py-2">
+              <div class="announcement-bar js-countdown d-inline-flex" data-start="{{ countdownStarted }}" data-end="{{ countdownEnded }}" data-date="{{ countdownDate }}">
+                <p class="announcement-bar-message py-0"></p>
+              </div>
+              {% unless section.settings.countdown_timer_date == blank %}
+              <div id="countdown" class="d-inline-block">
+                <div class="d-inline-flex">
+                  <p class="py-0 pr-1"><span id="days" class="pr-1">{% cycle "4" %}</span>{{ 'cart.label.days' | t }}</p>
+                  <p class="py-0 pr-1"><span id="hours" class="pr-1">{% cycle "3" %}</span>{{ 'cart.label.hours' | t }}</p>
+                  <p class="py-0 pr-1"><span id="minutes" class="pr-1">{% cycle "2" %}</span>{{ 'cart.label.minutes' | t }}</p>
+                  <p class="py-0 pr-1"><span id="seconds" class="pr-1">{% cycle "1" %}</span>{{ 'cart.label.seconds' | t }}</p>
+                </div>
+              </div>
+              {% endunless %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Countdown timer",
+    "settings": [
+      {
+        "type": "color",
+        "id": "countdown_bgcolor",
+        "label": "Background",
+        "default": "#F5F5F5"
+      },
+      {
+        "type": "color",
+        "id": "countdown_font_color",
+        "label": "Body text",
+        "default": "#1B1B1B"
+      },
+      {
+        "type": "text",
+        "id": "countdown_timer_date",
+        "label": "Heading",
+        "info": "Must be written in 24hr format - eg 'Sep 30, 2021 23:59:59'",
+        "default": "Sep 30, 2023 23:59:59"
+      },
+      {
+        "type": "text",
+        "id": "countdown_timer_text",
+        "label": "Body text",
+        "default": "Sale ends"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Countdown timer",
+        "category": "Content"
+      }
+    ]
+  }
+{% endschema %}
+
+{%- style -%}
+.tpro-wrapper-countdown {
+    background-color: {{ section.settings.countdown_bgcolor }};
+    border: none;
+    line-height: var(--line-height);
+}
+.tpro-countdown .background p {
+    vertical-align: top;
+    display: inline-block;
+    padding: 10px 0px 10px 0px;
+    margin: 0px;
+    letter-spacing: var(--letter-spacing);
+    font-family: var(--font-stack-body);
+    font-size: var(--font-size-base);
+    color: {{ section.settings.countdown_font_color }};
+    text-transform: uppercase;
+}
+{%- endstyle -%}

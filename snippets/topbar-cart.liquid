@@ -1,0 +1,38 @@
+{% comment %}
+  Renders a free shipping threshold message on the cart page
+
+  Usage:
+  {% render 'topbar-cart' %}
+{% endcomment %}
+
+{% if settings.is_free_shipping_bar %}
+  <div class="shipping-msg-wrapper mb-0 px-3 border-bottom-0">
+    <div class="container px-0">
+      <div class="tpro">
+        <div class="col-md-12 text-center">
+          <div class="background">
+            {%- liquid
+              assign promote_txt = settings.promote_free_shipping_text | escape
+              assign unlocked_txt = settings.unlock_free_shipping_text | escape
+              assign cart_total = cart.total_price
+              assign threshold = settings.free_shipping_threshold | times: 100
+              assign value_left = threshold | minus: cart.total_price
+              assign value_left_money = value_left | money
+              assign result = cart_total | divided_by: settings.free_shipping_threshold | times: 100
+            -%}
+            <div
+              class="announcement-bar js-announcement-bar-cart"
+              data-promote="{{ promote_txt }}"
+              data-unlocked="{{ unlocked_txt }}"
+              data-threshold="{{ threshold }}"
+            >
+              <p class="announcement-bar-message money my-0 d-flex flex-column justify-content-center w-100 h-100">
+                {{ unlocked_txt }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

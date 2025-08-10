@@ -1,0 +1,119 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "static-page",
+      "custom_css": [],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "main_rich_text_tN6YfE": {
+      "type": "main-rich-text",
+      "blocks": {
+        "custom_html_ngRJPn": {
+          "type": "custom_html",
+          "settings": {
+            "title": "15% OFF Discount",
+            "text": "<p>After unlocking the partnership benefits, you will be rewarded with a 15% off discount code. This exclusive code can be applied to all future purchases made on your Shelf & Co business account.</p>"
+          }
+        },
+        "custom_html_gCCjQz": {
+          "type": "custom_html",
+          "settings": {
+            "title": "Priority Inventory",
+            "text": "<p>Our dedicated team will work closely with you to understand your product needs and adhere to your timeline. Have peace of mind knowing we will make your product needs one of our top priorities.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "custom_html_ngRJPn",
+        "custom_html_gCCjQz"
+      ],
+      "custom_css": [
+        ".container {background-color: #f1f3f5; padding-top: 2%; padding-left: 2%; padding-right: 2%;}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 0,
+        "title": "Partnership Benefits",
+        "text": "",
+        "button_text": "",
+        "button_url": ""
+      }
+    },
+    "main_rich_text_fP7LgV": {
+      "type": "main-rich-text",
+      "blocks": {
+        "custom_html_wbHxx9": {
+          "type": "custom_html",
+          "settings": {
+            "title": "Expert Design Assistance",
+            "text": "<p>Collaborate with our team of design experts to create a personalized shelving design tailored specifically to your needs. We will assist you in exploring styles and finishes to accomplish your interior design objectives.</p>"
+          }
+        },
+        "custom_html_Kbr3bK": {
+          "type": "custom_html",
+          "settings": {
+            "title": "Exclusive Newsletters",
+            "text": "<p>Once you have completed your application, you will receive access to our exclusive newsletter. Be the first to know about new product offerings, upcoming sales, and special promotions.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "custom_html_wbHxx9",
+        "custom_html_Kbr3bK"
+      ],
+      "custom_css": [
+        ".container {background-color: #f1f3f5; padding-bottom: 2%; padding-left: 2%; padding-right: 2%;}"
+      ],
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 20,
+        "title": "",
+        "text": "",
+        "button_text": "",
+        "button_url": ""
+      }
+    },
+    "main_rich_text_L4b8Ud": {
+      "type": "main-rich-text",
+      "custom_css": [
+        ".container {padding-left: 5%; padding-right: 5%;}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 0,
+        "title": "Apply Now",
+        "text": "<p>Please complete the application below if you are interested in joining the Shelf & Co Partnership Program. Once we receive your application, we will contact you as soon as possible with more information.</p>",
+        "button_text": "",
+        "button_url": ""
+      }
+    },
+    "main_custom_liquid_pyghFT": {
+      "type": "main-custom-liquid",
+      "custom_css": [],
+      "settings": {
+        "custom_liquid": "<script type=\"text/javascript\" src=\"https://form.jotform.com/jsform/231706192635153\"></script>",
+        "padding_top": 0,
+        "padding_bottom": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "main_rich_text_tN6YfE",
+    "main_rich_text_fP7LgV",
+    "main_rich_text_L4b8Ud",
+    "main_custom_liquid_pyghFT"
+  ]
+}

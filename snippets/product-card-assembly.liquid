@@ -1,0 +1,97 @@
+{% comment %}
+  Renders a product card
+
+  Usage:
+  {% render 'product-card' %}
+{% endcomment %}
+
+
+<div
+  class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xl-2"
+  tabindex="-1"
+>
+  <div
+    class="product-item h-100 card-wrapper"
+    tabindex="-1"
+  >
+    <!-- BLANK INFO -->
+    {% if onboarding == true %}
+      <!-- image -->
+      <div class="product-thumb" tabindex="0">
+        <div class="reveal img-fluid" tabindex="-1">
+          <div class="blank-image">
+            {{ 'product-3' | placeholder_svg_tag: 'placeholder-svg border rounded__all' }}
+          </div>
+        </div>
+      </div>
+      <!-- title -->
+      <div class="product-content-onboarding product-details-card py-3 px-1 d-flex justify-content-around card-information">
+        <div class="card-information__wrapper">
+          <span class="card-information__text h6">{{ title | escape }}</span>
+        </div>
+      </div>
+    {% else %}
+      <!-- /BLANK INFO -->
+      <!-- PRODUCT INFO -->
+      <!-- image -->
+      <div class="product-thumb" tabindex="0">
+        <div class="reveal img-fluid" tabindex="-1">
+          <a
+            href="{{ product.url | within: collection }}{% if product.variants.size >= 1 %}?variant={{ product.selected_or_first_available_variant.id }}{% endif %}"
+            class="focus-inset"
+            aria-label="view collection"
+            tabindex="-1"
+          >
+            {% if product.featured_image != blank %}
+              {% render 'responsive-image' with image: product.featured_image, image_class: "img-fluid lazyload bg-white main-img", wrapper_class: "img-wrapper-class img-hover", lazy: "lazy", max_width: 1000, max_height: 1000, media_size: section.settings.image_ratio %}
+            {% endif %}
+            {% if product.featured_image == blank %}
+              <div class="blank-image">
+                {{ 'product-3' | placeholder_svg_tag: 'placeholder-svg rounded__all border' }}
+              </div>
+            {% endif %}
+            {% if product.images.size > 1 and show_second_img %}
+              <div class="hidden dark-on-hover">
+                {% render 'responsive-image' with image: product.images[1], image_class: "img-fluid lazyload bg-white", wrapper_class: "img-wrapper-class img-hover", lazy: "lazy", max_width: 1000, max_height: 1000, media_size: section.settings.image_ratio %}
+              </div>
+            {% endif %}
+          </a>
+        </div>
+      </div>
+      <!-- /image -->
+      <div class="product-details-card">
+        <!-- title -->
+        <a
+          href="{{ product.metafields.custom.assembly_guide }}"
+          class="full-unstyled-link"
+          aria-label="{{ product.title }}"
+        >
+          <div class="product-content card-information">
+            <div class="card-information__wrapper">
+              <span class="card-information__text">{{ product.title }}</span>
+            </div>
+          </div>
+        </a>
+        <!-- /title -->
+      </div>
+      <!-- /PRODUCT INFO -->
+    {% endif %}
+  </div>
+</div>
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  .card-information__text {
+    font-weight: normal;
+    text-align: center;
+  }
+{% endstyle %}

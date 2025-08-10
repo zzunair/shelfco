@@ -1,0 +1,112 @@
+{% comment %}
+  Renders a price range slider via storefront filters on the collection page
+
+  Usage:
+  {% render 'range-slider' %}
+{% endcomment %}
+
+<div id="filter-{{ filter.label | escape }}-{{ forloop.index }}" class="{{ class }} js-price2 rounded-0 pb-3 mt-2">
+  <!-- header -->
+  <div class="card-header px-0 pt-0 pb-0 bg-transparent border-0">
+    <span for="priceRangeHeader" class="form-label price-range-header">{{ filter.label | escape }}</span>
+  </div>
+  <!-- /header -->
+  <!-- price slider componenet -->
+  <div class="card border-0">
+    <div class="card-body px-0 py-2">
+      <div class="text-left range-slider w-100 pb-3">
+        <!-- price inputs -->
+        <div class="d-flex justify-content-between">
+          <!-- min value -->
+          <span class="mx-0 pb-2 range-slider-text d-block text-left">
+            <!-- <span>{{ cart.currency.symbol }}&nbsp;</span> -->
+            <input id="Filter-{{ filter.min_value.param_name }}-{{ forloop.index }}"
+                   type="number"
+                   name="{{ filter.min_value.param_name }}"
+                   {% if filter.min_value.value %}
+                   value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                   {% else %}
+                   value="0"
+                   {% endif %}
+                   min="0"
+                   max="{{ filter.range_max | divided_by: 100 | ceil }}"/>
+            <label class="px-0 d-block pt-1" for="Filter-{{ filter.min_value.param_name }}-{{ forloop.index }}">&nbsp;{{ 'general.accessibility.from' | t }}</label>
+          </span>
+          <!-- max value -->
+          <span class="mx-0 pb-2 range-slider-text d-block text-right">
+            <!-- <span>{{ cart.currency.symbol }}&nbsp;</span> -->
+            <input id="Filter-{{ filter.min_value.param_name }}-{{ forloop.index }}"
+                   type="number"
+                   name="{{ filter.max_value.param_name }}"
+                   {% if filter.max_value.value %}
+                   value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                   {% else %}
+                   value="{{ filter.range_max | divided_by: 100 | ceil }}"
+                   {% endif %}
+                   min="0"
+                   max="{{ filter.range_max | divided_by: 100 | ceil }}"/>
+            <label class="px-0 d-block pt-1" for="Filter-{{ filter.max_value.param_name }}-{{ forloop.index }}">&nbsp;{{ 'general.accessibility.to' | t }}</label>
+          </span>
+        </div>
+        <!-- /price inputs -->
+        <!-- price slider toggles -->
+        <span class="range-slider-price">
+          <input id="min-val"
+                {% if filter.min_value.value %}
+                 value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                 {% else %}
+                 value="0"
+                 {% endif %}
+                 min="0"
+                 max="{{ filter.range_max | divided_by: 100 | ceil }}"
+                 step="1"
+                 type="range"
+                 aria-label="min value"/>
+         <label class="sr-only hidden" for="min-val" aria-label="min value">&nbsp;{{ 'general.accessibility.from' | t }}</label>
+         <input id="max-val"
+                {% if filter.max_value.value %}
+                value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                {% else %}
+                value="{{ filter.range_max | divided_by: 100 | ceil }}"
+                {% endif %}
+                min="0"
+                max="{{ filter.range_max | divided_by: 100 | ceil }}"
+                step="1"
+                type="range"
+                aria-label="max value"/>
+        <label class="sr-only hidden" for="max-val" aria-label="max value">&nbsp;{{ 'general.accessibility.to' | t }}</label>
+        </span>
+        <!-- /price slider toggles -->
+      </div>
+    </div>
+  </div>
+  <!-- price slider componenet -->
+</div>
+
+<script>
+(function() {
+  var rangeSliderContainer = document.querySelector(".range-slider");
+  if(!rangeSliderContainer) return;
+
+  var
+    rangeSlider = rangeSliderContainer.querySelectorAll("input[type=range]"),
+    numberSlider = rangeSliderContainer.querySelectorAll("input[type=number]");
+
+  rangeSlider.forEach(function(element) {
+    element.oninput = function(event) {
+      event.preventDefault();
+      var slideVal1 = parseFloat(rangeSlider[0].value),
+        	slideVal2 = parseFloat(rangeSlider[1].value);
+
+      if (slideVal1 > slideVal2) {
+        // Array destructuring designed to unpack values from arrays into distinct variables.
+        //reassigning values 1 to 2 and 2 to 1
+				[slideVal1, slideVal2] = [slideVal2, slideVal1];
+      }
+
+      numberSlider[0].value = slideVal1;
+      numberSlider[1].value = slideVal2;
+    }
+  });
+})();
+</script>

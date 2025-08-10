@@ -1,0 +1,13 @@
+{% render 'currencies' %}
+{% render 'css-variables' %}
+{{ 'app.css' | asset_url | stylesheet_tag }}
+{{ 'build.css' | asset_url | stylesheet_tag }}
+{{ 'component-hero-banner.css' | asset_url | stylesheet_tag }}
+<noscript><link rel="stylesheet" href="{{ 'app.css' | asset_url }}"></noscript>
+<noscript><link rel="stylesheet" href="{{ 'build.css' | asset_url }}"></noscript>
+<noscript><link rel="stylesheet" href="{{ 'component-hero-banner.css' | asset_url }}"></noscript>
+<link rel="preload" href="{{ 'slider.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ 'slider.css' | asset_url }}"></noscript>
+<link rel="stylesheet" href="{{ 'component-hero-banner.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'component-hero-banner.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript><style>.no-Js {display: none !important;}</style></noscript>

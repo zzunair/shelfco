@@ -1,0 +1,282 @@
+{% comment %}
+  Footer section
+{% endcomment %}
+
+{{ 'component-footer.css' | asset_url | stylesheet_tag: preload: true }}
+
+<footer id="{{ section.id }}" class="footer bg border-top-0 color-{{ section.settings.color_scheme }}">
+  <!-- footer container -->
+  <div class="container">
+    <!-- footer wrapper -->
+    <div class="footer-menu-wrapper">
+      {% for block in section.blocks %}
+      {% case block.type %}
+      {% when 'info' %}
+      <!-- content -->
+      <div class="footer-links-block main" {{ block.shopify_attributes }}>
+        <!-- info -->
+        {% if block.settings.title != blank %}
+        <p class="h4 title main-footer-title pt-0 color-{{ section.settings.color_scheme }}">{{ block.settings.title }}</p>
+        {% endif %}
+        {% if block.settings.content != blank %}
+        <p class="paragraph footer-paragraph color-{{ section.settings.color_scheme }}">{{ block.settings.content }}</p>
+        {% endif %}
+        <!-- /info -->
+        <!-- language and currency -->
+        <div class="footer-soc-a footer-text-cont language footer-localization">
+          {% if settings.show_multiple_currencies %}
+            {% render "currency-picker" %}
+          {% endif %}
+          {% if settings.enable_languages %}
+            {% render "language-picker" %}
+          {% endif %}
+        </div>
+        <!-- /language and currency -->
+      </div>
+      <!-- /content -->
+      {% when 'links' %}
+      {% assign linklist = linklists[block.settings.menu] %}
+      {% if linklist != empty %}
+      <div class="footer-links-block" {{ block.shopify_attributes }}>
+        <div class="footer-mobile-content">
+          <div class="footer-content-links">
+            <ul class="list-footer w-list-unstyled" role="list">
+              <p class="h4 title main-footer-title pt-0 color-{{ section.settings.color_scheme }}">{{ block.settings.menu.title | uppercase }}</p>
+              {% for link in linklist.links %}
+                <li class="footer-list-item">
+                  <a class="footer-link focus-inset d-inline-block color-{{ section.settings.color_scheme }}" href="{{ link.url }}{% if link.type == 'product_link' %}{% if link.object.variants.size > 1 %}?variant={{ link.object.variants.selected_or_first_available_variant.id }}{% endif %}{% endif %}" tabindex="0">
+                    <div>
+                      <span class="footer-menu py-3">{{ link.title | escape }}</span>
+                    </div>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div class="footer-links-block" {{ block.shopify_attributes }}>
+        <div class="footer-mobile-content">
+          <div class="footer-content-links">
+            <ul class="list-footer w-list-unstyled" role="list">
+              <li class="footer-list-item">
+                <a class="footer-link d-inline-block color-{{ section.settings.color_scheme }}" href="{{ routes.root_url }}">
+                  <div>
+                    <span class="footer-menu py-3">{{ link.title | escape }}</span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+     {% endif %}
+     {% endcase %}
+     {% endfor %}
+    </div>
+    <!-- /footer wrapper -->
+    <!-- small-print-wrapper -->
+    <div class="small-print-wrapper">
+      {% assign copyrightDate = 'now' | date: '%Y' %}
+      <div class="split-content small-print-left color-{{ section.settings.color_scheme }}">
+        <!-- social links -->
+        <div class="footer-layout-grid footer-social-media-grid py-4">
+          <!-- shop CTA -->
+          {% if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop %}
+            <div class="footer__follow-on-shop d-block w-100 py-3">
+              {{ shop | login_button: action: 'follow' }}
+            </div>
+          {% endif %}
+          <!-- /shop CTA -->
+          {% if settings.social_twitter_link != blank %}
+          <a class="social-media-footer focus-inset w-inline-block border" href="{{ settings.social_twitter_link }}" rel="noopener noreferrer" target="_blank" tabindex="0">
+            <div class="text-block">{% render 'icon-twitter' %}</div>
+          </a>
+          {% endif %}
+          {% if settings.social_facebook_link != blank %}
+          <a class="social-media-footer focus-inset w-inline-block border" href="{{ settings.social_facebook_link }}" rel="noopener noreferrer" target="_blank" tabindex="0">
+            <div class="text-block facebook">{% render 'icon-facebook' %}</div>
+          </a>
+            {% style %}
+              .social-media-footer:hover .facebook {
+                fill: #0866FF;
+              }
+              {% endstyle %}
+          {% endif %}
+          {% if settings.social_pinterest_link != blank %}
+          <a class="social-media-footer focus-inset w-inline-block border" href="{{ settings.social_pinterest_link }}" rel="noopener noreferrer" target="_blank" tabindex="0">
+            <div class="text-block pinterest">{% render 'icon-pinterest' %}</div>
+          </a>
+           {% style %}
+              .social-media-footer:hover .pinterest {
+                fill: #E60023;
+              }
+              {% endstyle %}
+          {% endif %}
+          {% if settings.social_instagram_link != blank %}
+          <a class="social-media-footer focus-inset w-inline-block border" href="{{ settings.social_instagram_link }}" rel="noopener noreferrer" target="_blank" tabindex="0">
+            <div class="text-block instagram">{% render 'icon-instagram' %}</div>
+          </a>
+            {% style %}
+              .instagram {
+                background-color: #2A3640;
+                border-radius: 50%;
+                padding: 7px;
+                fill: white;
+              }
+              .social-media-footer:hover .instagram {
+  background: #f09433; 
+background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
+  }
+              {% endstyle %}
+          {% endif %}
+          {% if settings.social_tiktok_link != blank %}
+          <a class="social-media-footer focus-inset yt w-inline-block border" href="{{ settings.social_tiktok_link }}" rel="noopener noreferrer" target="_blank" tabindex="0">
+            <div class="text-block">{% render 'icon-tiktok' %}</div>
+          </a>
+          {% endif %}
+          {% if settings.social_tumblr_link != blank %}
+          <a class="social-media-footer focus-inset w-inline-block border" href="{{ settings.social_tumblr_link }}" rel="noopener noreferrer" target="_blank" tabindex="0">
+            <div class="text-block">{% render 'icon-tumblr' %}</div>
+          </a>
+          {% endif %}
+          {% if settings.social_snapchat_link != blank %}
+          <a class="social-media-footer focus-inset w-inline-block border" href="{{ settings.social_snapchat_link }}" rel="noopener noreferrer" target="_blank" tabindex="0">
+            <div class="text-block">{% render 'icon-snapchat' %}</div>
+          </a>
+          {% endif %}
+          {% if settings.social_youtube_link != blank %}
+          <a class="social-media-footer focus-inset w-inline-block border" href="{{ settings.social_youtube_link }}" rel="noopener noreferrer" target="_blank" tabindex="0">
+            <div class="text-block">{% render 'icon-youtube' %}</div>
+          </a>
+          {% endif %}
+          {% if settings.social_vimeo_link != blank %}
+          <a class="social-media-footer focus-inset w-inline-block border" href="{{ settings.social_vimeo_link }}" rel="noopener noreferrer" target="_blank" tabindex="0">
+            <div class="text-block">{% render 'icon-vimeo' %}</div>
+          </a>
+          {% endif %}
+        </div>
+        <!-- /social links -->
+        <!-- shopify copyright -->
+        <a class="small-print-link copyright" href="{{ routes.root_url }}" target="_blank" rel="noopener" rel="noreferrer">
+          &copy;<span class="paragraph footer-paragraph">{{ copyrightDate }} - {{ shop.name }} - {{ powered_by_link | replace: '<a', '<a class="paragraph footer-paragraph footer-link" rel="noopener" rel="noreferrer"' }}</span>
+        </a>
+           {% if section.settings.content_button != blank %}
+        <a href="{{ section.settings.content_url }}"> - {{ section.settings.content_button }}</a>
+    {% endif  %}
+        <!-- /shopify copyright -->
+      </div>
+      {% if section.settings.show_payment_icons %}
+        <div class="split-content small-print-right">
+          <div class="small-print">
+            <!-- payment icons -->
+            {% unless shop.enabled_payment_types == empty %}
+              <span class="visuallyhidden">{{ 'cart.general.supported_payment_methods' | t }}</span>
+              <ul class="footer-menu m-0 pl-0 my-1">
+                {% for type in shop.enabled_payment_types %}
+                <li id="payment-{{ forloop.index }}" tabindex="0">
+                  {{ type | payment_type_svg_tag: class: 'icon--full-color' }}
+                </li>
+                {% endfor %}
+              </ul>
+            {% endunless %}
+            <!-- /payment icons -->
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    <!-- /small-print-wrapper -->
+  </div><!-- /footer container -->
+</footer>
+
+{% schema %}
+  {
+    "name": "Footer",
+    "class": "index-home-footer",
+    "max_blocks": 4,
+    "settings": [
+      {
+        "id": "color_scheme",
+        "type": "select",
+        "options": [
+          {
+            "value": "background-1",
+            "label": "Background 1"
+          },
+          {
+            "value": "background-2",
+            "label": "Background 2"
+          }
+        ],
+        "default": "background-2",
+        "label": "Color scheme"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_payment_icons",
+        "label": "Show payment icons",
+        "info": "You will need to activate your payment gateway to see payment logos show in the footer",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Follow on Shop",
+        "info": "To allow customers to follow your store on the Shop app from your storefront, Shop Pay must be enabled. [Learn more](https://help.shopify.com/manual/online-store/themes/customizing-themes/follow-on-shop)"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_follow_on_shop",
+        "default": true,
+        "label": "Enable Follow on Shop"
+      },
+        {
+          "type": "text",
+          "id": "content_button",
+          "label": "Disclaimer Label",
+          "default": "Disclaimer Label"
+        },
+        {
+          "type": "url",
+          "id": "content_url",
+          "label": "Disclaimer Link",
+  	      "default": "/collections/all"
+        }
+    ],
+    "blocks": [
+      {
+        "type": "links",
+        "name": "Links",
+        "settings": [
+          {
+            "type": "link_list",
+            "id": "menu",
+            "label": "Pick footer menu"
+          }
+        ]
+      },
+      {
+        "type": "info",
+        "name": "About",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "About the shop"
+          },
+          {
+            "type": "textarea",
+            "id": "content",
+            "label": "Body text",
+            "default": "Use this text area to tell your customers about your brand and vision. You can change it in the theme settings."
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

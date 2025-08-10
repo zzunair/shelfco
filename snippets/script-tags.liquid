@@ -1,0 +1,76 @@
+<!-- core application scripts -->
+<script defer src="{{ 'app.js' | asset_url }}"></script>
+<script defer src="{{ 'internationalization.js' | asset_url }}"></script>
+<script defer src="{{ 'predictive-search.js' | asset_url }}"></script>
+<script defer src="{{ 'subscriptions.js' | asset_url }}"></script>
+<script defer src="{{ 'recommendations.js' | asset_url }}"></script>
+<script defer src="{{ 'accessibility.js' | asset_url }}"></script>
+<!-- shopify scripts -->
+<script defer src="{{ 'option_selection.js' | shopify_asset_url }}"></script>
+<script defer src="{{ 'customer_area.js' | shopify_asset_url }}"></script>
+<script defer src="{{ 'shopify_common.js' | shopify_asset_url }}"></script>
+<!-- external application scripts -->
+<script defer src="{{ 'slider.js' | asset_url }}"></script>
+<script defer src="{{ 'slim-select.js' | asset_url }}"></script>
+{% if settings.show_page_transition %}
+<script defer src="{{ 'wow.js' | asset_url }}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  new WOW().init()
+});
+</script>
+{% endif %}
+<script>
+  window.theme = {
+    themeName: {{ theme.name | json }},
+    pageType: {{ template | json }},
+    language: {{ request.locale.iso_code | json }},
+    addToCart: {{ 'products.product.add_to_cart' | t | json }},
+    inStock: {{ 'products.product.in_stock' | t | json }},
+    onSale: {{ 'products.product.on_sale' | t | json }},
+    unavailable: {{ 'products.product.unavailable' | t | json }},
+    outOfStock: {{ 'products.product.sold_out' | t | json }},
+    availability: {{ 'products.product.available' | t | json }},
+    viewProduct: {{ 'products.product.view_product' | t | json }},
+    addedToCart: {{ 'products.product.added_to_cart' | t | json }},
+    quickAddToCart: {{ 'products.product.quick_add_to_cart' | t | json }},
+    addSubscription: {{ 'products.product.add_subscription' | t | json }},
+    languageChanged: {{ 'general.accessibility.language_changed' | t | json }},
+    currencyChanged: {{ 'general.accessibility.currency_changed' | t | json }},
+    itemRemoved: {{ 'general.accessibility.product_removed' | t | json }},
+    inventoryMin: {{ 'general.accessibility.inventoryMin' | t | json }},
+    inventoryMax: {{ 'general.accessibility.inventoryMax' | t | json }},
+    inventoryLimit: {{ 'general.accessibility.inventoryLimit' | t | json }},
+    copy: {{ 'products.product.copy' | t | json }},
+    recommend: {{ 'products.product.related_products' | t | json }},
+    complementary: {{ 'products.product.complementary_products' | t | json }},
+    copied: {{ 'products.product.copied' | t | json }},
+    before: {{ 'general.accessibility.before' | t | json }},
+    after: {{ 'general.accessibility.after' | t | json }},
+    giftcardLabel: {{ 'gift_cards.recipient.gift_heading' | t | json }},
+    giftcardError: {{ 'gift_cards.recipient.error_heading' | t | json }},
+    moneyFormat: {{ shop.money_format | json }},
+    shopUrl: {{ shop.url | json }},
+    currency: {{ shop.currency | json }},
+    showPageTransition: {{ settings.show_page_transition | json }},
+    cartType: {{ settings.shopping_cart_type | json }},
+    stickyHeader: {{ settings.sticky_header | json }},
+    popupNotice: {{ settings.apparition_delay | json }},
+  };
+  window.strings = {
+    placeholder: `{{ 'image' | placeholder_svg_tag: 'placeholder-svg border rounded__all' }}`,
+    currencyFormat: `{{ settings.currency_format | default: 'money_with_currency_format' }}`
+  };
+  window.cart = {
+    giftProductRequired: {{ settings.cart_gwp_product_1 | json }},
+    giftProductCondtional: {{ settings.cart_gwp_product_2 | json }},
+    giftThreshold: {{ settings.free_gift_threshold | times: 100 | json }},
+    cartSize: {{ cart | json }},
+    product: {{ product | json }},
+    cartUrl: {{ routes.cart_url | json }},
+    freeGift: {{ 'general.accessibility.free_gift' | t | json }}
+  };
+</script>
+{% unless settings.show_multiple_currencies %}
+<select id="selectboxid" name="currency" class="hidden"></select>
+{% endunless %}

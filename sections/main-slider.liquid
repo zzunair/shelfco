@@ -1,0 +1,477 @@
+{% comment %}
+  Slideshow section
+{% endcomment %}
+
+{%- liquid
+  assign _colClassLayout = 'container-fluid'
+  assign _wrapper = 'container-fluid px-0'
+  assign _roundedAll = ''
+-%}
+
+<section
+  id="{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  class="new-image-slideshow"
+  data-section-type="image-slider"
+  tabindex="0"
+>
+  <div
+    id="carouselIndicators-{{ section.id }}"
+    class="carousel slide"
+    data-ride="carousel"
+    data-interval="{% if section.settings.autoplay %}{{ section.settings.autoplay_speed }}{% else %}false{% endif %}"
+  >
+    <div class="container-fluid carousel-inner px-0">
+      {% for block in section.blocks %}
+        {% assign font_color = block.settings.font_color %}
+        {% assign bg_color = block.settings.bg_color %}
+        {% assign _textPosition = 'text-left' %}
+
+        {% assign first_block = '' %}
+        {% if forloop.first == false %}
+          {% assign first_block = first_block | append: 'lazy' %}
+        {% endif %}
+
+        {% assign sync_image_class = '' %}
+        {% if block.settings.image != blank %}
+          {% assign sync_image_class = sync_image_class | append: 'd-block w-100 img-fluid' %}
+        {% endif %}
+
+        {% assign mobile_image = block.settings.mobile_image | default: block.settings.mobile_image %}
+        {% assign desktop_image = block.settings.image | default: block.settings.image %}
+
+        <div class="{{ section.id }}is-bg-{{ forloop.index0 }} carousel-item{% if forloop.first == true %} active{% endif %}{{ block.shopify_attributes }} h-100">
+          {% assign font_color = font_color | color_to_rgb | remove_first: ')' | append: ', 1)' %}
+          {% style %}
+            .{{ section.id }}is-font-{{ forloop.index0 }} {
+              color: {{ font_color }};
+            }
+            .new-image-slideshow #{{ block.id }} .section_hero-overlay {
+              background: {{ bg_color }};
+            }
+            #{{ block.id }} .slide-hotspot-product {
+              background: {{ bg_color }};
+            }
+            #{{ block.id }} .slide-hotspot-product .card-information__text {
+              color: {{ font_color }};
+            }
+          {% endstyle %}
+          <div id="{{ block.id }}">
+            <!-- desktop -->
+            <div class="section_hero laptop desktop tablet mobile-hide">
+              <div class="item">
+                <div class="section_hero-overlay-container {{ _wrapper }}">
+                  <div class="position-absolute hotspot-product slide-hotspot-desktop">
+                    {% render 'slide-hotspot-product', product: block.settings.product, font_color: font_color, bg_color: bg_color %}
+                  </div>
+                  <div class="section_hero-image_bg no-video-bg {{ _roundedAll }} section_full_width_img">
+                    <div class="section_hero-image_wrapper">
+                      {% if desktop_image == blank %}
+                        {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg border-0' }}
+                      {% else %}
+                        <a href="{{ block.settings.slide_url }}">
+                          {% assign widths = '450, 660, 900, 1320, 1800, 2136, 2400, 3600, 7680' %}
+                          {% assign height = '100vh' %}
+                          {% assign sizes = '100vw' %}
+                          {{
+                            desktop_image
+                            | image_url: width: 3840
+                            | image_tag:
+                              loading: '',
+                              height: height,
+                              sizes: sizes,
+                              widths: widths,
+                              class: 'section_hero-image hide-no-js',
+                              alt: desktop_image.alt
+                            | escape
+                          }}
+                        </a>
+                      {% endif %}
+                      <div class="section_hero-overlay middle medium border">
+                        <div class="container section_hero-title_container">
+                          {% if block.settings.slide_title != blank %}
+                            <h2
+                              class="{{ section.id }}is-font-{{ forloop.index0 }} section_hero-title wow fadeInUp {{ _textPosition }}"
+                              data-wow-delay="300ms"
+                            >
+                              {{ block.settings.slide_title | escape }}
+                            </h2>
+                          {% endif %}
+                          {% if block.settings.slide_caption != blank %}
+                            <h5
+                              class="{{ section.id }}is-font-{{ forloop.index0 }} section_hero-subtitle wow fadeInUp mb-2 {{ _textPosition }}"
+                              data-wow-delay="300ms"
+                            >
+                              {{ block.settings.slide_caption | escape }}
+                            </h5>
+                          {% endif %}
+                        </div>
+                        {% if block.settings.slide_url != blank and block.settings.slide_button != blank %}
+                          <div class="section_hero-button_wrapper container {{ _btnAlignment }} {{ _textPosition }} mobile-hide tablet laptop desktop">
+                            <a
+                              href="{{ block.settings.slide_url }}"
+                              title="{{ block.settings.slide_button | escape }}"
+                              class="btn btn-contact wow fadeInUp focus-inset"
+                              data-wow-delay="300ms"
+                              tabindex="0"
+                            >
+                              {{ block.settings.slide_button | escape }}
+                            </a>
+                          </div>
+                        {% endif %}
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end desktop -->
+            <!-- mobile -->
+            <div id="{{ block.id }}" class="section_hero mobile laptop-hide desktop-hide tablet-hide">
+              <div class="has-top-border">
+                <div class="section_hero-overlay-container">
+                  <div class="section_hero-overlay center top small">
+                    <div class="section_hero-title_container slide-text">
+                       {% if block.settings.slide_title != blank %}
+                        <h1
+                          class="{{ section.id }}is-font-{{ forloop.index0 }} section_hero-title wow fadeInUp"
+                          data-wow-delay="300ms"
+                        >
+                          {{ block.settings.slide_title | escape }}
+                        </h1>
+                      {% endif %}
+                      {% if block.settings.slide_caption != blank %}
+                        <h5
+                          class="{{ section.id }}is-font-{{ forloop.index0 }} section_hero-subtitle wow fadeInUp mb-2"
+                          data-wow-delay="300ms"
+                        >
+                          {{ block.settings.slide_caption | escape }}
+                        </h5>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="section_hero-image_bg no-video-bg">
+                    <div class="section_hero-image_wrapper">
+                      {% if desktop_image == blank %}
+                        {{ 'product-apparel-4' | placeholder_svg_tag: 'mx-auto placeholder-svg' }}
+                      {% else %}
+                        <a href="{{ block.settings.slide_url }}">
+                          {% assign widthsMob = '450, 660, 900, 1320' %}
+                          {% assign heightMob = '100vh' %}
+                          {% assign sizesMob = '100vw' %}
+                          {{
+                            desktop_image
+                            | image_url: width: 840
+                            | image_tag:
+                              loading: '',
+                              height: heightMob,
+                              sizes: sizesMob,
+                              widths: widthsMob,
+                              class: 'section_hero-image',
+                              alt: desktop_image.alt
+                            | escape
+                          }}
+                        </a>
+                        <noscript>
+                          {{
+                            desktop_image
+                            | image_url: width: 800
+                            | image_tag:
+                              class: 'section_hero-image rounded__all',
+                              widths: '800, 900, 1200, 1000',
+                              height: desktop_image.height,
+                              width: desktop_image.width,
+                              alt: desktop_image.alt
+                            | escape
+                          }}
+                        </noscript>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="position-absolute hotspot-product slide-hotspot-mobile">
+                    {% render 'slide-hotspot-product', product: block.settings.product, class: '', font_color: font_color, bg_color: bg_color %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end mobile -->
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    {% if section.settings.show_pagination %}
+      <!-- slideshow indicators bottom of page -->
+      <ol class="carousel-indicators no-js no-Js my-2">
+        {% for block in section.blocks %}
+          {% if section.blocks.size > 1 %}
+            <li
+              data-target="#carouselIndicators-{{ section.id }}"
+              data-slide-to="{{ forloop.index0 }}"
+              class="{% if forloop.index0 == 0 %}active{% endif %} focus-inset"
+              tabindex="0"
+            ></li>
+          {% endif %}
+        {% endfor %}
+      </ol>
+      <!-- /slideshow indicators bottom of page -->
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Slideshow",
+  "class": "main-slideshow",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": false,
+      "info": "This will only work when you have 2 or more slideshow images"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pagination",
+      "label": "Show indicators",
+      "default": true,
+      "info": "Indicators will be shown when you have 2 or more slideshow images"
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "min": 2000,
+      "max": 8000,
+      "step": 500,
+      "unit": "ms",
+      "label": "Transition speed",
+      "default": 5000
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "2880 x 1800px .jpg recommended for desktop"
+        },
+        {
+          "type": "text",
+          "id": "slide_title",
+          "label": "Heading",
+          "default": "Slideshow"
+        },
+        {
+          "type": "text",
+          "id": "slide_caption",
+          "label": "Subheading",
+          "default": "Pair with text"
+        },
+        {
+          "type": "url",
+          "id": "slide_url",
+          "label": "Link",
+  	      "default": "/collections/all"
+        },
+        {
+          "type": "header",
+          "content": "Text color"
+        },
+        {
+          "type": "color",
+          "id": "font_color",
+          "label": "Text color",
+          "default": "#1B1B1B"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Hotspot product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+     "name": "Slideshow",
+      "category": "Content",
+      "settings": {
+  		},
+      "blocks": [
+          {
+           "type": "image",
+  		     "settings": {
+              "image": "",
+              "slide_title": "Slideshow",
+              "slide_caption": "Pair with text"
+    		    }
+          },
+          {
+           "type": "image",
+           "settings": {
+              "image": "",
+              "slide_title": "Slideshow",
+              "slide_caption": "Pair with text"
+            }
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% style %}
+  .new-image-slideshow .section_hero-image_wrapper {
+      display: flex;
+      height: 100%;
+      flex-wrap: wrap;
+      flex-direction: column;
+      align-content: flex-start;
+      justify-content: flex-end;
+  }
+  {% if section.blocks.size > 1 %}
+  .new-image-slideshow .section_hero-overlay {
+      max-width: 600px;
+      left: 15px;
+      padding: 25px 0 !important;
+      top: unset !important;
+      transform: unset;
+      position: relative;
+      bottom: 60px;
+      border-radius: var(--global-btn-corner-style);
+      -moz-border-radius: var(--global-btn-corner-style);
+      -webkit-border-radius: var(--global-btn-corner-style);
+  }
+  .hotspot-product.slide-hotspot-desktop {
+      right: 15px;
+      bottom: 60px;
+      z-index: 10;
+      justify-content: end;
+      display: flex;
+  }
+  {% if section.settings.autoplay %}
+  .new-image-slideshow .carousel-inner:after {
+      border-bottom: 4px solid var(--color-border);
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+  }
+  .new-image-slideshow .carousel-item:after {
+      border-bottom: 4px solid var(--color-border);
+      content: '';
+      bottom: 0;
+      position: absolute;
+      -webkit-transition: width {{ section.settings.autoplay_speed | minus: 1000 }}ms ease-in-out;
+      transition: width {{ section.settings.autoplay_speed | minus: 1000 }}ms ease-in-out;
+      width: 0;
+      z-index: 1;
+  }
+  .new-image-slideshow .carousel-item.active:after {
+      border-color: var(--color-body-text);
+      width: 100%;
+  }
+  {% endif %}
+  {% else %}
+  .new-image-slideshow .section_hero-overlay {
+      max-width: 600px;
+      left: 15px !important;
+      padding: 25px 0 !important;
+      top: unset !important;
+      transform: unset;
+      position: relative;
+      bottom: 15px;
+  }
+  .hotspot-product.slide-hotspot-desktop {
+      right: 15px;
+      bottom: 60px;
+      z-index: 10;
+      justify-content: end;
+      display: flex;
+  }
+  {% endif %}
+  .new-image-slideshow .carousel-indicators li {
+      align-items: center;
+      background: none !important;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      display: flex;
+      height: 16px !important;
+      justify-content: center;
+      opacity: 1;
+      width: 16px !important;
+  }
+  .new-image-slideshow .carousel-indicators .active {
+      border-color: var(--color-white);
+  }
+  .new-image-slideshow .carousel-indicators li:before {
+      background-color: var(--color-white);
+      border-radius: 100%;
+      content: "";
+      display: flex;
+      height: 8px;
+      width: 8px;
+  }
+  .new-image-slideshow .carousel-indicators {
+      justify-content: start;
+      margin-left: 15px;
+      bottom: 15px;
+  }
+  .new-image-slideshow .section_hero-overlay.medium .section_hero-title {
+      font-size: var(--text-medium);
+      word-break: break-word;
+  }
+  .new-image-slideshow a.focus-inset:focus  {
+      outline: 2px solid var(--color-body-text);
+      outline-offset: 0.1rem;
+      box-shadow: 0 0 0 0.3rem rgb(var(--color-body-text)),
+      0 0 0.5rem 0.4rem rgba(var(--color-body-text), 0.7);
+  }
+  @media screen and (max-width: 640px) {
+    .new-image-slideshow .section_hero-overlay {
+        max-width: 100%;
+        position: relative;
+        left: unset !important;
+        bottom: unset !important;
+    }
+    .new-image-slideshow .carousel-indicators {
+        justify-content: center;
+        margin: 0;
+    }
+  }
+  @media screen and (max-width: 640px) {
+    .container-section {
+        padding: 15px 0 0 0;
+    }
+  }
+  @media screen and (min-width: 641px) and (max-width: 1007px) {
+    .container-section {
+        padding: 15px 0 0 0;
+    }
+  }
+  @media screen and (min-width: 1008px) and (max-width: 1239px) {
+    .container-section {
+        padding: 15px 0 0 0;
+    }
+  }
+  @media screen and (min-width: 1240px) {
+    .container-section {
+        padding: 15px 0 0 0;
+    }
+  }
+{% endstyle %}

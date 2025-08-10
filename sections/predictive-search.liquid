@@ -1,0 +1,74 @@
+{% comment %}
+  Predictive search in header
+{% endcomment %}
+
+{%- if predictive_search.performed -%}
+  {% assign limited = 5 %}
+  {%- if predictive_search.resources.queries.size > 0
+    or predictive_search.resources.collections.size > 0
+    or predictive_search.resources.pages.size > 0
+    or predictive_search.resources.articles.size > 0
+  -%}
+    <h5 class="border-bottom-0 p-2 h5 mb-0">{{ 'general.search.suggestions' | t }}</h5>
+    {%- for query in predictive_search.resources.queries limit: limited -%}
+      <a href="{{ query.url }}">
+        <li>
+          <span class="title">{{ query.styled_text }}</span>
+        </li>
+      </a>
+    {%- endfor -%}
+    {%- for collection in predictive_search.resources.collections limit: limited -%}
+      <a href="{{ collection.url }}">
+        <li>
+          <span class="title">{{ collection.title }}</span>
+        </li>
+      </a>
+    {%- endfor -%}
+    {%- for page in predictive_search.resources.pages limit: limited -%}
+      <a href="{{ page.url }}">
+        <li>
+          <span class="title">{{ page.title }}</span>
+        </li>
+      </a>
+    {%- endfor -%}
+    {%- for article in predictive_search.resources.articles limit: limited -%}
+      <a href="{{ article.url }}">
+        <li>
+          <span class="title">{{ article.title }}</span>
+        </li>
+      </a>
+    {%- endfor -%}
+  {%- endif -%}
+  {%- if predictive_search.resources.products.size > 0 -%}
+    <h5 class="border-top-0 border-bottom-0 p-2 h5 mb-0">{{ 'general.search.products' | t }}</h5>
+    {%- for product in predictive_search.resources.products limit: limited -%}
+      <a href="{{ product.url }}">
+        <li>
+          {% if product.featured_image != blank -%}
+            {{- product.featured_image | image_url: width: 50 | image_tag -}}
+          {%- endif %}
+          <span class="title">{{ product.title }}</span>
+        </li>
+      </a>
+    {%- endfor -%}
+  {%- endif -%}
+  <li class="justify-content-between py-2">
+    <span class="title message">
+      <label>
+        <a href="{{ routes.search_url }}?q={{ predictive_search.terms }}">{{ 'general.search.search_for' | t }} “{{ predictive_search.terms }}”</a>
+      </label>
+    </span>
+    <a href="{{ routes.search_url }}?q={{ predictive_search.terms }}" class="mr-2 right">
+      <svg href="http://www.w3.org/1999/xlink" height="20px" width="20px" viewBox="0 0 14 10">
+        <path d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z"></path>
+      </svg>
+    </a>
+  </li>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Predictive Search",
+  "settings": []
+}
+{% endschema %}

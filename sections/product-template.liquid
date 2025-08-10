@@ -1,0 +1,417 @@
+{% comment %}
+  Product page
+{% endcomment %}
+
+{{ 'component-product-media.css' | asset_url | stylesheet_tag: preload: true }}
+
+{%- liquid
+  assign _colClassLayout = 'container'
+
+  if section.settings.switchRow == 'reverse'
+  assign _switchRow = 'row row-reverse'
+  else
+  assign _switchRow = 'row'
+  endif
+
+  assign current_variant = product.selected_or_first_available_variant
+  assign first_3d_model = product.media | where: "media_type", "model" | first
+ -%}
+
+{% if first_3d_model %}
+  <link id="ModelViewerStyle" rel="stylesheet" href="https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.css" media="print" onload="this.media='all'">
+  <link id="ModelViewerOverride" rel="stylesheet" href="{{ 'component-model-viewer-ui.css' | asset_url }}" media="print" onload="this.media='all'">
+{% endif %}
+
+<section id="{{ section.id }}" class="products-background section py-3 mobile-ready-padding" data-section-id="{{ section.id }}" data-section-type="product">
+  <div id="product-form" class="{{ _colClassLayout }} mobile-ready-padding">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="{{ _switchRow }}">
+        <!-- product image and other media -->
+        <div class="slideshow-wrap col-md-7 col-lg-7">
+          <div class="{{ _switchRow }}">
+            {% render 'product-media', loop: section.settings.enable_video_looping, autoplay: section.settings.enable_video_autoplay %}
+          </div>
+        </div>
+        <!-- /product image and other media -->
+        <!-- product details -->
+        <div id="product-info" class="product-info py-0 mobile-top-margin col-md-5 col-lg-5 d-flex flex-column align-items-center justify-content-center my-2 px-md-3 px-lg-3 px-sm-0">
+          <div class="single-product-details w-100">
+            <!-- add to cart form -->
+            {% render 'product-form', product: product, block: block %}
+            <!-- end add to cart form -->
+          </div>
+        </div>
+        <!-- /product details -->
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if first_3d_model %}
+  <script type="application/json" id="ProductJSON-{{ product.id }}">
+    {{ product.media | where: 'media_type', 'model' | json }}
+  </script>
+  <script defer src="{{ 'deferred-media.js' | asset_url }}"></script>
+  <script defer src="{{ 'product-model.js' | asset_url }}"></script>
+{% endif %}
+
+<script>
+  window.product = {{ product | json }} || {};
+  window.product2 = {{ product | json }} || {};
+</script>
+
+{% schema %}
+  {
+    "name": "Product page",
+    "class": "product-section",
+    "max_blocks": 20,
+    "blocks": [
+      {
+        "type": "title",
+        "name": "Product title",
+        "limit": 1
+      },
+      {
+        "type": "price",
+        "name": "Product price",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "show_tax",
+            "label": "Show if taxes are included in your products' prices",
+            "default": true
+          },
+          {
+            "type": "header",
+            "content": "Shop pay"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_shop_pay",
+            "label": "Show shop pay installments",
+            "default": false
+          }
+        ]
+      },
+      {
+        "type": "collection",
+        "name": "Collection type",
+        "limit": 1
+      },
+      {
+        "type": "text",
+        "name": "Offer text",
+        "limit": 5,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "product_icon",
+            "label": "100 x 100px .png recommended"
+          },
+          {
+            "type": "text",
+            "id": "product_text",
+            "label": "Body text",
+            "default": "10% off all products with the code ERICKSON10"
+          },
+          {
+            "type": "select",
+            "id": "product_text_style",
+            "options": [
+              {
+                "value": "primary",
+                "label": "Primary"
+              },
+              {
+                "value": "secondary",
+                "label": "Secondary"
+              },
+              {
+                "value": "success",
+                "label": "Success"
+              },
+              {
+                "value": "danger",
+                "label": "Danger"
+              },
+              {
+                "value": "warning",
+                "label": "Warning"
+              },
+              {
+                "value": "info",
+                "label": "Info"
+              },
+              {
+                "value": "light",
+                "label": "Light"
+              },
+              {
+                "value": "dark",
+                "label": "Dark"
+              }
+            ],
+            "label": "Style",
+            "default": "success",
+            "info": "You can change the style of the Offer text"
+          }
+        ]
+      },
+      {
+        "type": "trust_badges",
+        "name": "Trust Badges",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "show_trust_badges",
+            "label": "Show trust badges",
+            "default": true
+          },
+          {
+            "type": "image_picker",
+            "id": "trust_badge_1",
+            "label": "Trust badge 1"
+          },
+          {
+            "type": "text",
+            "id": "trust_badge_1_text",
+            "label": "Trust badge 1 text",
+            "default": "Free Shipping"
+          },
+          {
+            "type": "image_picker",
+            "id": "trust_badge_2",
+            "label": "Trust badge 2"
+          },
+          {
+            "type": "text",
+            "id": "trust_badge_2_text",
+            "label": "Trust badge 2 text",
+            "default": "No Extra Costs"
+          },
+          {
+            "type": "image_picker",
+            "id": "trust_badge_3",
+            "label": "Trust badge 3"
+          },
+          {
+            "type": "text",
+            "id": "trust_badge_3_text",
+            "label": "Trust badge 3 text",
+            "default": "Easy Returns"
+          }
+        ]
+      },
+      {
+        "type": "upsell",
+        "name": "Product add-on",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "product",
+            "id": "upsell_product",
+            "label": "Pick a product"
+          }
+        ]
+      },
+      {
+        "type": "vendor",
+        "name": "Product vendor",
+        "limit": 1
+      },
+      {
+        "type": "stock",
+        "name": "Stock",
+        "limit": 1
+      },
+      {
+        "type": "subscriptions",
+        "name": "Subscriptions",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "header",
+            "content": "How to Use?",
+            "info": "You can use this block to show subscription options for products that support subscriptions. Otherwise, you can hide this block and use the default code provided when you install your chosen subscriptions app."
+          }
+        ]
+      },
+      {
+        "type": "share",
+        "name": "Share",
+        "limit": 1
+      },
+      {
+        "type": "description",
+        "name": "Product description",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "range",
+            "id": "word_limit",
+            "min": 50,
+            "max": 500,
+            "step": 25,
+            "label": "Limit words shown in product description",
+            "default": 50
+          }
+        ]
+      },
+      {
+        "type": "pickup",
+        "name": "Pickup locations",
+        "limit": 1,
+        "settings": [
+        ]
+      },
+      {
+        "type": "quantity",
+        "name": "Quantity picker",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "show_qty_selector",
+            "label": "Show quantity selector",
+            "default": true
+          }
+        ]
+      },
+      {
+        "type": "options",
+        "name": "Variant picker",
+        "limit": 1,
+        "settings": []
+      },
+      {
+        "type": "custom-liquid",
+        "name": "Custom liquid",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "liquid",
+            "id": "custom_liquid",
+            "label": "Custom liquid",
+            "info": "Add app snippets or other Liquid code to create advanced customizations."
+          }
+        ]
+      },
+      {
+        "type": "cart",
+        "name": "Buy buttons",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "show_dynamic_checkout",
+            "label": "Show dynamic checkout buttons",
+            "info": "Using the payment methods available on your store, customers see their preferred option, like PayPal or Apple Pay. [Learn more](https:\/\/help.shopify.com\/manual\/using-themes\/change-the-layout\/dynamic-checkout)",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "show_gift_card",
+            "default": false,
+            "label": "Show recipient information form for gift card products",
+            "info": "Gift card products can optionally be sent direct to a recipient along with a personal message."
+          }
+        ]
+      },
+      {
+        "type": "seperator",
+        "name": "Seperator",
+        "limit": 10,
+        "settings": [
+          {
+            "type": "text",
+            "id": "height",
+            "label": "Height px",
+            "default": "40"
+          }
+        ]
+      },
+      {
+        "type": "tab",
+        "name": "Product accordian",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Accordians"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Your FAQ"
+          },
+          {
+            "type": "richtext",
+            "id": "body",
+            "label": "Body text",
+            "default": "<p>Add extra product information, such as size guides or technical data.</p>"
+          }
+        ]
+      },
+      {
+        "type": "@app"
+      }
+    ],
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_savings",
+        "label": "Show percentage"
+      },
+      {
+        "type": "checkbox",
+        "id": "new_enabled",
+        "label": "Show new label",
+        "info": "You need to add the tag 'new' to your products.",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "preorder_enabled",
+        "label": "Show pre-order label",
+        "info": "You need to also add the tag 'pre-order' to your products.",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "switchRow",
+        "options": [
+          {
+            "value": "reverse",
+            "label": "Product image left"
+          },
+          {
+            "value": "row",
+            "label": "Product image right"
+          }
+        ],
+        "label": "Product orientation",
+        "info": "This option switches the product layout",
+        "default": "row"
+      },
+      {
+        "type": "header",
+        "content": "Media",
+        "info": "Adjust video settings, if an MP4 video is uploaded to a product. Learn more about [media types.](https:\/\/help.shopify.com\/manual\/products\/product-media)"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_video_looping",
+        "default": false,
+        "label": "Enable video looping"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_video_autoplay",
+        "default": false,
+        "label": "Enable video autoplay"
+      }
+    ]
+  }
+{% endschema %}

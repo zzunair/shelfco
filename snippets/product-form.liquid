@@ -1,0 +1,723 @@
+{% comment %}
+  Renders a product on the product template section
+
+  Usage:
+  {% render 'product-form' %}
+{% endcomment %}
+
+{{ 'pickup-availability.css' | asset_url | stylesheet_tag: preload: true }}
+
+{%- liquid
+  assign btn_txt = 'products.product.add_to_cart' | t
+  assign btn_added = 'products.product.added_to_cart' | t
+  assign btn_txt_soldout = 'products.product.sold_out' | t
+  assign btn_txt_selling = 'general.accessibility.subscribe' | t
+
+  assign has_multiple_variants = false
+  if product.variants.size > 1
+    assign has_multiple_variants = true
+  endif
+
+  assign has_single_variant = false
+  if product.options.size == 1
+    assign has_single_variants = true
+  endif
+
+  assign has_stock_remaining = false
+  if product.variants.inventory_quantity == 0
+    assign has_stock_remaining = true
+  endif
+
+  assign has_multiple_options = false
+  if product.options.size > 1
+    assign has_multiple_options = true
+  endif
+
+  assign has_selected_variant = false
+  if product.selected_variant != null
+    assign has_selected_variant = true
+  endif
+
+  assign can_add_to_cart = false
+  if has_selected_variant and product.selected_or_first_available_variant.available
+    assign can_add_to_cart = true
+  elsif has_multiple_variants == false and product.available
+    assign can_add_to_cart = true
+  endif
+
+  assign hide_default_title = false
+  if product.variants.first.title contains 'Default Title' or product.title contains 'Sample'
+    assign hide_default_title = true
+  endif
+
+  if has_multiple_variants
+    assign variants_with_quantity_json = product.variants | json
+
+    unless variants_with_quantity_json contains 'inventory_quantity'
+      for variant in product.variants
+        assign replace_hook_variant_id = '"id":' | append: variant.id
+        assign replace_id_plus_inventory = replace_hook_variant_id | append: ',' | append: '"inventory_quantity":' | append: variant.inventory_quantity
+        assign variants_with_quantity_json = variants_with_quantity_json | replace: replace_hook_variant_id, replace_id_plus_inventory
+      endfor
+    endunless
+
+    assign data_variants = variants_with_quantity_json | url_param_escape
+  endif
+
+  assign current_variant = product.selected_or_first_available_variant
+  assign current_selling_plan_allocation = current_variant.selected_selling_plan_allocation
+
+  if current_selling_plan_allocation == null and current_variant.requires_selling_plan == false
+    assign current_selling_plan_allocation = current_variant.selling_plan_allocations | first
+  endif
+
+  assign current_target = current_selling_plan_allocation | default: current_variant
+  assign product_form_id = 'product-form-' | append: section.id
+
+  if has_selected_variant
+    assign target = product.selected_or_first_available_variant
+  else
+    assign target = product
+  endif
+
+  assign compare_at_price = target.compare_at_price
+  assign price = target.price
+  assign target_amount = current_target.price
+
+  assign money_price = price | money
+  assign target_price = target_amount | money
+  assign compare_price = compare_at_price | money
+
+  if settings.currency_code_enabled
+    assign money_price = price | money_with_currency
+    assign target_price = target_amount | money_with_currency
+    assign compare_price = compare_at_price | money_with_currency
+  endif
+-%}
+
+{% form 'product',
+  product,
+  data-product-form: '',
+  data-product-handle: product.handle,
+  data-enable-history-state: 'true',
+  class: 'add-to-cart-form',
+  data-variants: data_variants
+%}
+  <input
+    type="hidden"
+    id="js-product-id"
+    class="js-variant-id js-variant-radio"
+    name="id"
+    data-inventory-tracking="{% if has_selected_variant and current_variant.inventory_management == 'shopify' %}1{% else %}0{% endif %}"
+    value="{{ product.selected_or_first_available_variant.id }}"
+    data-inventory-quantity="{% if product.selected_or_first_available_variant.inventory_management == 'shopify' %}{% if product.selected_or_first_available_variant.selected_selling_plan_allocation == '' %}{{ product.selected_or_first_available_variant.inventory_quantity }}{% else %}1{% endif %}{% else %}0{% endif %}"
+  >
+  {% assign quantity_block = false %}
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'collection' %}
+        <!-- collection type -->
+        {% if collection %}
+          <a
+            href="{{ collection.url }}"
+            class="focus-inset"
+            aria-label="{{ collection.title }}"
+            {{ block.shopify_attributes }}
+            tabindex="0"
+          >
+            <span class="product-collection-type py-1">{{ collection.title }}</span>
+          </a>
+        {% endif %}
+        <!-- /collection type -->
+
+      {% when 'title' %}
+        <!-- product title -->
+        <h1 class="py-2 mb-0 product-title-pdp" {{ block.shopify_attributes }}>
+          {{ product.title }}
+        </h1>
+        <span class="sku_wrapper">Item: <span class="sku variant-sku" id="product-sku" itemprop="sku">{%- if current_variant.sku != blank -%}{{current_variant.sku}}{%-else-%}-{%-endif-%}</span></span>
+          {% style %}
+            .sku_wrapper {
+              line-height: 3;
+            }
+            {% endstyle %}
+        <!-- /product title -->
+
+      {% when 'price' %}
+        <fieldset class="product-page-price-wrp border mb-2 rounded__all">
+          <legend class="text-uppercase">{{ 'cart.label.price' | t }}</legend>
+          <div class="product-page-price-inner">
+            <!-- product pricing -->
+            <span
+              id="pdp-prices"
+              class="d-flex my-2 align-items-start"
+              {{ block.shopify_attributes }}
+            >
+              <span
+                class="h5 js-price js-price-offer d-inline-flex mb-0"
+                data-default-price="{{ money_price }}"
+                data-offer-price="{{ target_price }}"
+              >
+                {{ target_price }}</span>&nbsp;&nbsp;
+              {% unless product.price_varies == false and product.compare_at_price_varies %}
+                <s class="h5 js-price-compare mb-0" data-compare-price="{{ compare_price }}">
+                  {% if product.compare_at_price > product.price %}
+                  <span for="product-compare-price">
+                    {{ compare_price }}
+                  </span>
+                  {% endif %}
+                </s>
+              {% endunless %}
+            </span>
+            <!-- /product pricing -->
+            <!-- unit pricing -->
+            {% if current_variant.unit_price_measurement.reference_value %}
+              <div id="unit-prices" class="d-block py-1 unit-prices">
+                <span class="unit-price caption{% if product.available == false or product.selected_or_first_available_variant.unit_price_measurement == nil %} hidden{% endif %}">
+                  <span class="hidden">{{ 'products.product.unit_price' | t }}</span>
+                  {% if has_multiple_variants %}
+                    <span
+                      class="js-unit-price money"
+                      data-unit-price="{{ current_variant.unit_price_measurement.reference_value | money }}"
+                    >
+                      {{- current_variant.unit_price | money -}}
+                    </span>
+                    <span aria-hidden="true">/</span>
+                    <span class="">&nbsp;{{ 'general.accessibility.unit_price_separator' | t }}&nbsp;</span>
+                  {% endif %}
+                  <span
+                    class="js-unit-measure"
+                    data-unit-measure="{{ current_variant.unit_price_measurement.reference_value }}"
+                  >
+                    {% if current_variant.unit_price_measurement.reference_value != 1 %}
+                      {{ current_variant.unit_price_measurement.reference_value }}
+                    {% endif %}
+                    {{ current_variant.unit_price_measurement.reference_unit }}
+                  </span>
+                </span>
+              </div>
+            {% endif %}
+            <!-- unit pricing -->
+
+            <!-- tax information -->
+            {% if block.settings.show_tax %}
+              {% if shop.taxes_included or shop.shipping_policy.body != blank %}
+                <div class="product__tax d-block include-taxes py-1 rte">
+                  {% if shop.taxes_included %}
+                    {{ 'products.product.include_taxes' | t }}
+                  {% endif %}
+                  {% if shop.shipping_policy.body != blank %}
+                    {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endif %}
+            <!-- /tax information -->
+
+            <!-- shop pay -->
+            {% if block.settings.show_shop_pay %}
+              <div id="product-form-installment" class="shopify-payment-terms">
+                <input type="hidden" name="shop_pay" value="{{ product.selected_or_first_available_variant.id }}">
+                {{ form | payment_terms }}
+              </div>
+            {% endif %}
+            <!-- /shop pay -->
+          </div>
+        </fieldset>
+
+      {% when 'text' %}
+        <!-- product text -->
+        {% render 'product-text',
+          text: block.settings.product_text,
+          image: block.settings.product_icon,
+          style: block.settings.product_text_style
+        %}
+        <!-- /product text -->
+
+      {% when 'upsell' %}
+        <!-- /product upsell -->
+        {% render 'upsell-product', upsell_product: block.settings.upsell_product %}
+        <!-- /product upsell -->
+
+      {% when 'vendor' %}
+        <!-- show vendor -->
+        <span class="product-vendor py-1 mb-0 d-block" {{ block.shopify_attributes }}>
+          {{ product.vendor | link_to_vendor | replace: '<a', '<a class="focus-inset"' }}
+        </span>
+        <!-- /show vendor -->
+
+      {% when 'stock' %}
+        <!-- stock indicator with variants -->
+        {% if product.options.size >= 1 %}
+          {% if current_variant.available == true %}
+            <div class="product-block--stock-point" {{ block.shopify_attributes }}>
+              <ul class="stock-points">
+                <li class="stock-point py-1">
+                  <span class="icon-and-text">
+                    <span class="stock-icon icon--inventory"></span>
+                    <div id="variant-inventory" class="py-1 tracked">
+                      <label class="stock-message-instock">
+                        <!-- WITH STOCK -->
+                        {% if current_variant.inventory_management == 'shopify' %}
+                          {% if current_variant.inventory_policy == 'continue' %}
+                            <!-- AVAILABLE needs to work when continue selling is checked -->
+                            <span class="stock-number">
+                              {{ 'products.product.available' | t }}
+                            </span>
+                          {% else %}
+                            <span class="stock-number">
+                              {{ current_variant.inventory_quantity }}
+                            </span>
+                            {{ 'products.product.in_stock' | t }}
+                          {% endif %}
+                        {% endif %}
+                        {% if current_variant.inventory_management != 'shopify' %}
+                          <!-- AVAILABLE needs to work when untracked and continue selling is checked -->
+                          <span class="stock-number">
+                            {{ 'products.product.available' | t }}
+                          </span>
+                        {% endif %}
+                      </label>
+                    </div>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          {% endif %}
+          <!-- SOLD OUT -->
+          {% if current_variant.available == false
+            and current_variant.inventory_quantity <= 0
+            and current_variant.inventory_policy != 'continue'
+          %}
+            <div id="variant-inventory" class="py-1" {{ block.shopify_attributes }}>
+              <label class="stock-message-sold-out">{{ 'products.product.sold_out' | t }}</label>
+            </div>
+          {% endif %}
+        {% endif %}
+        <!-- /stock indicator -->
+
+        <!-- stock indicator without variants -->
+        {% if product.options.size < 1 %}
+          <div id="variant-inventory" class="py-1" {{ block.shopify_attributes }}>
+            <!-- WITH STOCK -->
+            {% if current_variant.available == true
+              and current_variant.inventory_quantity > 0
+              and current_variant.inventory_management == 'shopify'
+            %}
+              <label class="stock-message-instock">
+                <span class="stock-number">{{ product.variants.first.inventory_quantity }}</span>
+                {{ 'products.product.in_stock' | t }}
+              </label>
+            {% endif %}
+            <!-- AVAILABLE -->
+            {% if current_variant.available == true
+              and current_variant.inventory_quantity <= 0
+              and current_variant.inventory_management != 'shopify'
+            %}
+              <div id="variant-inventory" class="py-1" {{ block.shopify_attributes }}>
+                <label class="stock-message-instock">
+                  <span class="stock-number">{{ 'products.product.available' | t }}</span>
+                </label>
+              </div>
+            {% endif %}
+            <!-- SOLD OUT -->
+            {% if current_variant.available == false
+              and current_variant.inventory_quantity <= 0
+              and current_variant.inventory_policy != 'continue'
+            %}
+              <label class="stock-message-sold-out">
+                {{ 'products.product.sold_out' | t }}
+              </label>
+            {% endif %}
+          </div>
+        {% endif %}
+        <!-- /stock indicator without variants -->
+
+      {% when 'description' %}
+        {% assign truncateWords = block.settings.word_limit %}
+        <div {{ block.shopify_attributes }}>
+          <!-- short description -->
+          <p class="product-description py-1 mb-2 mb-0 d-block">
+            {{ product.description | truncate: truncateWords }}
+          </p>
+          <!-- /short description -->
+        </div>
+
+      {% when 'seperator' %}
+        {% assign empy_blank_space = block.settings.height | plus: 0 %}
+        {% if empy_blank_space > 0 %}
+          <div
+            id="empty_space_{{ section.id }}"
+            class="row empty_space"
+            style="height:{{ empy_blank_space }}px"
+            {{ block.shopify_attributes }}
+          >
+            <span class="empty_space_inner"></span>
+          </div>
+        {% endif %}
+
+      {% when 'custom-liquid' %}
+        {{ block.settings.custom_liquid }}
+
+      {% when 'trust_badges' %}
+        <!-- trust badges -->
+        {% if block.settings.show_trust_badges %}
+          <div class="simple-trust-badges" {{ block.shopify_attributes }}>
+            <div class="simple-trust-badges-wrapper">
+              <!-- Free Shipping Badge -->
+              <div class="simple-trust-badge-item">
+                <div class="simple-badge-icon">
+                  <img src="{{ block.settings.trust_badge_1 | img_url: 'master' }}" alt="{{ block.settings.trust_badge_1_text }}" width="40" height="40">
+                </div>
+                <div class="simple-badge-text">
+                  <h3 class="simple-badge-heading">{{ block.settings.trust_badge_1_text }}</h3>
+                  {% comment %} <p class="simple-badge-subheading">{{ block.settings.badge1_subheading }}</p> {% endcomment %}
+                </div>
+              </div>
+
+              <!-- Easy Returns Badge -->
+              <div class="simple-trust-badge-item">
+                <div class="simple-badge-icon">
+                  <img src="{{ block.settings.trust_badge_2 | img_url: 'master' }}" alt="{{ block.settings.trust_badge_2_text }}" width="40" height="40">
+                </div>
+                <div class="simple-badge-text">
+                  <h3 class="simple-badge-heading">{{ block.settings.trust_badge_2_text }}</h3>
+                  {% comment %} <p class="simple-badge-subheading">{{ block.settings.badge2_subheading }}</p> {% endcomment %}
+                </div>
+              </div>
+
+              <!-- Secure Checkout Badge -->
+              <div class="simple-trust-badge-item">
+                <div class="simple-badge-icon">
+                  <img src="{{ block.settings.trust_badge_3 | img_url: 'master' }}" alt="{{ block.settings.trust_badge_3_text }}" width="40" height="40">
+                </div>
+                <div class="simple-badge-text">
+                  <h3 class="simple-badge-heading">{{ block.settings.trust_badge_3_text }}</h3>
+                  {% comment %} <p class="simple-badge-subheading">{{ block.settings.badge3_subheading }}</p> {% endcomment %}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <style>
+            .simple-trust-badges {
+              width: 100%;
+              padding: 20px 0;
+            }
+            
+            .simple-trust-badges-wrapper {
+              display: flex;
+              justify-content: space-around;
+              align-items: center;
+              gap: 20px;
+              max-width: 100%;
+              margin: 0 auto;
+              flex-wrap: wrap;
+            }
+            
+            .simple-trust-badge-item {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              text-align: center;
+              flex: 1;
+              min-width: 120px;
+            }
+            
+            .simple-badge-icon {
+              margin-bottom: 10px;
+              color: #333;
+            }
+            
+            .simple-badge-heading {
+              font-size: 16px;
+              font-weight: 600;
+              margin: 0 0 5px 0;
+              color: #333;
+            }
+            
+            .simple-badge-subheading {
+              font-size: 14px;
+              font-weight: 400;
+              margin: 0;
+              color: #777;
+            }
+            
+            @media (max-width: 768px) {
+              .simple-trust-badges-wrapper {
+                flex-direction: row;
+                justify-content: center;
+              }
+              
+              .simple-trust-badge-item {
+                width: 33%;
+                padding: 0 10px;
+              }
+              
+              .simple-badge-heading {
+                font-size: 14px;
+              }
+              
+              .simple-badge-subheading {
+                font-size: 12px;
+              }
+            }
+            
+            @media (max-width: 480px) {
+              .simple-trust-badges-wrapper {
+                flex-direction: column;
+                gap: 15px;
+              }
+              
+              .simple-trust-badge-item {
+                width: 100%;
+              }
+            }
+          </style>
+        {% endif %}
+        <!-- /trust badges -->
+
+      {% when 'tab' %}
+        <!-- product accordians -->
+        {% unless product.title contains 'gift-card' or product.url contains 'gift-card' %}
+          <div class="product-accordion pb-2" {{ block.shopify_attributes }}>
+            <div class="product-accordion-item">
+              <span class="faq-title" tabindex="0">{{ block.settings.title | strip_html }}</span>
+              <div class="content faq-content px-0 py-0 mb-0 bg-transparent">
+                <p class="mb-0 py-2 px-2">{{ block.settings.body | strip_html }}</p>
+              </div>
+            </div>
+          </div>
+        {% endunless %}
+        <!-- /product accordians -->
+
+      {% when 'share' %}
+        <!-- share -->
+        <div class="share-wrapper py-2 no-Js" {{ block.shopify_attributes }}>
+          <a id="share-btn" href="#!" class="btn btn-contact py-1 share-btn" name="button">
+            {% render 'icon-share' %}
+            <span class="">{{ 'products.product.share' | t }}</span>
+          </a>
+          <div
+            class="alert alert-light bg-transparent rounded-0 share-alert d-none mt-2 mb-0 px-2 border border-dark"
+            role="alert"
+          >
+            <div class="form-group mb-0">
+              <input
+                type="text"
+                class="form-control border border-dark"
+                id="shareUrl"
+                value="{{ shop.url | append: product.url }}"
+                aria-describedby="copyProductUrl"
+                placeholder="{{ 'products.product.copy' | t }}"
+              >
+              <small id="shareCopy" class="form-text text-muted share-copy-link pt-1">
+                {% render 'icon-clipboard' %}
+                <label for="shareUrl" class="copy-link">{{ 'products.product.copy' | t }}</label>
+              </small>
+            </div>
+          </div>
+        </div>
+        <!-- /share -->
+
+      {% when '@app' %}
+      <div class="tablinks-cus" onclick="openTab(event, 'tab-reviews')">
+        <a href="#tab-reviews">
+        {% render block %}
+          </a>
+      </div>
+
+      {% when 'pickup' %}
+        <!-- pickup availability -->
+        {% assign pick_up_availabilities = product.selected_or_first_available_variant.store_availabilities
+          | where: 'pick_up_enabled', true
+        %}
+        <pickup-availability
+          {{ block.shopify_attributes }}
+          class="product__pickup-availabilities no-js-hidden no-js no-Js"
+          {% if product.selected_or_first_available_variant.available and pick_up_availabilities.size > 0 %}
+            available
+          {% endif %}
+          data-base-url="{{ shop.url }}{{ routes.root_url }}"
+          data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+          data-has-only-default-variant="{{ product.has_only_default_variant }}"
+        >
+          <template>
+            <pickup-availability-preview class="pickup-availability-preview">
+              {% render 'icon-unavailable' %}
+              <div class="pickup-availability-info">
+                <p class="card-text mb-0">{{ 'products.pickup_availability.unavailable' | t }}</p>
+                <span class="pickup-availability-button link link--text underlined-link" tabindex="0">
+                  {{ 'products.pickup_availability.refresh' | t }}
+                </span>
+              </div>
+            </pickup-availability-preview>
+          </template>
+        </pickup-availability>
+        <!-- /pickup availability -->
+
+      {% when 'quantity' %}
+        {% assign quantity_block = true %}
+        <!-- quantity picker PDP -->
+        {%- liquid
+          assign quantity_id = product.selected_variant.id
+          assign current_variant = product.selected_or_first_available_variant
+        -%}
+
+        <div class="quantity-picker" {{ block.shopify_attributes }}>
+          {% render 'quantity-picker-pdp' with id: quantity_id, value: 1, min: 1, max: current_variant.inventory_quantity, quantity_selector: block.settings.show_qty_selector %}
+        </div>
+        <!-- /quantity picker PDP -->
+
+      {% when 'options' %}
+        <!-- start product options -->
+        <div
+          class="selector-wrapper product-category form-group my-2{% if hide_default_title %} hidden{% endif %} no-Js"
+          {{ block.shopify_attributes }}
+        >
+          {%- liquid
+            for option in product.options_with_values
+              assign option_name = 'option' | append: option.position
+              assign class = 'pb-0 pt-1'
+              assign class2 = ''
+              assign classBorder = 'border'
+              assign heightSelect = 'h-30'
+
+              assign selected = false
+              if has_selected_variant
+                assign selected = product.selected_variant[option_name]
+              else
+                assign selected = product.selected_or_first_available_variant.title
+              endif
+
+              render 'product-option-row', product: product with option: option, option_name: option_name, class: class, class2: class2, heightSelect: heightSelect, classBorder: classBorder, type: 'select', selected: selected
+            endfor
+          -%}
+        </div>
+        <select id="ProductSelect-{{ section.id }}" class="product-form__variants no-js" style="display:none">
+          {% for variant in product.variants %}
+            <option
+              value="{{ variant.id }}"
+              {% if variant == current_variant %}
+                selected="selected"
+              {% endif %}
+            >
+              {{ variant.title -}}
+              {%- if variant.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}
+            </option>
+          {% endfor %}
+        </select>
+        <!-- end product options -->
+        <!-- if JS is disabled -->
+        <noscript>
+          <div class="product-option-row d-flex py-2 {% if product.variants.size <= 1 %} hidden{% endif %}">
+            <label for="select-{{ option_name }}" aria-label="option name">
+              <span class="option-name d-inline-flex">{{ 'general.accessibility.purchase_options' | t | escape }}</span>
+            </label>
+            <div class="option-values d-inline-flex">
+              <div id="product-variants" class="styled-select dropup">
+                <select name="id" class="variation-select no-js">
+                  {% for variant in product.variants %}
+                    {% if variant.available %}
+                      <option
+                        {% if variant == product.selected_or_first_available_variant %}
+                          selected="selected"
+                        {% endif %}
+                        value="{{ variant.id }}"
+                      >
+                        {{ variant.title }}
+                      </option>
+                    {% else %}
+                      <option disabled="disabled">
+                        {{ variant.title }}-{{ 'products.product.sold_out' | t | escape }}
+                      </option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </noscript>
+        <!-- /if JS is disabled -->
+
+      {% when 'cart' %}
+        {% if quantity_block == false %}
+          <!-- quantity picker PDP -->
+          {%- liquid
+            assign quantity_id = product.selected_variant.id
+            assign current_variant = product.selected_or_first_available_variant
+          -%}
+
+          <div class="quantity-picker d-none" {{ block.shopify_attributes }}>
+            {% render 'quantity-picker-pdp' with id: quantity_id, value: 1, min: 1, max: current_variant.inventory_quantity, quantity_selector: block.settings.show_qty_selector %}
+          </div>
+          <!-- /quantity picker PDP -->
+        {% endif %}
+        <!-- add to cart wrapper -->
+        <div class="d-flex add-to-cart__wrapper" {{ block.shopify_attributes }}>
+          <div class="add-to-cart__submit w-wrapper w-100 pb-1">
+            <div class="atc-container">
+              <!-- add to cart button -->
+                <button
+                type="submit"
+                name="add"
+                class="btn btn-main my-2 mx-auto w-100 js-cart-link add-to-cart-button"
+                {% if current_variant.available == false %}
+                  disabled
+                {% endif %}
+                aria-label="{{ 'products.product.add_to_cart' | t }}"
+                data-soldout="{{ btn_txt_soldout }}"
+                data-add="{{ btn_txt }}"
+                aria-label="{{ 'products.product.add_to_cart' | t }} button"
+              >
+                <span
+                  class="js-btn-cta"
+                  data-addbtn="{{ btn_txt }}"
+                  data-soldout="{{ btn_txt_soldout }}"
+                  data-offerbtn="{{ btn_txt_selling }}"
+                  data-adding-cart="{{ btn_adding }}"
+                  data-added-cart="{{ btn_added }}"
+                  id="AddtoCart"
+                >
+                  {% if current_variant.available %}
+                    {{ 'products.product.add_to_cart' | t }}
+                  {% else %}
+                    {{ 'products.product.sold_out' | t }}
+                  {% endif %}
+                </span>
+                <!-- Loader -->
+                <span class="ldld ldbtn em-2 d-inline-block light align-middle hidden"></span>
+              </button>
+           <a class="klaviyo-bis-trigger btn-main" href="#" style="display: none;">Notify Me When Available</a>
+              <!-- /add to cart button -->
+            </div>
+          </div>
+        </div>
+        <!-- add to cart wrapper -->
+
+        <!-- buy now -->
+        {% if block.settings.show_dynamic_checkout %}
+          {% unless product.selling_plan_groups.size > 0 %}
+            {{ form | payment_button }}
+          {% endunless %}
+        {% endif %}
+        <!-- /buy now -->
+
+        <!-- gift card recipient -->
+        {% if block.settings.show_gift_card and product.gift_card? %}
+          {% render 'gift-card-recipient-form', product: product, form: form, section: section %}
+        {% endif %}
+        <!-- /gift card recipient -->
+
+      {% when 'subscriptions' %}
+        <!-- subscriptions -->
+        <div class="subscriptions-container d-block" {{ block.shopify_attributes }}>
+          {% render 'recurring-subscriptions' %}
+        </div>
+        <!-- /subscriptions -->
+    {% endcase %}
+  {% endfor %}
+  <!-- PRODUCT DATA FOR JS -->
+  <div class="selectedVariantObject d-none">{{ product.selected_or_first_available_variant | json }}</div>
+{% endform %}
+<!-- /product add to cart form -->

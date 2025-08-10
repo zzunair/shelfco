@@ -1,0 +1,259 @@
+{{ 'component-collection.css' | asset_url | stylesheet_tag }}
+<link rel="stylesheet" href="{{ 'component-collection.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'component-collection.css' | asset_url | stylesheet_tag }}</noscript>
+
+{%- liquid
+  assign _colClassLayout = 'container'
+
+  if section.settings.col_row_size == '2'
+    assign _colClass = 'col-md-6 col-lg-6 col-sm-6 col-xs-6'
+  else
+    assign _colClass = 'col-md-3 col-lg-3 col-sm-6 col-xs-6'
+  endif
+
+  if section.settings.col_details_direction == 'left'
+    assign _captionAlignment = 'align-items-left px-3'
+  elsif section.settings.col_details_direction == 'center'
+    assign _captionAlignment = 'align-items-center'
+  elsif section.settings.col_details_direction == 'right'
+    assign _captionAlignment = 'align-items-right px-3'
+  endif
+
+  if section.settings.image_size == 'small'
+    assign _imageSize = 'ImageHero--small'
+  elsif section.settings.image_size == 'normal'
+    assign _imageSize = 'ImageHero--normal'
+  elsif section.settings.image_size == 'large'
+    assign _imageSize = 'ImageHero--large'
+  endif
+
+  assign limit = section.settings.product_limit
+
+  assign is_last_page = false
+  unless paginate.next.is_link
+    assign is_last_page = true
+  endunless
+-%}
+
+<div
+  id="{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="collections-template"
+  class="h-100 w-100"
+>
+  <section class="products section pt-0 {% if collection.products.size == 0 %}text-center EmptyState{% endif %}">
+    <div class="{{ _colClassLayout }} collection-page pl-0 pr-0">
+      <div class="row">
+        {% if collection.products.size > 0 %}
+          <!-- Collection filter -->
+          {% render 'collection-topbar', section: section, block: block %}
+          <!-- /Collection filter -->
+        {% endif %}
+        <!-- product grid -->
+              <!-- Paginate by limit -->
+              {% if collection.products.size > 0 %}
+                {% paginate collection.products by limit %}
+                  <div class="col-md-12 mb-1 px-0">
+                    <div class="row products-on-page col-auto mx-auto px-0" data-next-url="{{ paginate.next.url }}">
+                      {% for product in collection.products %}
+                        {% render 'product-card',
+                          product: product,
+                          product_options: section.settings.product_options,
+                          _colClass: _colClass,
+                          show_rating: section.settings.show_rating,
+                          show_second_img: section.settings.show_secondary_image
+                        %}
+                      {% endfor %}
+                    </div>
+                  </div>
+            <!-- /product grid -->
+            {% if paginate.pages >= 1 %}
+              <div class="container-fluid load-more-wrapper py-0">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card rounded-0 border-0 text-center">
+                      <div class="load-more mx-auto">
+                        {% render 'pagination', paginate: paginate, anchor: '', class: '' %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+            <!-- /pagination -->
+          {% endpaginate %}
+          <!-- /Paginate by limit -->
+        {% else %}
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="content">
+                        <div class="rte">
+                          <p>{{ 'collections.general.no_matches' | t }}</p>
+                          <a
+                            href="{{ routes.root_url }}"
+                            class="btn btn-contact size-content-fit"
+                            aria-label="{{ 'collections.general.link_title_html' | t }}"
+                          >
+                            {{ 'customer.login.cancel' | t }}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+  <!-- pagination -->
+</div>
+
+{% schema %}
+{
+  "name": "Collection page",
+  "class": "index-home-collections-template",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product grid"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "min": 1,
+      "max": 24,
+      "step": 1,
+      "label": "Products per page",
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": true,
+      "label": "Show product rating",
+      "info": "To display a rating, add a product rating app."
+    },    
+    {
+      "type": "select",
+      "id": "image_size",
+      "label": "Image size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "small"
+    },
+    {
+      "type": "select",
+      "id": "col_details_direction",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "label": "Content alignment",
+      "info": "This option determines the direction of the collection page title and description",
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Product image"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "default": "adapt",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        }
+      ],
+      "default": "square"
+    },
+    {
+      "type": "select",
+      "id": "col_row_size",
+      "label": "Collection row",
+      "options": [
+        {
+          "value": "2",
+          "label": "Row of 2"
+        },
+        {
+          "value": "4",
+          "label": "Row of 4"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "checkbox",
+      "id": "preorder_enabled",
+      "label": "Show pre-order label",
+      "info": "You need to add the tag 'pre-order' to your products.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "new_enabled",
+      "label": "Show new label",
+      "info": "You need to add the tag 'new' to your products.",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
+
+<script id="for-sort-by-options">
+  //Shopify sort by function on collection pages
+  //Save existing sort parameters
+  Shopify.queryParams = {};
+  if(location.search.length) {
+    for(var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+    aKeyValue = aCouples[i].split('=');
+    console.log("aKeyValue",aKeyValue)
+      if (aKeyValue.length > 1) {
+          Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+          console.log(decodeURIComponent(aKeyValue[1]));
+      }
+    }
+  }
+  // Add existing sort parameters to current URL
+  if(document.querySelector('.slct')) {
+    document.querySelector('.slct').addEventListener('change', function(e) {
+        var value = e.currentTarget.value;
+        Shopify.queryParams.sort_by = value;
+        location.search = new URLSearchParams(Shopify.queryParams).toString();
+    });
+  }
+</script>

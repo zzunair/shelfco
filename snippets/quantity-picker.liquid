@@ -1,0 +1,61 @@
+{% comment %}
+  Renders a product quantity picker on the cart page.
+
+  Usage:
+  {% render 'quanity-picker' %}
+{% endcomment %}
+
+{% if value == blank %}
+  {% assign value = 1 %}
+{% endif %}
+
+{% if selling_plan %}
+<input type="hidden" class="disabled js-quantity-field text-center selling-plan quantity-text quantity js-quantity-text {% if field_class != blank %}{{ field_class }}{% endif %}" id="{{ item_id }}" name="{{ name }}" value="1" {% if min != blank %}min="{{ min }}"{% endif %} {% if max != blank %}max="{{ max }}"{% endif %}{% if selling_plan %}max="1"{% endif %} aria label="quantity" disabled="disabled">
+{% endif %}
+<div class="quantity__wrapper quantity-picker js-quantity-picker no-Js py-0 {% if has_gift == true %}hidden{% endif %}">
+  <div class="product-quantity mt-0 mb-0 d-flex border">
+    <label class="sr-only hidden" for="{{ id }}">{{ 'products.product.quantity' | t }}</label>
+    <!-- Minus -->
+    <button class="btn btn-transparent border-0 quantity-button js-quantity-button minus" type="button" {% if value == min %}disabled{% endif %} aria-label="remove">
+      {% render 'icon-cart-minus' %}
+    </button>
+    <!-- QTY -->
+    <!-- Empty span element which will be the qty input -->
+    <span class="update_span {% if selling_plan %}selling_plan{% endif %}" data-line-number="{{ loop_index }}" data-id="{{ item_id }}" id="updateBtn_{{ item_id }}_{{ loop_index }}" ></span>
+    <script>
+      //if cart page qty button product ids are not empty
+      //render the input element by replacing the html of the empty span element
+      if(document.querySelector("#page-cart .update_span")){
+        document.querySelector("#page-cart #updateBtn_{{ item_id }}_{{ loop_index }}").innerHTML = '<input type="number" data-line-number="{{ loop_index }}" data-id="{{ item_id }}" class="disabled js-quantity-field text-center quantity-text quantity js-quantity-text border-0 {% if field_class != blank %}{{ field_class }}{% endif %}" id="{{ item_id }}" name="{{ name }}" value="{{ value }}" {% if min != blank %}min="{{ min }}"{% endif %} {% if max != blank %}max="{{ max }}"{% endif %}{% if selling_plan %}max="1"{% endif %} aria label="quantity" disabled="disabled">';
+      }
+      //if sidebar cart page qty button product ids are not empty
+      //render the input element by replacing the html of the empty span element
+      if(document.querySelector(".sidebar .update_span")){
+        document.querySelector(".sidebar #updateBtn_{{ item_id }}_{{ loop_index }}").innerHTML = '<input type="number" data-line-number="{{ loop_index }}" data-id="{{ item_id }}" class="disabled js-quantity-field text-center quantity-text quantity js-quantity-text border-0 {% if field_class != blank %}{{ field_class }}{% endif %}" id="{{ item_id }}" name="{{ name }}" value="{{ value }}" {% if min != blank %}min="{{ min }}"{% endif %} {% if max != blank %}max="{{ max }}"{% endif %}{% if selling_plan %}max="1"{% endif %} aria-label="quantity" disabled="disabled">';
+      }
+    </script>
+    <span class="quantity-text js-quantity-text hidden">{{ value }}</span>
+    <!-- Plus -->
+    <button class="btn btn-transparent border-0 quantity-button js-quantity-button plus" type="button" {% if value == max or selling_plan or has_gift == true %}disabled{% endif %} aria-label="add">
+      {% render 'icon-cart-plus' %}
+    </button>
+  </div>
+</div>
+<!-- when JS is disabled -->
+<noscript>
+  <label for="quantity">{{ 'cart.label.quantity' | t }}:</label>
+  <input min="1" type="number" class="js-quantity-field text-center quantity-text" id="{{ id }}" name="updates[]" value="{{ value }}" />
+</noscript>
+<!-- when JS is disabled -->
+
+{% style %}
+input.disabled {
+  pointer-events: none;
+}
+#quantity {
+  padding: 5px;
+  width: 35px;
+  border: 1px
+  solid #555;
+}
+{% endstyle %}

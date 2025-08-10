@@ -1,0 +1,188 @@
+{%- liquid
+  if section.settings['mega-menu'] == '3'
+    assign _colClass = 'col-md-4 col-sm-4'
+  elsif section.settings['mega-menu'] == '4'
+    assign _colClass = 'col-md-3 col-sm-3'
+  else
+    assign _colClass = 'col-md-2 col-sm-2'
+  endif
+
+  assign _colClassLayout = 'container'
+  assign filters = collection.filters
+-%}
+
+<section class="{{ _colClassLayout }} no-js no-Js">
+  <nav id="navbar" class="filter-menu navbar-expand-lg megamenu-bg {{ _colClassLayout }} mx-auto px-0 py-0 mb-0 d-flex">
+    <!-- labels -->
+    <div class="filter-headings d-flex justify-content-between pt-3 pb-1">
+      <span class="filterby_heading d-inline-flex">{{ 'general.accessibility.filter_by' | t }}</span>
+      <span class="sortby_heading d-inline-flex">{{ 'general.accessibility.sort_by' | t }}</span>
+    </div>
+    <!-- /labels -->
+    <form id="form-id" class="filter-form d-flex justify-content-between desktop-version-filter-form">
+      <ul class="nav nav-pills mr-auto main-menu mb-2 filter-by-nav-pills" role="list">
+        {% for filter in filters %}
+          {% liquid
+            case filter.presentation
+              when 'swatch'
+                assign has_visual_display = true
+                assign visual_layout_class = 'facets-layout-grid facets-layout-grid--' | append: filter.presentation
+              else
+                assign has_visual_display = false
+                assign visual_layout_class = ''
+            endcase
+          %}
+          {% case filter.type %}
+            {% when 'list' %}
+              <li class="nav-item dropdown d-sm-flex align-items-center justify-content-between mr-0 border desktop tablet laptop mobile-hide">
+                <!-- header -->
+                <a
+                  class="nav-link dropdown-toggle rounded-0"
+                  data-toggle="dropdown"
+                  href="#"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  {{ filter.label | escape }}
+                </a>
+                <!-- /header -->
+                <!-- tab dropdown -->
+                <div class="dropdown-menu mt-2 border rounded__all">
+                  <div class="filter-card-body pl-0 pb-2 text-left {{ visual_layout_class }}">
+                    {% for value in filter.values %}
+                      {% if value.count >= 0 %}
+                        <div class="form-check pl-0 d-block my-2 pretty p-default p-fill p-has-focus p-bigger">
+                          <input
+                            type="checkbox"
+                            name="{{ value.param_name }}"
+                            value="{{ value.value }}"
+                            class="form-check-input filled-in"
+                            {% if value.active %}
+                              checked
+                            {% endif %}
+                            {% if value.count == 0 and value.active == false %}
+                              disabled
+                            {% endif %}
+                            id="{{ filter.label | escape }}-{{ forloop.index }}"
+                          >
+                          <div class="state p-primary-o pl-1">
+                            <label
+                              for="{{ filter.label | escape }}-{{ forloop.index }}"
+                              class="form-check-label text-capitalize font-weight-normal card-link-secondary"
+                              aria-label="value count"
+                            >
+                              {% if has_visual_display %}
+                                <span class="visual-display-swatch-item mr-2">
+                                  {% render 'visual-display',
+                                    type: value.display.type,
+                                    value: value.display.value,
+                                    presentation: filter.presentation
+                                  %}
+                                </span>
+                                <span>{{ value.label | escape }} ({{ value.count }})</span>
+                              {% else %}
+                                {{ value.label | escape }} ({{ value.count }})
+                              {% endif %}
+                            </label>
+                          </div>
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  {% if filter.active_values.size > 0 %}
+                    <a
+                      href="{{ filter.url_to_remove | remove: '&view=extended' }}"
+                      class="d-flex mr-auto btn btn-contact reset-filter-button"
+                    >
+                      {{ 'general.accessibility.reset' | t }}
+                    </a>
+                  {% endif %}
+                </div>
+                <!-- tab dropdown -->
+              </li>
+            {% when 'price_range' %}
+              {% if filter.type == 'price_range' %}
+                {% assign class = 'border-0' %}
+                <li class="nav-item dropdown d-sm-flex align-items-center justify-content-between mr-0 border desktop tablet laptop mobile-hide">
+                  <!-- header -->
+                  <a
+                    class="nav-link dropdown-toggle rounded-0"
+                    data-toggle="dropdown"
+                    href="#"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    {{ filter.label | escape }}
+                  </a>
+                  <!-- /header -->
+                  <!-- price dropdown -->
+                  <div class="dropdown-menu mt-2 border price-dropdown-menu rounded__all">
+                    <div class="filter-card-body pl-0 text-left">
+                      {% render 'range-slider', filter: filter, class: class %}
+                    </div>
+                  </div>
+                  <!-- /price dropdown -->
+                </li>
+              {% endif %}
+          {% endcase %}
+        {% endfor %}
+        <!-- mobile filter btn -->
+        <a
+          href="#"
+          class="btn btn-contact js-filter-toggle mobile-only tablet-hide laptop-hide"
+          data-toggle="collapse"
+          data-target="#main-navbar-1"
+          aria-label="main-navbar"
+        >
+          {{ 'general.accessibility.filter' | t }}
+        </a>
+        <!-- /mobile filter btn -->
+      </ul>
+      <div class="shopify-sortby d-flex mb-2">
+        <!-- collection filter from Shopify -->
+        <div class="card border-0">
+          <select name="slct" class="filter slct select2 border shopify-default-filter">
+            {% for option in collection.sort_options %}
+              <option
+                value="{{ option.value }}"
+                {% if option.value == collection.sort_by %}
+                  selected
+                {% endif %}
+              >
+                {{ option.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <!-- collection filter from Shopify -->
+      </div>
+    </form>
+    <!-- active filters -->
+    <div class="active-facets active-facets-desktop">
+      {% for filter in collection.filters %}
+        {% for value in filter.active_values %}
+          <a
+            class="active-facets-button btn btn-contact border"
+            href="{{ value.url_to_remove | remove: '&view=extended' }}"
+          >
+            {{ value.label | escape -}}
+            {%- render 'icon-close-general' %}
+          </a>
+        {% endfor %}
+      {% endfor %}
+    </div>
+    <!-- /active filters -->
+    <!-- number of product -->
+    {% for product in collection.products %}
+      {% if forloop.first %}
+        <span class="collection-sorting mb-0 py-2 d-block my-auto text-left">
+          {{ 'general.shop.showing_html' | t: number_products: forloop.length }}
+        </span>
+      {% endif %}
+    {% endfor %}
+    <!-- number of product -->
+  </nav>
+</section>
+{% render 'filter-sidebar' %}

@@ -1,0 +1,35 @@
+<predictive-search>
+  <form action="{{ routes.search_url }}" method="get" role="search" tabindex="-1">
+    <div class="search-form-header bg-transparent rounded__all mb-0 border">
+      <div class="input-group w-100 mb-0" tabindex="0">
+        <label class="d-none d-print-block sr-only" for="search-term-2">
+          {{ 'general.search.title' | t }}
+        </label>
+        <input
+          id="Search"
+          type="search"
+          name="q"
+          class="search-term form-control bg-white js-search-input text-left h-auto border-0"
+          value="{{ search.terms | escape }}"
+          role="combobox"
+          aria-expanded="false"
+          aria-owns="predictive-search-results"
+          aria-controls="predictive-search-results"
+          aria-haspopup="listbox"
+          aria-autocomplete="list"
+          aria-label="{{ 'general.search.placeholder' | t }}"
+          placeholder="{{ 'general.search.placeholder' | t }}"
+          tabindex="0"
+        >
+        <button
+          type="submit"
+          class="focus-inset search-btn-mega btn h-auto rounded__btn p-2 js-search-submit border-left-0"
+          aria-label="{{ 'general.search.submit' | t }}"
+        >
+          {% render 'icon-search', _color: settings.body_font_text %}
+        </button>
+      </div>
+    </div>
+    <ul class="search-results" id="predictive-search" tabindex="-1"></ul>
+  </form>
+</predictive-search>

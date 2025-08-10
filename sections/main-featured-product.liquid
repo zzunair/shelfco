@@ -1,0 +1,450 @@
+{% comment %}
+  Featured product section
+{% endcomment %}
+
+{%- liquid
+  assign _colClassLayout = 'container'
+  assign product = all_products[section.settings.featured_product]
+  assign allProducts = product
+
+  if product == empty
+    assign onboarding = true
+    assign title = 'general.accessibility.pick_your_product' | t
+    assign vendor = 'general.accessibility.vendor' | t
+    assign price = 'general.accessibility.zero_price' | t
+  endif
+
+  assign current_variant = product.selected_or_first_available_variant
+  assign first_3d_model = product.media | where: 'media_type', 'model' | first
+-%}
+
+<link rel="stylesheet" href="{{ 'component-product-media.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'component-product-media.css' | asset_url | stylesheet_tag }}</noscript>
+
+{% if first_3d_model %}
+  <link
+    id="ModelViewerStyle"
+    rel="stylesheet"
+    href="https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.css"
+    media="print"
+    onload="this.media='all'"
+  >
+  <link
+    id="ModelViewerOverride"
+    rel="stylesheet"
+    href="{{ 'component-model-viewer-ui.css' | asset_url }}"
+    media="print"
+    onload="this.media='all'"
+  >
+{% endif %}
+
+<section
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding"
+  data-section-id="{{ section.id }}"
+  data-section-type="content-block"
+  tabindex="0"
+>
+  <div class="{{ _colClassLayout }} wow fadeIn" data-wow-delay="300ms">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cat-image-wrapper">
+        <!-- product media -->
+        <div class="card-image col-md-6 col-lg-6 col-sm-12 col-xs-12 mobile-ready-padding pl-0 pr-0">
+          {% render 'product-media',
+            product: product,
+            loading: 'lazy',
+            loop: section.settings.enable_video_looping,
+            autoplay: section.settings.enable_video_autoplay
+          %}
+        </div>
+        <!-- /product media -->
+        <!-- product details -->
+        <div class="card-info col-md-6 mobile-ready-padding pl-0 pr-0">
+          <div class="card border-0 rounded-0 h-100 product-card-list bg-transparent main-featured-prod" tabindex="0">
+            <div class="card-body p-0 main-featured-prod d-flex flex-column align-items-center justify-content-center">
+              <div class="single-product-details w-100">
+                {% if onboarding == true %}
+                  <div class="title pt-4 pb-2 mb-2">
+                    <h3 class="product-card-title">{{ title | escape }}</h3>
+                    <span>{{ price | money_with_currency }}</span>
+                  </div>
+                  <div class="add-to-cart__wrapper mt-0 w-100">
+                    <div class="add-to-cart__submit w-wrapper pb-0">
+                      <div class="atc-container mb-0">
+                        <button
+                          type="text"
+                          name="add"
+                          class="btn btn-contact mb-0 mx-auto w-100"
+                          disabled="disabled"
+                          aria-label="unavailable"
+                        >
+                          <span class="">{{ 'products.product.unavailable' | t }}</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                {% else %}
+                  <!-- add to cart form -->
+                  {% render 'product-form', product: product, section: section %}
+                  <!-- end add to cart form -->
+                  <span id="share-btn">
+                    <u
+                      ><a
+                        href="{{ product.url | within: collection }}{% if product.variants.size > 1 %}?variant={{ product.selected_or_first_available_variant.id }}{% endif %}"
+                        class="btn btn-contact no-underline"
+                        aria-label="{{ product.title }}"
+                      >
+                        {{- 'products.product.view_product' | t -}}
+                      </a></u
+                    ></span
+                  >
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /product details -->
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured product",
+  "class": "featured-product-section",
+  "max_blocks": 20,
+  "blocks": [
+    {
+      "type": "title",
+      "name": "Product title",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "Product price",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Star rating",
+          "info": "Requires an app to set the metafield value for reviews.rating"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_rating",
+          "label": "Show star rating",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_rating_count",
+          "label": "Show rating count",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_tax",
+          "label": "Show if taxes are included in your products' prices",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "collection",
+      "name": "Collection type",
+      "limit": 1
+    },
+    {
+      "type": "text",
+      "name": "Offer text",
+      "limit": 5,
+      "settings": [
+      {
+        "type": "image_picker",
+        "id": "product_icon",
+        "label": "100 x 100px .png recommended"
+      },
+      {
+        "type": "text",
+        "id": "product_text",
+        "label": "Body text",
+        "default": "10% off all products with the code ERICKSON10"
+      },
+      {
+        "type": "select",
+        "id": "product_text_style",
+        "options": [
+          {
+            "value": "primary",
+            "label": "Primary"
+          },
+          {
+            "value": "secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "success",
+            "label": "Success"
+          },
+          {
+            "value": "danger",
+            "label": "Danger"
+          },
+          {
+            "value": "warning",
+            "label": "Warning"
+          },
+          {
+            "value": "info",
+            "label": "Info"
+          },
+          {
+            "value": "light",
+            "label": "Light"
+          },
+          {
+            "value": "dark",
+            "label": "Dark"
+          }
+        ],
+        "label": "Style",
+        "default": "success",
+        "info": "You can change the style of the Offer text"
+        }
+      ]
+    },
+    {
+      "type": "vendor",
+      "name": "Product vendor",
+      "limit": 1
+    },
+    {
+      "type": "stock",
+      "name": "Stock",
+      "limit": 1
+    },
+    {
+      "type": "share",
+      "name": "Share",
+      "limit": 1
+    },
+    {
+      "type": "description",
+      "name": "Product description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "word_limit",
+          "min": 50,
+          "max": 500,
+          "step": 25,
+          "label": "Limit words shown in product description",
+          "default": 50
+        }
+      ]
+    },
+    {
+      "type": "custom-liquid",
+      "name": "Custom liquid",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom liquid",
+          "info": "Add app snippets or other Liquid code to create advanced customizations."
+        }
+      ]
+    },
+    {
+      "type": "quantity",
+      "name": "Quantity picker",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_qty_selector",
+          "label": "Show quantity selector",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "options",
+      "name": "Variant picker",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "cart",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "label": "Show dynamic checkout buttons",
+          "info": "Using the payment methods available on your store, customers see their preferred option, like PayPal or Apple Pay. [Learn more](https:\/\/help.shopify.com\/manual\/using-themes\/change-the-layout\/dynamic-checkout)"
+        }
+      ]
+    },
+    {
+      "type": "tab",
+      "name": "Product accordian",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Accordians"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Your FAQ"
+        },
+        {
+          "type": "text",
+          "id": "body",
+          "label": "Body text",
+          "default": "<p>Add extra product information, such as size guides or technical data.</p>"
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    },
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Pick a product"
+    },
+    {
+      "type": "checkbox",
+      "id": "new_enabled",
+      "label": "Show new label",
+      "info": "You need to add the tag 'new' to your products.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "preorder_enabled",
+      "label": "Show pre-order label",
+      "info": "You need to also add the tag 'pre-order' to your products.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Media",
+      "info": "Adjust video settings, if an MP4 video is uploaded to a product. Learn more about [media types.](https:\/\/help.shopify.com\/manual\/products\/product-media)"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "default": false,
+      "label": "Enable video looping"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_autoplay",
+      "default": false,
+      "label": "Enable video autoplay"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured product",
+      "category": "Content",
+      "settings": {
+        "preorder_enabled": false,
+        "new_enabled": false
+      },
+      "blocks": [
+        {
+         "type": "title",
+         "settings": {}
+        },
+        {
+         "type": "description",
+         "settings": {
+            "word_limit": 50
+          }
+        },
+        {
+         "type": "price",
+         "settings": {
+          }
+        },
+        {
+         "type": "options",
+         "settings": {
+          }
+        },
+        {
+         "type": "quantity",
+         "settings": {
+          }
+        },
+        {
+         "type": "cart",
+         "settings": {
+          }
+        },
+        {
+         "type": "stock",
+         "settings": {
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+{% if first_3d_model %}
+  <script type="application/json" id="ProductJSON-{{ product.id }}">
+    {{ product.media | where: 'media_type', 'model' | json }}
+  </script>
+  <script defer src="{{ 'deferred-media.js' | asset_url }}"></script>
+  <script defer src="{{ 'product-model.js' | asset_url }}"></script>
+{% endif %}
+
+<script>
+  window.product = {{ product | json }} || {};
+</script>

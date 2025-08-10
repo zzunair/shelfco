@@ -1,0 +1,133 @@
+{% comment %}
+  Renders cart drawer
+
+  Usage:
+  {% render 'main-cart' %}
+{% endcomment %}
+
+<div id="mini-cart">
+  <div class="col-md-12 col-sm-12 col-xs-12 p-0">
+    <div class="side-inner container px-0">
+      {% if cart.item_count > 0 %}
+        <div class="share mt-0">
+          {%- liquid
+            render 'topbar-cart'
+          -%}
+          <form action="{{ routes.cart_url }}" method="post">
+            <input
+              type="hidden"
+              class="js-variant-id js-variant-radio"
+              name="id"
+              value="{{ cart.variant.selected_or_first_available_variant.id }}"
+              {% for variant in product.variants %}
+                data-inventory-quantity="{{ variant.inventory_quantity }}"
+              {% endfor %}
+            >
+            <fieldset id="cart-fieldset" class="js-cart-fieldset col-md-12 px-0 mb-0">
+              <div class="show-sub-nav py-2 mb-0">
+                <div class="cart-items line-item col-md-8 col-sm-12 pl-0 mr-0">
+                  {% assign cartItems = cart.items %}
+                  {% render 'line-item' for cartItems as item %}
+                </div>
+                <div class="cart-order-summary mt-0 px-3 col-md-4">
+                  <div class="form-group my-2">
+                    <!-- show cart notes -->
+                    {% if settings.cart_notes_enable %}
+                      <textarea
+                        name="note"
+                        id="note"
+                        class="form-control border cart-notes rounded__all"
+                        rows="3"
+                        placeholder="{{ 'cart.general.delivery_instructions' | t }}"
+                      >{{ cart.note }}</textarea>
+                      <!-- end cart notes -->
+                    {% endif %}
+                  </div>
+                  <!-- show subtotal -->
+                  <div class="cart-header-details d-flex py-2 justify-content-between align-items-center">
+                    <p class="mb-0" aria-label="subtotal">
+                      {{ 'customer.order.subtotal' | t }}
+                    </p>
+                    <span class="cart-total-price cart-text-drawer money js-cart-item-total mini-cart-title">
+                      {{ cart.total_price | money_with_currency }}
+                    </span>
+                  </div>
+                  <!-- end show subtotal -->
+                  <!-- cart discounts -->
+                  {% if cart.cart_level_discount_applications.size > 0 %}
+                    <div class="cart-header-details d-flex mb-2 justify-content-between align-items-center">
+                      <span class="discounts mb-0" aria-label="{{ 'cart.label.discounted_price' | t }}">
+                        {{- 'customer.order.discount' | t -}}
+                      </span>
+                      {% for discount_application in cart.cart_level_discount_applications %}
+                        <span class="cart-total-price cart-text-drawer discounts">
+                          <label aria-label="{{ 'customer.order.discount' | t }}">
+                            <span class="discounts_discount">{% render 'icon-discount' %}</span>
+                            {{ discount_application.title }}(-{{ discount_application.total_allocated_amount | money }})
+                          </label>
+                        </span>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                  <!-- end cart discount -->
+                </div>
+              </div>
+            </fieldset>
+            <!-- cart buttons -->
+            <div class="cart-order-summary-footer mb-0 d-block {{ button_class }} {{ class }} px-3">
+              <div class="cart-buttons mb-0">
+                <!-- proceed to checkout -->
+                <div class="media mb-2 minicart-payment-footer">
+                  <div class="w-100">
+                    <button
+                      type="submit"
+                      id="checkout"
+                      name="checkout"
+                      class="btn btn-main w-100"
+                      aria-label="{{ 'cart.general.checkout' | t }} button"
+                    >
+                      <span class="checkout-span d-inline-flex">{{ 'cart.general.checkout' | t }}</span>
+                    </button>
+                  </div>
+                </div>
+                <!-- /proceed to checkout -->
+                <!-- update cart when no JS -->
+                <noscript>
+                  <div class="update-cart-no-js">
+                    <div class="w-100 d-flex justify-content-between">
+                      <button
+                        type="submit"
+                        name="update"
+                        class="btn btn-contact btn-block w-100"
+                        aria-label="{{ 'cart.general.view_cart' | t }}"
+                      >
+                        {{ 'cart.general.update' | t }}
+                      </button>
+                    </div>
+                  </div>
+                </noscript>
+                <!-- /update cart when no JS -->
+              </div>
+            </div>
+            <!-- /cart buttons -->
+          </form>
+        </div>
+      {% else %}
+        <div class="px-3">
+          <div class="side-inner">
+            <div class="cart-header-details d-flex pt-2 mb-2 justify-content-around align-items-center px-0">
+              <span class="cart-text w-100">
+                <h4 class="cart-page-title my-2 text-center">{{ 'cart.general.title' | t }}</h4>
+                <div class="empty-cart">
+                  <label for="cart-title" class="cart-page-title mt-0 text-left d-inline-flex pr-1">
+                    <p class="cart-empty-msg">{{ 'cart.general.empty' | t }}</p>
+                  </label>
+                </div>
+              </span>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

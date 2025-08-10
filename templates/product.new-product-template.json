@@ -1,0 +1,289 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "pdp_banner_NcLpmD": {
+      "type": "PDP-banner",
+      "disabled": true,
+      "name": "PDP Banner",
+      "settings": {
+        "image": "shopify://shop_images/With_background_enhanced.jpg",
+        "image_mobile": "shopify://shop_images/WhatsApp_Image_2025-06-05_at_15.14.34.jpg",
+        "show_content": true,
+        "background_color": "#ffffff",
+        "title": "<span style=\"color:red\" font-size:=\"\">Shelf</span><span style=\"color:grey; font-size: 26px\">&amp;co</span> Wardrobes",
+        "title_color": "#000000",
+        "subtitle1": "Best Price Guarantee",
+        "subtitle1_color": "#000000",
+        "subtitle2": "Easy DIY Install",
+        "subtitle2_color": "#000000",
+        "button_text": "Design it yourself",
+        "button_color": "#d44628",
+        "button_link": ""
+      }
+    },
+    "main": {
+      "type": "product-template",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "yotpo_product_reviews_ugc_star_rating_qQWx4p": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/star-rating/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        },
+        "seperator_fFFwdq": {
+          "type": "seperator",
+          "settings": {
+            "height": "15"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax": false,
+            "show_shop_pay": false
+          }
+        },
+        "options": {
+          "type": "options",
+          "settings": {}
+        },
+        "seperator_gxGeKw": {
+          "type": "seperator",
+          "settings": {
+            "height": "20"
+          }
+        },
+        "quantity": {
+          "type": "quantity",
+          "settings": {
+            "show_qty_selector": true
+          }
+        },
+        "cart": {
+          "type": "cart",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card": false
+          }
+        },
+        "text_GTG34U": {
+          "type": "text",
+          "settings": {
+            "product_text": "{{ product.metafields.custom.stock.value }}",
+            "product_text_style": "success"
+          }
+        },
+        "trust_badges_z8CWKx": {
+          "type": "trust_badges",
+          "settings": {
+            "show_trust_badges": true,
+            "trust_badge_1": "shopify://shop_images/icons8-calendar-48_46cda9e9-2a38-4bc0-9ded-c2e62b45c21a.png",
+            "trust_badge_1_text": "30 Day Money Back Guarantee",
+            "trust_badge_2": "shopify://shop_images/icons8-delivery-truck-48.png",
+            "trust_badge_2_text": "Fast Shipping",
+            "trust_badge_3": "shopify://shop_images/icons8-man-on-phone-50_1.png",
+            "trust_badge_3_text": "Live US Customer Support"
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "title",
+        "yotpo_product_reviews_ugc_star_rating_qQWx4p",
+        "seperator_fFFwdq",
+        "price",
+        "options",
+        "seperator_gxGeKw",
+        "quantity",
+        "cart",
+        "text_GTG34U",
+        "trust_badges_z8CWKx",
+        "share"
+      ],
+      "custom_css": [],
+      "settings": {
+        "show_savings": false,
+        "new_enabled": false,
+        "preorder_enabled": false,
+        "switchRow": "row",
+        "enable_video_looping": false,
+        "enable_video_autoplay": false
+      }
+    },
+    "related-recomendations": {
+      "type": "related-recomendations",
+      "disabled": true,
+      "custom_css": [],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "section_header": "Start With These Popular Layouts"
+      }
+    },
+    "custom_related_products_3mhd4D": {
+      "type": "custom-related-products",
+      "name": "Custom Related Products",
+      "settings": {
+        "collection": "start-here-collection",
+        "numberOfSlides": 4
+      }
+    },
+    "pdp_video_section_Bd6Yer": {
+      "type": "pdp-video-section",
+      "name": "Product Video",
+      "settings": {
+        "video_source": "youtube",
+        "youtube_url": "https://youtu.be/1XRlbi2QNTo",
+        "vimeo_url": "",
+        "cover_image": "shopify://shop_images/Untitled_design_7.png",
+        "show_controls": true,
+        "autoplay": false,
+        "loop": false,
+        "muted": false,
+        "container_width": "medium",
+        "background_color": "#f7f7f7",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "pdp_comparison_UREjGB": {
+      "type": "PDP-comparison",
+      "blocks": {
+        "feature_qRqHLC": {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Price",
+            "column1_text": "Save Hundreds",
+            "column2_text": "Freestanding and unstable"
+          }
+        },
+        "feature_twnzc8": {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Style",
+            "column1_text": "Modern",
+            "column2_text": "Chipboard cabinets"
+          }
+        },
+        "feature_FnY34m": {
+          "type": "feature",
+          "settings": {
+            "feature_name": "Install",
+            "column1_text": "DIY Easy 5-Step Install",
+            "column2_text": "Multi-step 15+ page instructions"
+          }
+        }
+      },
+      "block_order": [
+        "feature_qRqHLC",
+        "feature_twnzc8",
+        "feature_FnY34m"
+      ],
+      "name": "Product Comparison",
+      "settings": {
+        "image": "shopify://shop_images/Infographics_2.jpg",
+        "heading": "Comparison",
+        "column1_heading": "US",
+        "column2_heading": "Others"
+      }
+    },
+    "tabs": {
+      "type": "product-tabs",
+      "blocks": {
+        "details_dJHnGA": {
+          "type": "details",
+          "settings": {
+            "details": "<p>{{ product.metafields.custom.product_material.value }}</p><p>{{ product.metafields.custom.product_dimensions.value }}</p><p>{{ product.metafields.custom.shelf_thickness.value }}</p><p>{{ product.metafields.custom.weight_capacity.value }}</p><p>{{ product.metafields.custom.package_contents.value }}</p><p>{{ product.metafields.custom.package_quantity.value }}</p><p>Designed in Europe</p>"
+          }
+        },
+        "yotpo_product_reviews_ugc_reviews_CRGMNa": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        },
+        "guide_zy7rWa": {
+          "type": "guide",
+          "settings": {
+            "assembly": "<p>You can use this description to display some useful information to your customers.</p>",
+            "section_button": "View Assembly Guide",
+            "section_url": "https://cdn.shopify.com/s/files/1/0044/5084/4707/files/LIUM_Wood_Assembly_Guide.pdf?v=1693493299"
+          }
+        },
+        "info_K3nNA4": {
+          "type": "info",
+          "settings": {
+            "feature_title": "Shipping & Delivery",
+            "product_tab": "<p>Shipping rates are calculated based on order size and delivery location. Final shipping prices for each order will be displayed at checkout. Please <a href=\"https://shelf-co.com/pages/contact-us\" title=\"Contact Us\"><strong>contact us</strong></a> for further information about shipping options.</p>",
+            "section_button": "Shipping Policy",
+            "section_url": "shopify://pages/shipping-and-delivery"
+          }
+        }
+      },
+      "block_order": [
+        "details_dJHnGA",
+        "yotpo_product_reviews_ugc_reviews_CRGMNa",
+        "guide_zy7rWa",
+        "info_K3nNA4"
+      ],
+      "custom_css": [],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "complementary-recomendations": {
+      "type": "complementary-recomendations",
+      "custom_css": [],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "section_header": "{{ product.metafields.custom.complementary_title.value }}"
+      }
+    },
+    "pdp_featured_colllection_tjxKqk": {
+      "type": "PDP-featured-colllection",
+      "name": "PDP Featured Collection",
+      "settings": {
+        "collection": "whats-trending",
+        "numberOfSlides": 4
+      }
+    },
+    "recently-viewed": {
+      "type": "recently-viewed",
+      "disabled": true,
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "section_header": "Recently viewed"
+      }
+    }
+  },
+  "order": [
+    "pdp_banner_NcLpmD",
+    "main",
+    "related-recomendations",
+    "custom_related_products_3mhd4D",
+    "pdp_video_section_Bd6Yer",
+    "pdp_comparison_UREjGB",
+    "tabs",
+    "complementary-recomendations",
+    "pdp_featured_colllection_tjxKqk",
+    "recently-viewed"
+  ]
+}

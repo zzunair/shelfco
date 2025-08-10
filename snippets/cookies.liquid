@@ -1,0 +1,8 @@
+{% if settings.show_cookies %}
+<div id="cookiebarBox" class="wow fadeInUp" data-wow-delay="5000ms">
+  <div class="container risk-dismiss p-0 d-block">
+    <p class="cookiebarContent">{{ shop.name }} {{ settings.cookies_intro }}<a class="cookiebarContent" href="{{ settings.cookies_url }}"><u>{{ settings.cookies_page }}</u></a></p>
+    <button id="cookieBoxok" class="btn btn-light cookieok w-100" data-cookie="risk" aria-label="accept cookies">{{ 'general.accessibility.accept' | t }}</button>
+  </div>
+</div>
+{% endif %}

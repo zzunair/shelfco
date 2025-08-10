@@ -1,0 +1,22 @@
+{% comment %}
+  Renders page loader animation
+
+  Usage:
+  {% render 'loading' %}
+{% endcomment %}
+
+{% unless template == 'search' %}
+  {% if settings.show_page_transition %}
+    <div class="PageTransition no-js no-Js">
+      <span class="ldld full running"></span>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        if(document.querySelector('.PageTransition') != null) {
+          var ldldTransition = new ldLoader({ root: ".PageTransition" });
+          ldldTransition.on();
+        }
+      });
+    </script>
+  {% endif %}
+{% endunless %}

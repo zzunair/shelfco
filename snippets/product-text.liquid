@@ -1,0 +1,27 @@
+{% comment %}
+  Renders a product text block on the product page.
+
+  Usage:
+  {% render 'product-text' %}
+{% endcomment %}
+
+{% unless text == blank %}
+<div class="alert alert-{{ style }} product-text-block product-text-block-icons py-3 my-2 rounded__all" {{ block.shopify_attributes }} role="alert">
+  <ul class="product-text-icons product-text-icon-wrapper">
+    <li class="product-text-icon mb-0">
+      <span class="icon-and-text">
+        {% unless image == blank %}
+        {{ image | image_url: width: 2048 | image_tag:
+           class: 'icon img-fluid lazyload',
+           widths: '50, 100',
+           height: image.height,
+           width: image.width,
+           alt: image.alt | escape
+        }}
+        {% endunless %}
+        <span>{{ text | escape }}</span>
+      </span>
+    </li>
+  </ul>
+</div>
+{% endunless %}

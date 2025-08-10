@@ -1,0 +1,150 @@
+{% comment %}
+  Announcement bar section
+{% endcomment %}
+
+{{ 'component-announcement.css' | asset_url | stylesheet_tag: preload: true }}
+
+{% assign _colClassLayout = 'col-md-12 col-lg-12 col-sm-12 col-xs-12 py-1 text-center' %}
+
+{% if section.settings.announcement_bar %}
+  {% unless section.settings.home_page_only and template != 'index' %}
+    <div id="{{ section.id }}" class="tpro-wrapper border-bottom-0">
+      <div class="container">
+        <div class="tpro-second">
+          <div class="row">
+            <div class="{{ _colClassLayout }}">
+              <div class="background w-100">
+                <div
+                  id="carouselContentTopRow"
+                  class="carousel slide"
+                  data-ride="carousel"
+                  data-interval="{% if section.settings.autoplay %}{{ section.settings.autoplay_speed }}{% else %}false{% endif %}"
+                >
+                  <div class="carousel-inner desktop-hide laptop-hide mobile tablet announcement-bar">
+                    {% for block in section.blocks %}
+                      <!-- forloop.first refers to the first item in the block -->
+                      <div class="top-row-bar-1 carousel-item h-auto bg-transparent {% unless forloop.index != 1 %}active{% endunless %} text-center">
+                        <a href="{% if block.settings.hn_cta_url != blank %}{{ block.settings.hn_cta_url }}{% else %}{{ routes.root_url }}{% endif %}">
+                          <div class="d-flex flex-column bd-highlight mb-0">
+                            {% if block.settings.announcement_bar_text_1 == blank %}
+                              <p class="">{{ 'general.shop.topbar' | t }}</p>
+                            {% else %}
+                              <p class="">{{ block.settings.announcement_bar_text_1 }}</p>
+                            {% endif %}
+                          </div>
+                        </a>
+                      </div>
+                    {% endfor %}
+                  </div>
+                  <div class="desktop laptop mobile-hide tablet-hide announcement-bar">
+                    <div class="d-flex flex-row justify-content-around">
+                    {% for block in section.blocks %}
+                      <!-- forloop.first refers to the first item in the block -->
+                      <div class="top-row-bar-1 h-auto bg-transparent text-center">
+                        <a href="{% if block.settings.hn_cta_url != blank %}{{ block.settings.hn_cta_url }}{% else %}{{ routes.root_url }}{% endif %}">
+                          <div class="d-flex flex-column bd-highlight mb-0">
+                            {% if block.settings.announcement_bar_text_1 == blank %}
+                              <p class="">{{ 'general.shop.topbar' | t }}</p>
+                            {% else %}
+                              <p class="">{{ block.settings.announcement_bar_text_1 }}</p>
+                            {% endif %}
+                          </div>
+                        </a>
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endunless %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "color",
+      "id": "tpro_bgcolor",
+      "label": "Background",
+      "default": "#fafafa"
+    },
+    {
+      "type": "color",
+      "id": "tpro_textcolor",
+      "label": "Body text",
+      "default": "#1C1B1B"
+    },
+    {
+      "type": "checkbox",
+      "id": "announcement_bar",
+      "label": "Show announcement bar",
+      "info": "This will show up to 4 messages",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "home_page_only",
+      "label": "Home page only",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": true
+    },
+    {
+     "type": "range",
+     "id": "autoplay_speed",
+     "min": 2000,
+     "max": 8000,
+     "step": 500,
+     "unit": "ms",
+     "label": "Transition speed",
+     "default": 7000
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "announcement_bar_text_1",
+          "label": "Text",
+          "default": "Welcome to our store"
+        },
+        {
+          "type": "url",
+          "id": "hn_cta_url",
+          "label": "Link",
+          "default": "/collections/all"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement bar",
+      "category": "Content"
+    }
+  ]
+}
+{% endschema %}
+
+{%- style -%}
+  .tpro-wrapper {
+      background-color: {{ section.settings.tpro_bgcolor }};
+  }
+  .tpro-second .background p {
+      color: {{ section.settings.tpro_textcolor }};
+  }
+{%- endstyle -%}

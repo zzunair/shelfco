@@ -1,0 +1,144 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "static-page",
+      "custom_css": [],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "main_image_with_text_aha6p7": {
+      "type": "main-image-with-text",
+      "blocks": {
+        "image_ixwzJb": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/boon_all_c020a8fc-516e-459a-b103-9e9c3ad15469.jpg",
+            "content_title": "BOON",
+            "content_caption": "Choose from square or rectangular cubes available in white and oak for a personalized cube storage system.",
+            "content_button": "SHOP BOON",
+            "content_url": "shopify://collections/boon"
+          }
+        }
+      },
+      "block_order": [
+        "image_ixwzJb"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "switchLayout": "2"
+      }
+    },
+    "main_image_with_text_NzEp7J": {
+      "type": "main-image-with-text",
+      "blocks": {
+        "image_UaDtdc": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/closit_corner_8ab40d7b-e4d6-4c8f-9b81-7d41527147da.jpg",
+            "content_title": "CLOS-IT",
+            "content_caption": "Build a modular wardrobe system with shelves, hanging rails, and drawers available in white and oak.",
+            "content_button": "SHOP CLOS-IT",
+            "content_url": "shopify://collections/wardrobe-closet"
+          }
+        }
+      },
+      "block_order": [
+        "image_UaDtdc"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "switchLayout": "2"
+      }
+    },
+    "main_image_with_text_VQKkew": {
+      "type": "main-image-with-text",
+      "blocks": {
+        "image_H8qAmQ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/lium_combined.jpg",
+            "content_title": "LIUM",
+            "content_caption": "A high-end shelving unit with oak wood, black wood, or glass open shelving.",
+            "content_button": "SHOP LIUM",
+            "content_url": "shopify://collections/lium-decorative-shelving-units"
+          }
+        }
+      },
+      "block_order": [
+        "image_H8qAmQ"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "switchLayout": "2"
+      }
+    },
+    "main_image_with_text_jDjggx": {
+      "type": "main-image-with-text",
+      "blocks": {
+        "image_xBDUcC": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/maxx_step_8db4ee5b-004e-4ebf-b401-b1fd275df36f.jpg",
+            "content_title": "MAXX",
+            "content_caption": "A modern shelving system available with open-sided wood or metal frames and white or black shelves.",
+            "content_button": "SHOP MAXX",
+            "content_url": "shopify://collections/maxx-shelving-units"
+          }
+        }
+      },
+      "block_order": [
+        "image_xBDUcC"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "switchLayout": "2"
+      }
+    },
+    "main_image_with_text_yibQgf": {
+      "type": "main-image-with-text",
+      "blocks": {
+        "image_JTmrmC": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/yomo_accessorized.jpg",
+            "content_title": "YOMO",
+            "content_caption": "Build a modular bookshelf with white or oak shelves along with grey, white, or blue backboards.",
+            "content_button": "SHOP YOMO",
+            "content_url": "shopify://collections/yomo-bookshelves"
+          }
+        }
+      },
+      "block_order": [
+        "image_JTmrmC"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "switchLayout": "2"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "main_image_with_text_aha6p7",
+    "main_image_with_text_NzEp7J",
+    "main_image_with_text_VQKkew",
+    "main_image_with_text_jDjggx",
+    "main_image_with_text_yibQgf"
+  ]
+}

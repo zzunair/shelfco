@@ -1,0 +1,317 @@
+{% comment %}
+  Scrolling text section
+{% endcomment %}
+
+<div class="container-fluid px-0 wow fadeIn" data-wow-delay="300ms">
+  <div id="{{ section.id }}" class="scrolling-cta-wrapper">
+    <div class="main-logo-slider-wrapper">
+      <div class="main-logo-slides">
+        {% for block in section.blocks %}
+          {% assign icon_image = block.settings.image | default: block.settings.image %}
+          <div class="main-logo-slide">
+            <div class="main-logo-slide-text">
+              {% unless icon_image == blank %}
+                {{ icon_image | image_url: width: 2048 | image_tag:
+                  class: 'img-fluid scrolling-cta-item',
+                  widths: '50, 100, 150, 200, 250, 300, 400, 500',
+                  height: icon_image.height,
+                  width: icon_image.width,
+                  loading: 'lazy',
+                  alt: icon_image.alt | escape
+                }}
+              {% endunless %}
+              {% if block.settings.icon_caption != blank %}
+                <span class="mb-0">{{ block.settings.icon_caption | escape }}</span>
+              {% endif %}
+            </div>
+            <span class="main-logo-slide-icon"></span>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="main-logo-slides">
+        {% for block in section.blocks %}
+          {% assign icon_image = block.settings.image | default: block.settings.image %}
+          <div class="main-logo-slide">
+            <div class="main-logo-slide-text">
+              {% unless icon_image == blank %}
+                {{ icon_image | image_url: width: 2048 | image_tag:
+                  class: 'img-fluid scrolling-cta-item',
+                  widths: '50, 100, 150, 200, 250, 300, 400, 500',
+                  height: icon_image.height,
+                  width: icon_image.width,
+                  alt: icon_image.alt | escape
+                }}
+              {% endunless %}
+              {% if block.settings.icon_caption != blank %}
+                <span class="mb-0">{{ block.settings.icon_caption | escape }}</span>
+              {% endif %}
+            </div>
+            <span class="main-logo-slide-icon"></span>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Scrolling text",
+  "class": "scrolling-text",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#212529"
+    },
+    {
+      "type": "color",
+      "id": "font_color",
+      "label": "Body font",
+      "default": "#FAFAFA"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Icon",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "32 x 32px .png recommended"
+        },
+        {
+          "type": "text",
+          "id": "icon_caption",
+          "label": "Heading",
+          "default": "Add text here"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+     "name": "Scrolling text",
+      "category": "Content",
+      "settings": {},
+      "blocks": [
+          {
+           "type": "image",
+            "settings": {
+              "image": "",
+              "icon_caption": "Add text here"
+            }
+          },
+          {
+           "type": "image",
+            "settings": {
+              "image": "",
+              "icon_caption": "Add text here"
+            }
+          },
+          {
+           "type": "image",
+            "settings": {
+              "image": "",
+              "icon_caption": "Add text here"
+            }
+          },
+          {
+           "type": "image",
+            "settings": {
+              "image": "",
+              "icon_caption": "Add text here"
+            }
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{%- style -%}
+    .scrolling-cta-wrapper {
+      background-color: {{ section.settings.background_color }};
+      min-height: 80px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 32px;
+      flex-wrap: wrap;
+    }
+    .scrolling-cta-wrapper .cta-item {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 12px 0;
+      position: relative;
+      align-items: center;
+      align-content: space-between;
+    }
+    @media screen and (min-width: 768px) {
+      .scrolling-cta-wrapper .cta-item:not(:last-of-type) {
+         min-height: 80px;
+      }
+      img.scrolling-cta-item {
+        margin-right: 10px;
+        width: 30px;
+        max-width: 30px;
+      }
+    }
+    .scrolling-cta-wrapper .cta-item .cta-text {
+      white-space: nowrap;
+      color: white;
+    }
+    @media screen and (max-width: 768px) {
+      .scrolling-cta-wrapper .cta-item {
+          min-width: 50%;
+      }
+      .scrolling-cta-wrapper {
+        padding: 15px;
+        gap: 5px;
+      }
+      .scrolling-cta-wrapper .cta-item:not(:last-of-type) {
+         border-right: none;
+      }
+      div.cta-item {
+        border-right: none;
+      }
+      div.cta-item:nth-child(2) {
+        border-right: none;
+      }
+      img.scrolling-cta-item {
+        margin-right: 10px;
+        width: 30px;
+        max-width: 30px;
+      }
+      .scrolling-cta-wrapper .cta-item .cta-text {
+        white-space: nowrap;
+        font-size: var(--font-size-base);
+      }
+    }
+    @media screen and (max-width: 598px){
+      .scrolling-cta-wrapper .cta-item {
+        border-right: none !important;
+        font-size: var(--font-size-base);
+      }
+    }
+  .main-logo-slider-wrapper .main-logo-slides .main-logo-slide-text {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  .main-logo-slider-wrapper .main-logo-slides .main-logo-slide-text span {
+      font-style: normal;
+      font-family: var(--font-stack-header);
+      font-weight: var(--font-weight-header);
+      font-size: var(--text-xxlarge);
+      line-height: var(--line-height);
+      text-align: center;
+      color: {{ section.settings.font_color }};
+  }
+  .main-logo-slider-wrapper {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      overflow: hidden;
+  }
+  .logo-list-container .main-logo-slider-wrapper .main-logo-slides {
+      animation: marquee 40s linear infinite;
+  }
+  .main-logo-slider-wrapper .main-logo-slides {
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-flex: 0;
+      -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+      flex: 0 0 auto;
+      animation: marquee 25s linear infinite;
+      max-width: none;
+      width: auto;
+  }
+  .main-logo-slider-wrapper .main-logo-slide {
+      display: flex;
+  }
+  .main-logo-slider-wrapper .main-logo-slide .main-logo-slide-icon {
+      padding: 0 37px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: auto;
+      height: auto;
+      position: relative;
+  }
+  .main-logo-slider-wrapper .main-logo-slide .main-logo-slide-icon:before {
+      width: 31px;
+      height: 37px;
+      bottom: 24px;
+  }
+  @media only screen and (max-width: 767px) {
+  .main-logo-slider-wrapper .main-logo-slides .main-logo-slide-text span {
+      font-size: var(--text-medium);
+      font-family: var(--font-stack-header);
+  }
+  .main-logo-slider-wrapper .main-logo-slide .main-logo-slide-icon:before {
+      width: 23px;
+      height: 27px;
+      bottom: 2px;
+      background-size: cover !important;
+    }
+  }
+  @keyframes marquee {
+    0% {
+      transform: translate(0, 0);
+      -webkit-transform: translate(0, 0);
+      -moz-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+      -o-transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(-100%, 0);
+      -webkit-transform: translate(-100%, 0);
+      -moz-transform: translate(-100%, 0);
+      -ms-transform: translate(-100%, 0);
+      -o-transform: translate(-100%, 0);
+    }
+  }
+  @-moz-keyframes marquee {
+    0% {
+      transform: translate(0, 0);
+      -webkit-transform: translate(0, 0);
+      -moz-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+      -o-transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(-100%, 0);
+      -webkit-transform: translate(-100%, 0);
+      -moz-transform: translate(-100%, 0);
+      -ms-transform: translate(-100%, 0);
+      -o-transform: translate(-100%, 0);
+    }
+  }
+  @-webkit-keyframes marquee {
+    from {
+      transform: translate(0, 0);
+      -webkit-transform: translate(0, 0);
+      -moz-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+      -o-transform: translate(0, 0);
+    }
+    to {
+      transform: translate(-100%, 0);
+      -webkit-transform: translate(-100%, 0);
+      -moz-transform: translate(-100%, 0);
+      -ms-transform: translate(-100%, 0);
+      -o-transform: translate(-100%, 0);
+    }
+  }
+{%- endstyle -%}

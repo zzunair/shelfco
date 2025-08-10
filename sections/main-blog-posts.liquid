@@ -1,0 +1,328 @@
+{% comment %}
+  Featured blogs section
+{% endcomment %}
+
+{%- liquid
+  assign blog = blogs[section.settings.blog]
+
+  if section.settings.blog_layout == 'row'
+    assign _colBlogLayout = 'js-blog-grid'
+  endif
+
+  assign article_limit = section.settings.post_limit
+
+  assign media_size = section.settings.image_ratio
+
+  if media_size == 'square'
+    assign class = 'aspect-ratio__square d-block w-100 img-fluid'
+  elsif media_size == 'portrait'
+    assign class = 'aspect-ratio__portrait d-block w-100 img-fluid'
+  else
+    assign class = 'aspect-ratio__unset d-block w-100 img-fluid'
+  endif
+-%}
+
+{% if blog.articles.size > 0 %}
+  <section
+    id="{{ section.id }}"
+    class="section-{{ section.id }}-padding"
+    data-section-id="{{ section.id }}"
+    data-section-type="blog-layout"
+  >
+    <div class="container px-0 blog-section wow fadeIn">
+      <div class="col-md-12 px-0">
+        <div class="js-blog-grid">
+          <div class="slider-container multiple" tabindex="-1">
+            <!-- blog title -->
+            <div class="text-left pt-0 mb-3 container">
+              {% if section.settings.title != blank %}
+                <a href="{{ blog.url }}" aria-label="{{ section.settings.title | escape }}">
+                  <h2>{{ section.settings.title | escape }}</h2>
+                </a>
+              {% endif %}
+            </div>
+            <!-- end blog title -->
+            <div class="featured-blogs pt-1 row" id="id_{{ section.id }}">
+              {% for article in blog.articles limit: article_limit %}
+                <div
+                  class="col-lg-4 col-md-4 col-sm-12 col-xs-12 wow fadeIn mb-0 pb-lg-0 pb-md-0 pb-sm-3 pb-xs-3"
+                  data-wow-delay="300ms"
+                  tabindex="0"
+                >
+                  <div class="blog-media mb-0">
+                    <div class="image-wrapper">
+                      <a href="{{ article.url }}" aria-label="{{ article.title }}">
+                        {% assign widths = '450, 660, 900, 1320, 1800, 2136, 2400, 3600, 7680' %}
+                        {% assign height = article.image.height %}
+                        {% assign sizes = '100vw' %}
+                        {% if article.image == blank %}
+                          {{ 'image' | placeholder_svg_tag: 'placeholder-svg border rounded__all' }}
+                        {% else %}
+                          {{
+                            article.image
+                            | image_url: width: 2048
+                            | image_tag:
+                              class: class,
+                              height: height,
+                              sizes: sizes,
+                              widths: widths,
+                              loading: 'lazy',
+                              alt: article.image.alt
+                            | escape
+                          }}
+                        {% endif %}
+                      </a>
+                    </div>
+                  </div>
+                  <div class="card border-0">
+                    <div class="card-body rounded-0 card-panel-bg px-2">
+                      <a href="{{ article.url }}" aria-label="{{ article.title | escape }}">
+                        <h3 class="newsletter-heading pb-0">
+                          {{ article.title }}
+                        </h3>
+                      </a>
+                      <div class="date-published d-flex justify-content-between mb-3">
+                        {% if section.settings.blog_show_author %}
+                          <span class="blog-author d-inline-flex pb-0 mb-0 text-left">
+                            {{- 'blogs.article.by_author' | t: author: article.author -}}
+                          </span>
+                        {% endif %}
+                        {% if section.settings.blog_show_date %}
+                          <span class="blog-date d-inline-flex mb-0 pb-0 text-right">
+                            {{- article.published_at | date: '%b %d, %Y' -}}
+                          </span>
+                        {% endif %}
+                      </div>
+                      <div class="buttons-wrapper mt-0 mb-0 justify-content-start">
+                        <a
+                          href="{{ article.url }}"
+                          class="btn btn-contact"
+                          aria-label="{{ 'general.shop.read_more' | t }}"
+                          tabindex="0"
+                        >
+                        {{ 'general.shop.read_more' | t }}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+            <div class="controls">
+              <button role="button" aria-label="Previous" class="glider-prev prev-btn top-50">
+                {% render 'icon-prev' %}
+              </button>
+              <button role="button" aria-label="Next" class="glider-next next-btn top-50">
+                {% render 'icon-next' %}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Blog posts",
+  "class": "main-blog-posts",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Blog posts"
+    },
+    {
+      "id": "blog",
+      "type": "blog",
+      "label": "Pick a blog"
+    },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "label": "Posts",
+      "min": 3,
+      "max": 12,
+      "step": 3,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "blog_show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "default": "adapt",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        }
+      ],
+      "default": "square"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog posts",
+      "category": "Content",
+      "settings": {
+        "blog": "News",
+        "post_limit": 3
+      }
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    if(document.querySelector('.featured-blogs') != null){
+      var element = document.querySelector('#{{ section.id }} .featured-blogs');
+      // using remove method
+      // remove single class
+      element.classList.remove('row');
+      // select all slider parents
+      var sliders = document.querySelectorAll('#{{ section.id }} .featured-blogs');
+      //for each slide
+      sliders.forEach(slider => {
+        var slider = tns({
+          container: slider,
+          items: 1,
+          slideBy: '1',
+          nav: false,
+          speed: 400,
+          mode: 'carousel',
+          prevButton: '#{{ section.id }} .prev-btn',
+          nextButton: '#{{ section.id }} .next-btn',
+          navPosition: 'bottom',
+          autoplayButtonOutput: false,
+          mouseDrag: true,
+          autoplay: false,
+          controls: true,
+          freezable: true,
+          touch: false,
+          mouseDrag: false,
+          preventScrollOnTouch: 'true',
+          rewind: true,
+          lazyload: true,
+          center: false,
+          loop: false,
+          controlsContainer: "#{{ section.id }} .controls",
+          onInit(info) {
+          	info.controlsContainer.setAttribute('tabindex', -1);
+          	info.nextButton.setAttribute('tabindex', -1);
+          	info.prevButton.setAttribute('tabindex', -1);
+          },
+          responsive: {
+            480: {
+              items: 1,
+            },
+            640: {
+              items: 2,
+            },
+            768: {
+              items: 3,
+            }
+          }
+        });
+      });
+    }
+  });
+  //this will prevent the slider from breaking when the section is changed via the theme editor
+  document.addEventListener('shopify:section:load', function (event) {
+    if(event.detail.sectionId === '{{ section.id }}') {
+      if(document.querySelector('.featured-blogs') != null){
+        var element = document.querySelector('#{{ section.id }} .featured-blogs');
+        // using remove method
+        // remove single class
+        element.classList.remove('row');
+        //for each slide
+        var slider = tns({
+          container: '#{{ section.id }} .featured-blogs',
+          items: 1,
+          slideBy: '1',
+          nav: false,
+          speed: 400,
+          mode: 'carousel',
+          prevButton: '#{{ section.id }} .prev-btn',
+          nextButton: '#{{ section.id }} .next-btn',
+          navPosition: 'bottom',
+          autoplayButtonOutput: false,
+          mouseDrag: true,
+          autoplay: false,
+          controls: true,
+          freezable: true,
+          touch: false,
+          mouseDrag: false,
+          preventScrollOnTouch: 'true',
+          rewind: true,
+          lazyload: true,
+          center: false,
+          loop: false,
+          controlsContainer: '#{{ section.id }} .controls',
+          responsive: {
+            480: {
+              items: 1,
+            },
+            640: {
+              items: 2,
+            },
+            768: {
+              items: 3,
+            }
+          }
+        });
+      }
+    }
+  });
+</script>
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}

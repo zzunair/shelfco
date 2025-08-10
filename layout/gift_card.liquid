@@ -1,0 +1,52 @@
+<!doctype html>
+<html class="no-js supports-no-cookies pb-0" lang="{{ request.locale.iso_code }}" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_accent }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+  {% if settings.favicon_logo != blank %}
+    <link rel="shortcut icon" href="{{ settings.favicon_logo | img_url: '96x' }}" type="image/png" />
+  {% else %}
+    <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
+  {% endif %}
+  {% render 'theme-head' %}
+  {{ 'gift-card.css' | asset_url | stylesheet_tag }}
+  {% assign formatted_initial_value = gift_card.initial_value | money_without_trailing_zeros: gift_card.currency %}
+  {% assign formatted_initial_value_stripped = formatted_initial_value | strip_html %}
+  <title>{{ 'gift_cards.issued.title' | t: value: formatted_initial_value_stripped, shop: shop.name }}</title>
+  {% if page_description != blank %}
+  <meta name="description" content="{{ 'gift_cards.issued.subtext' | t }}">
+  {% endif %}
+  <!-- content_header -->
+  {{ content_for_header }}
+</head>
+<body id="{{ template }}" class="erickson-theme page-content{% if template.directory %}template-{{ template.directory | handle }}{% endif %} template-{{ template.name | handle }}">
+  <!-- gift card template -->
+  <div id="sign-up-form" class="login__background fixed-bg">
+    <div class="row justify-content-center">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="login__wrapper login__wrapper--vertical-center">
+          <!-- gift card -->
+          <div class="card o-hidden border-0 mx-auto login-b2b login_account_b2b">
+            <div class="card-body p-0 w-100 gift-bg">
+              <div class="row">
+                <div class="col-lg-12">
+                  <!-- gift card content - gift_card.liquid (templates)  -->
+                    {{ content_for_layout }}
+                  <!-- /gift card content - gift_card.liquid (templates)  -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end gift card -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <script defer src="{{ 'vendor/qrcode.js' | shopify_asset_url }}"></script>
+  <script defer src="{{ 'gift-card.js' | asset_url }}"></script>
+</body>
+{% layout 'none' %}
+</html>

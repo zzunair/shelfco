@@ -1,0 +1,295 @@
+{% comment %}
+  Renders product variant options
+
+  Accepts:
+  - product: {Object} product object.
+  - block: {Object} block object.
+
+  Usage:
+  {% render 'product-option-row',
+    product: product,
+    block: block
+  %}
+{% endcomment %}
+
+{% assign optionValues = option.values %}
+<div class="product-option-row d-block pt-0 align-items-center {{ class }}" {{ block.shopify_attributes }}>
+  {% if template == 'product' %}
+    <label for="{% if type == 'select' %}select-{{ option_name }}{% endif %}" class="" aria-label="{{ option.name }}">
+      <span class="option-name {% if template == 'product' %}d-block{% endif %} mb-1">{{ option.name }}</span>
+    </label>
+  {% else %}
+    <label
+      for="{% if type == 'select' %}select-{{ option_name }}{% endif %}"
+      class="{{ class2 }}"
+      aria-label="{{ option.name }}"
+    >
+      <span class="option-name d-inline-flex mr-2">{{ option.name }}</span>
+    </label>
+  {% endif %}
+  <!-- color swatch -->
+  {% assign color_option = option.name | downcase %}
+  {% assign color_option_class = '' %}
+  {% if settings.show_swatches and template != 'product.new-product-template' %}
+    {% if color_option == 'color'
+      or color_option == 'colour'
+      or color_option == 'shelf finish'
+      or color_option == 'finish'
+    %}
+      {% assign color_option_class = 'color-option-swatch' %}
+    {% endif %}
+  {% endif %}
+  <!-- /color swatch -->
+  {% if template != 'product' %}
+    <!-- colors -->
+    {% assign colors = settings.swatches_colors | split: ';' %}
+
+    {% if colors != blank %}
+      <div class="colors-preview">
+        {% for value in option.values %}
+          {% comment %} capture available option2 for option 1 in the current product {% endcomment %}
+          {% assign available_option = '' %}
+          {% for variant in product.variants %}
+            {% if variant.option1 == value %}
+              {% assign available_option = available_option | append: variant.option2 | append: ',' %}
+            {% endif %}
+          {% endfor %}
+
+          {% if color_option_class != '' %}
+            {% assign hasColorValue = false %}
+            {% assign colors = settings.swatches_colors | split: ';' %}
+            {% if colors != blank %}
+              {% for color in colors %}
+                {% assign index = forloop.index %}
+                {% assign colorTitle = color | split: ':' | first %}
+                {% assign colorValue = color | split: ':' | last %}
+                {% assign colorTitle = colorTitle | strip | handleize %}
+                {% assign colorVariant = value | downcase | handleize %}
+                {% if colorTitle != blank and colorValue != blank and colorTitle == colorVariant %}
+                  {% assign hasColorValue = true %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+            {% if hasColorValue %}
+              <div
+                class="color-preview color-{{ value | downcase | handleize }}"
+              ></div>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+    {%- style -%}
+      {% assign colors = settings.swatches_colors | split: ';' %}
+
+      {% if colors != blank %}
+        {% capture swatchesCSS2 %}
+          {% for color in colors %}
+            {% assign index = forloop.index %}
+            {% assign colorTitle = color | split: ':' | first %}
+            {% assign colorValue = color | split: ':' | last | split: ';' | first %}
+            {% if colorTitle != blank and colorValue != blank %}
+              .colors-preview .color-{{ colorTitle | strip | handleize }} {
+                background-color: {{colorValue}};
+                background-image: url("https://shelf-co.com/cdn/shop/files/{{ colorValue }}_50x50_crop_center.png"), url("https://shelf-co.com/cdn/shop/files/{{ colorValue }}_50x50_crop_center.jpg");
+              }
+            {% endif %}
+          {% endfor %}
+        {% endcapture %}
+      {{ swatchesCSS2 | strip }}
+      {% endif %}
+
+
+      .colors-preview {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        margin-left: .5rem;
+      }
+      .color-preview {
+        height: 1.5rem;
+        width: 1.5rem;
+        border: 1px solid #2A3640;
+        border-radius: 1.5rem;
+        position: relative;
+        display: flex;
+        flex-direction: row;
+      }
+    {%- endstyle -%}
+    <!-- /colors -->
+  {% endif %}
+  {% if template == 'product' or template == 'product.new-product-template' %}
+    <div class="option-values d-block w-100">
+      {% if type == 'select' %}
+        <input type="hidden" value="select" name="type" data-selected="{{ selected }}">
+        <div class="styled-select dropup">
+          <select
+            id="product-select-{{ product.id }}"
+            name="{{ option_name }}"
+            data-product-url="{{ product.url }}"
+            class="js-variant-id-image {{ color_option_class }} select2 {{ classBorder }}"
+          >
+            {% for value in option.values %}
+              {% comment %} capture available option2 for option 1 in the current product {% endcomment %}
+              {% assign available_option = '' %}
+              {% for variant in product.variants %}
+                {% if variant.option1 == value %}
+                  {% assign available_option = available_option | append: variant.option2 | append: ',' %}
+                {% endif %}
+              {% endfor %}
+
+              {% if color_option_class != '' %}
+                {% assign hasColorValue = false %}
+                {% assign colors = settings.swatches_colors | split: ';' %}
+                {% if colors != blank %}
+                  {% for color in colors %}
+                    {% assign index = forloop.index %}
+                    {% assign colorTitle = color | split: ':' | first %}
+                    {% assign colorValue = color | split: ':' | last %}
+                    {% assign colorTitle = colorTitle | strip | handleize %}
+                    {% assign colorVariant = value | downcase | handleize %}
+                    {% if colorTitle != blank and colorValue != blank and colorTitle == colorVariant %}
+                      {% assign hasColorValue = true %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if hasColorValue %}
+                  <option
+                    {{ forloop.length }}
+                    class="color-{{ value | downcase | handleize }}"
+                    value="{{ value | escape }}"
+                    {% for variant in product.variants %}
+                      data-available-option="{{ available_option }}" data-option="{{ option.name }}"
+                      data-value="{{ value | escape }}" data-inventory-quantity="{{ variant.inventory_quantity }}"
+                    {% endfor %}
+                    {% if value == selected %}
+                      selected
+                    {% endif %}
+                  >
+                    {{ value }}
+                  </option>
+                {% endif %}
+              {% else %}
+                <option
+                  value="{{ value | escape }}"
+                  {% for variant in product.variants %}
+                    data-available-option="{{ available_option }}" data-option="{{ option.name }}"
+                    data-value="{{ value | escape }}" data-inventory-quantity="{{ variant.inventory_quantity }}"
+                  {% endfor %}
+                  {% if value == selected %}
+                    selected
+                  {% endif %}
+                >
+                  {{ value }}
+                </option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+{% if settings.show_swatches and template != 'product.new-product-template' %}
+  {%- assign img_size_sw = '30x30' -%}
+  {%- style -%}
+    {% assign colors = settings.swatches_colors | split: ';' %}
+
+    {% if colors != blank %}
+      {% capture swatchesCSS %}
+        {% for color in colors %}
+          {% assign index = forloop.index %}
+          {% assign colorTitle = color | split: ':' | first %}
+          {% assign colorValue = color | split: ':' | last | split: ';' | first %}
+          {% if colorTitle != blank and colorValue != blank %}
+            .color-option-swatch .color-{{ colorTitle | strip | handleize }}:after {
+              background-color: {{colorValue}};
+              background-image: url("https://shelf-co.com/cdn/shop/files/{{ colorValue }}_50x50_crop_center.png"), url("https://shelf-co.com/cdn/shop/files/{{ colorValue }}_50x50_crop_center.jpg");
+            }
+          {% endif %}
+        {% endfor %}
+      {% endcapture %}
+    {{ swatchesCSS | strip }}
+    {% endif %}
+
+    .color-option-swatch .ss-list .ss-option:after {
+      margin-top: -10px;
+    }
+    .color-option-swatch .ss-list .ss-option:after,
+    .color-option-swatch .placeholder:after {
+      content: '';
+      width: 44px;
+      height: 34px;
+      position: absolute;
+      right: 30px;
+      border: 1px solid var(--color-border);
+    }
+    .product-item .color-option-swatch .ss-list .ss-option, .product-item .color-option-swatch .placeholder {
+      visibility: hidden;
+      display: flex;
+      max-width: 40px !important;
+      overflow: hidden;
+    }
+    .product-item .color-option-swatch .ss-list .ss-option:after, .product-item .color-option-swatch .placeholder:after {
+      visibility: visible;
+      left: 0;
+      right: 0;
+      border-radius: 6px;
+      width: 44px;
+      height: 38px;
+    }
+    .product-item .color-option-swatch .ss-content.ss-open {
+      border: 0px !important;
+      background-color: var(--color-body-bg);
+    }
+    .product-item .ss-option.swatch-view-more:after {
+      visibility: hidden !important;
+    }
+    .product-item .ss-option.swatch-view-more {
+      visibility: visible !important;
+      order: 1;
+      border-radius: 6px;
+      width: 44px;
+      height: 38px;
+      padding: 14px 10px !important;
+    }
+    .product-item .color-option-swatch .ss-content.ss-open .ss-list {
+      margin-bottom: 4px !important;
+    }
+    .product-option-row .color-option-swatch .ss-content .ss-list {
+      max-height: none;
+    }
+    .product-item .color-option-swatch .ss-content .ss-list .ss-option.swatch-view-more:hover {
+      background-color: var(--color-body-bg) !important;
+      color: var(--color-body-text) !important;
+    }
+    .product-item .color-option-swatch .ss-list .ss-option:hover:after,
+    .product-item .color-option-swatch .placeholder:hover:after,
+    .product-item .color-option-swatch .ss-list .ss-option.ss-option-selected:after,
+    .product-item .ss-main.color-option-swatch .ss-content .ss-list .ss-option.ss-highlighted:after {
+      outline: 2px solid var(--color-body-text);
+      outline-offset: 0.1rem;
+      box-shadow: 0 0 0 0.3rem rgb(var(--color-body-text)), 0 0 0.5rem 0.4rem rgba(var(--color-body-text), 0.7);
+    }
+    .product-item .ss-main.color-option-swatch .ss-content .ss-list .ss-option.ss-highlighted {
+      background-color: unset;
+    }
+    .product-item .ss-main.color-option-swatch .ss-content .ss-list .ss-option.swatch-view-more.ss-highlighted {
+      background: var(--color-btn-main-bg);
+      color: var(--color-btn-main-text);
+    }
+    .product-item .color-option-swatch .ss-list .ss-option {
+      margin-bottom: 4px;
+      max-height: 45px;
+    }
+    .product-item  .ss-main.color-option-swatch .placeholder {
+      min-width: 40px !important;
+      max-width: 40px !important;
+    }
+    .product-item  .ss-main.color-option-swatch .ss-content .ss-list .ss-option:hover{
+     background:unset !important;
+    }
+  {%- endstyle -%}
+{% endif %}

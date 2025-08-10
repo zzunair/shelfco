@@ -1,0 +1,90 @@
+{% if product.media.size >= 2 %}
+<div class="container slider-full">
+  <div class="row">
+    <div class="col-md-12 p-0">
+      <div class="thumb-slider">
+        <div class="thumb-slider__slide">
+          <div class="product-thumbnails row mt-0">
+            {% for media in product.media %}
+            <a href="#" class="thumb-slide focus-inset" tabindex="1">
+              <div class="thumb-slide-inner">
+              {% case media.media_type %}
+              <!-- image -->
+              {% when 'image' %}
+              {% render 'responsive-image' with image: media, image_class: "img-fluid lazyload aspect-ratio__square", wrapper_class: "img-wrapper-class", max_width: 1000, max_height: 1000, lazy: lazy %}
+              <!-- youtube -->
+              {% when 'external_video' %}
+              {% render 'responsive-image' with image: media.preview_image, image_class: "img-fluid aspect-ratio__square", wrapper_class: "img-wrapper-class", max_width: 1000, max_height: 1000, lazy: "" %}
+              <!-- MP4 -->
+              {% when 'video' %}
+              <div class="video-container thumbnail-product-image-video" data-media-id="{{ media.id }}">
+                {{ media | video_tag: controls: false, preload: "none", autoplay: false, loading: "lazy", width: "1000", class: "aspect-ratio__square" }}
+              </div>
+              <!-- model -->
+              {% when 'model' %}
+              <div class="model-container primary-media-container" tabindex="0" data-product-media-type-model>
+                <product-model class="deferred-media media no-js-hidden" data-media-id="{{ media.id }}">
+                  {% render 'responsive-image' with image: media, image_class: "img-fluid aspect-ratio__square", wrapper_class: "img-wrapper-class", max_width: 1000, max_height: 1000, lazy: "" %}
+                  <template>
+                    {{ media | media_tag: image_size: "2048x", toggleable: true }}
+                  </template>
+                </product-model>
+              </div>
+              {% else %}
+                {% render 'responsive-image' with image: media, image_class: "img-fluid aspect-ratio__square", wrapper_class: "img-wrapper-class", max_width: 1000, max_height: 1000, lazy: "" %}
+              {% endcase %}
+              </div>
+             </a>
+            {% endfor %}
+          </div>
+      	</div>
+      </div>
+      <!-- pagination -->
+      <div id="controls-thumbnails">
+        <button class="glider-btn glider-prev previous bg-transparent border-0 shadow-none" aria-label="left align">{% render 'icon-prev' %}</button>
+        <button class="glider-btn glider-next next bg-transparent border-0 shadow-none" aria-label="right align">{% render 'icon-next' %}</button>
+      </div>
+      <!-- /pagination -->
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<script type="text/javascript">
+//this will prevent the thumbnails from breaking when the section is changed via the theme editor
+window.addEventListener('shopify:section:load', function (event) {
+  if(event.detail.sectionId === '{{ section.id }}') {
+    if(document.querySelector('.thumb-slider') != null){
+      var thumbSlider = tns({
+          loop: false,
+          rewind: true,
+          touch: false,
+          controlsContainer: "#controls-thumbnails",
+          container: '.product-thumbnails',
+          items: 3,
+          mouseDrag: false,
+          controls: true,
+          nav: false,
+          responsive: {
+            800: {
+              items: 2
+            },
+            1000: {
+              items: 3
+            }
+         },
+      });
+    }
+  }
+});
+</script>
+
+{% style %}
+  .thumb-slide {
+    border: 3px solid white;
+  }
+  .slider-full {
+    padding-left: unset;
+    padding-right: unset;
+  }
+{% endstyle %}

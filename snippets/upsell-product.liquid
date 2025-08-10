@@ -1,0 +1,48 @@
+{% if upsell_product != blank and upsell_product.available and upsell_product.id != product.id %}
+  {% assign upsell_product_id = upsell_product.selected_or_first_available_variant.id %}
+  {% assign featured_image = upsell_product.selected_or_first_available_variant.featured_image
+    | default: upsell_product.featured_image
+  %}
+  <div class="product-upsell-block py-2 mb-0" {{ block.shopify_attributes }}>
+    <div class="product-upsell-inner-wrp">
+      <div class="product-upsell-inner rounded__all">
+        <div class="row">
+          <div class="col-xs-3 col-sm-3 col-md-3">
+            <a href="{{ upsell_product.url }}"
+              ><img src="{{ featured_image | img_url: '100x'  }}" width="100px" height="100px" class="rounded__all" alt="{{ upsell_product.title }}"
+            ></a>
+          </div>
+          <div class="col-xs-6 col-sm-6 col-md-6 p-0">
+            <h5 class="h5">
+              <a href="{{ upsell_product.url }}">{{ upsell_product.title | escape }}</a>
+            </h5>
+            <div class="product-upsell-text">
+              {{ upsell_product.price | money }}
+            </div>
+          </div>
+          <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="product-upsell-btn-wrp">
+              <input
+                type="checkbox"
+                name="upsellProduct[]"
+                data-upsell-for="{{ product.title }}"
+                data-product-upsell="{{ upsell_product_id }}"
+                id="upsellProduct_{{ upsell_product_id }}"
+                class="upsell-product-checkbox hidden"
+                value="{{ upsell_product_id }}"
+                tabindex="0"
+              >
+              <label
+                for="upsellProduct_{{ upsell_product_id }}"
+                class="product-upsell-btn btn btn-contact bg-transparent focus-inset w-100"
+                tabindex="0"
+              >
+                {{ '+ Add' }}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,34 @@
+{% if warranty_product != blank %}
+  {% assign warranty_product_id = warranty_product.selected_or_first_available_variant.id %}
+  <div class="product-warranty-block py-2 mb-0" {{ block.shopify_attributes }}>
+    <div class="product-warranty-inner-wrp">
+      <div class="product-warranty-heading">
+        {% if warranty_heading != blank %}
+          <div class="h5 mb-0">{{ warranty_heading | escape }}</div>
+        {% endif %}
+        <input
+          type="checkbox"
+          name="warrantyProduct"
+          data-warranty-for="{{ product.title }}"
+          data-product-warranty="{{ warranty_product_id }}"
+          id="warrantyProduct"
+          class="hidden"
+          tabindex="0"
+        >
+        <label
+          for="warrantyProduct"
+          class="product-warranty-btn btn btn-contact bg-transparent focus-inset w-100"
+          tabindex="0"
+        >
+          {{ warranty_product.price | money | prepend: 'Add For ' }}
+        </label>
+      </div>
+      <div class="product-warranty-inner rounded__all">
+        <div class="h5">{{ warranty_product.title | escape }}</div>
+        <div class="product-warranty-text">
+          {{ warranty_text }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

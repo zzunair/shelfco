@@ -1,0 +1,74 @@
+<!-- Modal -->
+{% assign pick_up_availabilities = product_variant.store_availabilities | where: 'pick_up_enabled', true %}
+
+<pickup-availability-drawer tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="PickupAvailabilityHeading">
+  <div
+    class="modal fade bd-example-modal-lg"
+    id="pickupModalNew"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content border-0">
+        <div class="modal-body p-0">
+          <button type="button" class="close modal-icon-close px-2 py-2" data-dismiss="modal" aria-label="Close">
+            {% render 'icon-close-modal' %}
+          </button>
+          <div class="container p-0">
+            <div class="card" data-store-availability-drawer-content>
+              <!-- product info -->
+              <div class="card-header">
+                <h5
+                  id="PickupAvailabilitiesModalProductTitle"
+                  class="card-title"
+                  data-pickup-availability-modal-product-title
+                >
+                  {{ product_variant.product.title | escape }}
+                </h5>
+                {% unless product_variant.product.selected_or_first_available_variant.title contains 'Default Title' %}
+                  <h6 class="product-variant-title-modal card-subtitle mb-0">
+                    {{ product_variant.product.selected_or_first_available_variant.title }}
+                  </h6>
+                {% endunless %}
+              </div>
+              <!-- end product info -->
+              <!-- store details -->
+              {% for availability in pick_up_availabilities %}
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <p class="mb-0">{{ availability.location.name }}</p>
+                  </li>
+                </ul>
+                <div class="card-body">
+                  <p class="card-text">
+                    {% if availability.available %}
+                      {% render 'icon-tick' -%}
+                      {{- 'products.pickup_availability.pick_up_available' | t }},
+                      {{ availability.pick_up_time | downcase }}
+                    {% else %}
+                      {% render 'icon-unavailable' -%}
+                      {{- 'products.pickup_availability.check_other_stores' | t }}
+                    {% endif %}
+                  </p>
+                  {% assign address = availability.location.address %}
+                  <!-- pickup address -->
+                  <span class="card-text pickup-availability-list-address">{{ address | format_address }}</span>
+                  <!-- /pickup address -->
+                  <!-- pickup phone -->
+                  {% if address.phone.size > 0 %}
+                    <span class="card-text pickup-availability-list-phone">{{ address.phone }}</span>
+                  {% endif %}
+                  <!-- /pickup address -->
+                </div>
+              {% endfor %}
+              <!-- /store details -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</pickup-availability-drawer>
+<!-- end Modal -->

@@ -1,0 +1,50 @@
+{% comment %}
+  Cart page
+{% endcomment %}
+
+{% assign cart_total_price = cart.total_price | money | strip_html %}
+<div id="page-cart">
+  <!-- cart contents -->
+  <div class="js-cart-page-contents" data-cart-item-count="{{ cart.item_count }}">
+    <section class="cart-area{% if cart.item_count < 1 %} empty-cart{% endif %}" data-section-id="{{ section.id }}" data-section-type="cart-template">
+      <div id="page-cart-inner" class="container cart-page-contents js-cart-page-contents js-total p-0" data-cart-item-count="({{ cart.item_count }})" data-cart-item-total="{{ cart_total_price }}" tabindex="-1">
+        {% render 'main-cart', button_class: 'cart_page' %}
+      </div>
+    </section>
+  </div>
+  <!-- /cart contents -->
+  <!-- addtional checkout buttons -->
+  {% unless cart.item_count < 1 %}
+  <div class="container pb-4 pt-0 px-3">
+    <div class="row">
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+        <div class="cart-dynamic-checkout-buttons">
+          {% if additional_checkout_buttons %}
+          <div class="additional-checkout-buttons ignore-me">
+            {{ content_for_additional_checkout_buttons }}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endunless %}
+  <!-- /addtional checkout buttons -->
+</div>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+  ]
+}
+{% endschema %}
+
+{%- style -%}
+{% if template == 'cart' %}
+.cart-area.empty-cart {
+  margin: 250px 0;
+  text-align: center;
+}
+{% endif %}
+{%- endstyle -%}

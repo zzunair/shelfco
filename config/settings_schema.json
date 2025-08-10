@@ -1,0 +1,663 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Erickson",
+    "theme_version": "7.2.0",
+    "theme_author": "Whiley Mai",
+    "theme_documentation_url": "https://erickson.gitbook.io/erickson",
+    "theme_support_url": "https://whileymai.com/pages/support/"
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "favicon_enable",
+        "label": "Use favicon icon"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon_logo",
+        "label": "96 x 96px .png recommended"
+      }
+    ]
+  },
+  {
+    "name": "Animation",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "sticky_header",
+        "label": "Enable sticky header",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_page_transition",
+        "label": "Enable animations",
+        "info": "This adds a loading screen and fade in animations",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_back_to_top",
+        "label": "Enable back to top",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General"
+      },
+      {
+        "type": "color",
+        "id": "body_background_color",
+        "label": "Background",
+        "default": "#FAFAFA"
+      },
+      {
+        "type": "color",
+        "id": "body_font_text",
+        "label": "Body font",
+        "default": "#1C1B1B"
+      },
+      {
+        "type": "color",
+        "id": "border_background_color",
+        "label": "Borders",
+        "default": "#E8E8E8"
+      },
+      {
+        "type": "range",
+        "id": "border_weight",
+        "label": "Border weight",
+        "info": "You can change the thickness of the borders.",
+        "default": 1,
+        "min": 1,
+        "max": 2.5,
+        "step": 0.5,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Buttons",
+        "info": "The color options of the 'Add to cart' and 'Contact us' buttons"
+      },
+      {
+        "type": "color",
+        "id": "btn_contact_bg_color",
+        "label": "Background",
+        "default": "#1B1B1B"
+      },
+      {
+        "type": "color",
+        "id": "btn_contact_text_color",
+        "label": "Button text",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "btn_contact_bg_color_hover",
+        "label": "Background on hover",
+        "default": "#434343"
+      },
+      {
+        "type": "color",
+        "id": "btn_contact_text_color_hover",
+        "label": "Button text on hover",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "On sale badge",
+        "info": "When a product has a compare price, a label will show on products. You can change the color using these values."
+      },
+      {
+        "type": "color",
+        "id": "sales_badge_bg_color",
+        "label": "Background",
+        "default": "#C02526"
+      },
+      {
+        "type": "color",
+        "id": "sales_badge_text_color",
+        "label": "Body text",
+        "default": "#FAFAFA"
+      },
+      {
+        "type": "header",
+        "content": "Sold out badge",
+        "info": "When a product is no longer available, a label will show on products. You can change the color options using these values."
+      },
+      {
+        "type": "color",
+        "id": "soldout_badge_bg_color",
+        "label": "Background",
+        "default": "#1B1B1B"
+      },
+      {
+        "type": "color",
+        "id": "soldout_badge_text_color",
+        "label": "Body text",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "Pre-order badge",
+        "info": "When a product has the tag 'pre-order', a label will show on products. You can change the color options using these values."
+      },
+      {
+        "type": "color",
+        "id": "sales_badge_bg_color_dark",
+        "label": "Background",
+        "default": "#1C1B1B"
+      },
+      {
+        "type": "color",
+        "id": "sales_badge_text_color_dark",
+        "label": "Button text",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "Footer",
+        "info": "There are 2 footer background color options, to offer versatility, giving you the option to have either a light ot dark schema which is currently setup by default."
+      },
+      {
+        "type": "color",
+        "id": "background_color_1",
+        "label": "Background",
+        "default": "#1b1b1b"
+      },
+      {
+        "type": "color",
+        "id": "color_1",
+        "label": "Body font",
+        "default": "#FFFFFF",
+        "info": "Background 1"
+      },
+      {
+        "type": "color",
+        "id": "background_color_2",
+        "label": "Background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_2",
+        "label": "Body font",
+        "default": "#1C1B1B",
+        "info": "Background 2"
+      },
+      {
+        "type": "header",
+        "content": "Cart"
+      },
+      {
+        "type": "color",
+        "id": "badge_background_color",
+        "label": "Cart counter background",
+        "default": "#1C1B1B"
+      },
+      {
+        "type": "color",
+        "id": "badge_text_color",
+        "label": "Cart counter text",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "Alerts",
+        "info": "When you add or remove an item from your cart, you will see an alert in the top right of the screen. You can change color options here."
+      },
+      {
+        "type": "color",
+        "id": "alert_message",
+        "label": "Notifications background",
+        "default": "#1B1B1B"
+      },
+      {
+        "type": "color",
+        "id": "alert_message_text",
+        "label": "Notifications body text",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "Cookies popup",
+        "info": "You can enable cookies by going to Theme settings > Cookies popup"
+      },
+      {
+        "type": "color",
+        "id": "cookies_bg_color",
+        "label": "Background",
+        "default": "#1C1B1B"
+      },
+      {
+        "type": "color",
+        "id": "cookies_title_color",
+        "label": "Body text",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "Corner style"
+      },
+      {
+        "type": "range",
+        "id": "button_radius",
+        "label": "Border radius",
+        "info": "You can change the outer edges of theme elements, which are the corners, to be rounded or with sharp edges.",
+        "default": 6,
+        "min": 0,
+        "max": 6,
+        "step": 2,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Headings"
+      },
+      {
+        "type": "font_picker",
+        "id": "header_font_new",
+        "label": "Font",
+        "info": "Selecting a different font can affect the speed of your store. [Learn more about system fonts.](https://help.shopify.com/en/manual/online-store/os/store-speed/improving-speed#fonts)",
+        "default": "roboto_n3"
+      },
+      {
+        "type": "header",
+        "content": "Body"
+      },
+      {
+        "type": "font_picker",
+        "id": "base_font_new",
+        "label": "Font",
+        "info": "Selecting a different font can affect the speed of your store. [Learn more about system fonts.](https://help.shopify.com/en/manual/online-store/os/store-speed/improving-speed#fonts)",
+        "default": "roboto_n3"
+      },
+      {
+        "type": "range",
+        "id": "body_base_size",
+        "label": "Body font size",
+        "default": 13,
+        "min": 12,
+        "max": 20,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Typography style"
+      },
+      {
+        "type": "select",
+        "id": "button_style_global",
+        "options": [
+          {
+            "value": "math-auto",
+            "label": "None"
+          },
+          {
+            "value": "uppercase",
+            "label": "Uppercase"
+          }
+        ],
+        "label": "Pick your option",
+        "default": "math-auto"
+      }
+    ]
+  },
+  {
+    "name": "Email signup popup",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_popup",
+        "label": "Enable email signup popup",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_only_on_index",
+        "label": "Show only on home page",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_only_for_visitors",
+        "label": "Show only for visitors",
+        "info": "Customers who have created an account on your shop won't see it.",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Sign up"
+      },
+      {
+        "type": "richtext",
+        "id": "shipping_intro",
+        "label": "Body text",
+        "default": "<p>You can use this popup to display some useful information to your customers.</p>"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_newsletter",
+        "label": "Show newsletter form",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "apparition_delay",
+        "min": 0,
+        "max": 15,
+        "step": 1,
+        "unit": "sec",
+        "label": "Delay until the popup appears",
+        "default": 5
+      }
+    ]
+  },
+  {
+    "name": "Cookies popup",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_cookies",
+        "label": "Show cookies popup",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "cookies_intro",
+        "label": "Heading",
+        "default": "uses cookies to help personalise your shopping experience."
+      },
+      {
+        "type": "text",
+        "id": "cookies_page",
+        "label": "Body text",
+        "default": "Privacy and Cookie policy"
+      },
+      {
+        "type": "url",
+        "id": "cookies_url",
+        "label": "Link"
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social sharing options"
+      },
+      {
+        "type": "checkbox",
+        "id": "share_facebook",
+        "label": "Share on Facebook",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_twitter",
+        "label": "Tweet on Twitter",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_pinterest",
+        "label": "Pin on Pinterest",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Social accounts"
+      },
+      {
+        "type": "checkbox",
+        "id": "social_sharing_product",
+        "label": "Enable sharing",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter link",
+        "info": "https://twitter.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook link",
+        "info": "https://facebook.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest link",
+        "info": "https://pinterest.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram link",
+        "info": "https://instagram.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "Tiktok link",
+        "info": "https://tiktok.com/@shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_tumblr_link",
+        "label": "Tumblr link",
+        "info": "https://shopify.tumblr.com"
+      },
+      {
+        "type": "text",
+        "id": "social_snapchat_link",
+        "label": "Snapchat link",
+        "info": "https://snapchat.com/add/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "Youtube link",
+        "info": "https://youtube.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_vimeo_link",
+        "label": "Vimeo link",
+        "info": "https://vimeo.com/shopify"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Free shipping bar"
+      },
+      {
+        "type": "checkbox",
+        "label": "Show free shipping bar",
+        "id": "is_free_shipping_bar",
+        "info": "The free shipping bar currently only works with the default currency of your store. If your store sells in multiple currencies, consider disabling this feature. The free shipping bar is setup separately from your actual shipping rates, which need to be [configured separately](/admin/settings/shipping)",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "promote_free_shipping_text",
+        "label": "Announcement text",
+        "info": "Do not remove or change [value] as this changes dynamically"
+      },
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Cart threshold for free shipping",
+        "info": "This is the cart total required for the announcement text for free shipping to apply. Separate dollars and cents with a decimal.",
+        "default": 50
+      },
+      {
+        "type": "text",
+        "id": "unlock_free_shipping_text",
+        "label": "Announcement text for free shipping"
+      },
+      {
+        "type": "header",
+        "content": "Cart settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_notes_enable",
+        "label": "Show cart notes",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Free gift to giveaway"
+      },
+      {
+        "type": "number",
+        "id": "free_gift_threshold",
+        "label": "Cart threshold for free gift",
+        "info": "Set the cart total for the free gift to automatically be added to the cart. Separate dollars and cents with a decimal.",
+        "default": 100
+      },
+      {
+        "type": "product",
+        "id": "cart_gwp_product_1",
+        "label": "Free gift",
+        "info": "This should be the free gift you want to automatically add to cart"
+      },
+      {
+        "type": "product",
+        "id": "cart_gwp_product_2",
+        "label": "When this item is in my cart",
+        "info": "The free gift will only be added to cart if this product is in the cart, leave blank otherwise."
+      },
+      {
+        "type": "header",
+        "content": "Cart recomendations"
+      },
+      {
+        "type": "text",
+        "id": "recommendation_title",
+        "label": "Heading",
+        "default": "Recommended products"
+      },
+      {
+        "type": "collection",
+        "id": "recommended_collection",
+        "label": "Recommended collection",
+        "info": "The first 3 products of this collection will be shown in the cart drawer."
+      },
+      {
+        "type": "header",
+        "content": "Trust badges"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_trust_badges",
+        "label": "Show trust badges",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "trust_badge_1",
+        "label": "Trust badge 1"
+      },
+      {
+        "type": "text",
+        "id": "trust_badge_1_text",
+        "label": "Trust badge 1 text"
+      },
+      {
+        "type": "image_picker",
+        "id": "trust_badge_2",
+        "label": "Trust badge 2"
+      },
+      {
+        "type": "text",
+        "id": "trust_badge_2_text",
+        "label": "Trust badge 2 text"
+      },
+      {
+        "type": "image_picker",
+        "id": "trust_badge_3",
+        "label": "Trust badge 3"
+      },
+      {
+        "type": "text",
+        "id": "trust_badge_3_text",
+        "label": "Trust badge 3 text"
+      }
+    ]
+  },
+  {
+    "name": "Languages",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_languages",
+        "label": "Show language selector",
+        "default": true,
+        "info": "To add a language, go to your [language settings.](/admin/settings/languages)"
+      }
+    ]
+  },
+  {
+    "name": "Currency",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_multiple_currencies",
+        "label": "Show currency selector",
+        "default": true,
+        "info": "To add a currency, go to your [payment settings.](/admin/settings/payments)"
+      }
+    ]
+  },
+  {
+    "name": "Product Swatches",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_swatches",
+        "label": "Enable color swatches",
+        "default": false,
+        "info": "For more information on how to correctly setup product color swatches, visit our [theme support documentation.](https://erickson.gitbook.io/theme-settings/color-swatches)"
+      },
+      {
+        "type": "textarea",
+        "id": "swatches_colors",
+        "label": "Enter colors",
+        "default": "white:#ffffff",
+        "info": "Enter color variant title with color code in new line each."
+      },
+      {
+        "type": "checkbox",
+        "id": "show_quick_buy",
+        "default": true,
+        "label": "Show quick buy button"
+      }
+    ]
+  }
+]

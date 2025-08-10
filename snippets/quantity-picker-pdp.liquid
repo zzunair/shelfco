@@ -1,0 +1,107 @@
+{% comment %}
+  Renders a product quantity picker on the product page.
+
+  Usage:
+  {% render 'product-picker-pdp' %}
+{% endcomment %}
+
+{% if value == blank %}
+  {% assign value = 1 %}
+{% endif %}
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign selected_variant = product.selected_variant %}
+<script>
+var cartItems = {{ cart.items | json }};
+</script>
+{% unless template == 'index' %}
+<script>
+  var productId = {{ product.id | json }} || {};
+</script>
+{% endunless %}
+<div class="quantity-selector-stocks d-none">
+  {% assign productAvailable = false %}
+  {% for item in cart.items %}
+    {% if item.product.id == product.id %}
+      {% assign productAvailable = true %}
+    {% endif %}
+  {% endfor %}
+{% assign variantAdded = '' %}
+  {% if productAvailable %}
+    {% for item in cart.items %}
+      {% if item.product.id == product.id %}
+        {% unless item.selling_plan_allocation %}
+          {% for var in product.variants %}
+            {% assign inventory_quantity = var.inventory_quantity %}
+            {% if var.inventory_management == null and var.available == true %}
+               {% assign inventory_quantity = 100 %}
+            {% elsif var.inventory_policy == 'continue' and var.available == true %}
+               {% assign inventory_quantity = 100 %}
+            {% endif %}
+            {% assign item_quantity = 0 %}
+            {% if item.quantity != blank %}
+              {% assign item_quantity = item.quantity %}
+            {% endif %}
+            {% if var.id == item.id %}
+              <div class="quantity-that-has-already-been-added quantity_for_{{ var.id }}" data-id="{{ item.id }}" data-inventorypolicy="{{ var.inventory_policy }}" data-max-quantity="{{ inventory_quantity }}" data-quantity="{{ item_quantity }}"></div>
+            {% else %}
+              <div class="quantity-that-has-already-been-added quantity_for_{{ var.id }}" data-id="{{ var.id }}" data-inventorypolicy="{{ var.inventory_policy }}" data-max-quantity="{{ inventory_quantity }}" data-quantity="{{ item_quantity }}"></div>
+            {% endif %}
+          {% endfor %}
+        {% endunless %}
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    {% for var in product.variants %}
+      {% assign inventory_quantity = var.inventory_quantity %}
+      {% if var.inventory_management == null and var.available == true %}
+         {% assign inventory_quantity = 100 %}
+      {% elsif var.inventory_policy == 'continue' and var.available == true %}
+         {% assign inventory_quantity = 100 %}
+      {% endif %}
+       <div class="quantity-that-has-already-been-added" data-id="{{ var.id }}" data-inventorypolicy="{{ var.inventory_policy }}" data-max-quantity="{{ inventory_quantity }}" data-quantity="0"></div>
+    {% endfor %}
+  {% endif %}
+</div>
+<!-- QTY selector PDP page -->
+{% if quantity_selector %}
+<div class="quantity-picker js-quantity-picker-pdp my-1" data-quantity>
+  <label class="d-none d-print-block sr-only" for="{{ id }}">{{ 'products.product.quantity' | t }}</label>
+  <div class="quantity buttons_added">
+    <button type="button" class="js-quantity-button-pdp minus js-minus no-Js" aria-label="remove" {% if value == min %}disabled{% endif %}>{% render 'icon-product-minus' %}</button>
+      <input type="number"
+             id="{{ id }}"
+             class="input-text qty text js-quantity-field-pdp"
+             {% if min != blank %}min="{{ min }}"{% endif %}
+             {% if current_variant.available == true and max >= 0 %} max="{{ max }}" {% endif %}
+             name="quantity"
+             value="{{ value }}"
+             autocomplete="off"
+             {% if current_variant.available == false %}disabled{% endif %}
+             aria-label="quantity">
+    <button type="button" class="js-quantity-button-pdp plus js-plus no-Js"{% if current_variant.available == false and max != null or max == 0 %}disabled{% endif %} aria-label="add">{% render 'icon-product-plus' %}</button>
+  </div>
+</div>
+{% else %}
+<div class="quantity buttons_added">
+  <button type="button" class="js-quantity-button-pdp minus js-minus no-Js invisible d-none" aria-label="remove">{% render 'icon-product-minus' %}</button>
+    <input type="hidden"
+           id="no-qty-selector"
+           class="input-text qty text js-quantity-field-pdp"
+           min="1"
+           max="1"
+           name="quantity"
+           value="1"
+           autocomplete="off"
+           aria-label="quantity">
+  <button type="button" class="js-quantity-button-pdp plus js-plus no-Js invisible d-none" aria-label="add">{% render 'icon-product-plus' %}</button>
+</div>
+{% endif %}
+<!-- /QTY selector PDP page -->
+<noscript>
+  <style>
+  .quantity.input-text.qty {
+      border-right: 1px solid var(--color-border);
+      border-left: 1px solid var(--color-border);
+    }
+  </style>
+</noscript>

@@ -1,0 +1,87 @@
+{% if settings.sticky_header %}
+  {% if product.handle and template != 'index' or 'collection' or 'cart' or 'page' or 'blog' or 'article' %}
+    {%- liquid
+      assign btn_txt = 'products.product.add_to_cart' | t
+      assign btn_added = 'products.product.added_to_cart' | t
+      assign btn_txt_soldout = 'products.product.sold_out' | t
+      assign btn_txt_selling = 'general.accessibility.subscribe' | t
+
+      assign current_variant = product.selected_or_first_available_variant
+
+      assign has_selected_variant = false
+      if product.available
+        assign has_selected_variant = true
+      endif
+
+      if has_selected_variant
+        assign target = product.selected_or_first_available_variant
+      else
+        assign target = product
+      endif
+
+      assign hide_default_title = false
+      if product.variants.size == 1 or product.variants.first.title contains 'Default Title'
+        assign hide_default_title = true
+      endif
+
+      assign compare_at_price = target.compare_at_price
+      assign price = target.price
+      assign offer_amount = offer.price
+
+      assign money_price = price | money
+      assign offer_price = offer_amount | money
+      assign compare_price = compare_at_price | money
+
+      if settings.currency_code_enabled
+        assign money_price = price | money_with_currency
+        assign offer_price = offer_amount | money_with_currency
+        assign compare_price = compare_at_price | money_with_currency
+      endif
+  -%}
+  <div id="sticky-form-wrapper" class="laptop desktop tablet mobile-hide">
+    <div class="sticky-form-container d-none align-items-center justify-content-between border-top border-bottom">
+      <div class="container py-2">
+        <div class="col-md-12">
+          <div class="row">
+            <!-- title -->
+            <div class="col-lg-8 col-md-8 col-xs-12 col-sm-6 d-inline-flex align-items-center pl-0">
+              <div class="h5 product-title-pdp product-sticky-title mb-0">
+                {{ product.title }}
+                {% unless hide_default_title %}
+                <span class="product-sticky-variant js-sticky-variant font-weight-normal">
+                  {% for variant in product.variants %}
+                    {% if variant == current_variant %}
+                      {{ variant.title | prepend: "- " }}
+                    {% endif %}
+                  {% endfor %}
+                  </span>
+                {% endunless %}
+              </div>
+            </div>
+            <!-- form -->
+            <div class="col-lg-4 col-md-4 col-xs-12 col-sm-6 d-inline-flex align-items-center cart-block pr-0">
+              <div class="product-sticky-right d-inline-flex align-items-center">
+                <div class="product-sticky-price mr-4">
+                  <span class="js-sticky-price">
+                    {{ money_price }}
+                  </span>
+                  {% if compare_at_price > price %}
+                  <s><span class="js-sticky-compare-price">
+                    {{ compare_price }}
+                  </span></s>
+                  {% endif %}
+                </div>
+                <div class="product-sticky-addtocart">
+                  <!-- sticky add to cart btn -->
+                  {% render 'sticky-add-to-cart-btn', product: product %}
+                  <!-- /sticky add to cart btn- -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+{% endif %}

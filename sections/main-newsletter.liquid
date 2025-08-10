@@ -1,0 +1,215 @@
+{% comment %}
+  Email signup section
+{% endcomment %}
+
+{% assign font_color = section.settings.font_color %}
+{% assign bg_color = section.settings.background_color %}
+
+<section
+  id="{{ section.id }}"
+  class="call-to-action section-{{ section.id }}-padding wow fadeIn"
+  data-section-id="{{ section.id }}"
+  data-section-type="newsletter-block"
+  data-wow-delay="300ms"
+  tabindex="0"
+>
+  <div class="container">
+    <div class="row">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'heading' %}
+            <div
+              class="newsletter-container col-md-12 d-flex justify-content-between pt-0 pb-3"
+              {{ block.shopify_attributes }}
+            >
+              <div class="{{ section.id }}is-font h3 newsletter-title mb-0 pb-0 text-left">
+                {{ block.settings.heading | escape }}
+              </div>
+            </div>
+          {% when 'paragraph' %}
+            <div class="col-md-12 d-block pt-0 pb-3" {{ block.shopify_attributes }}>
+              <div class="{{ section.id }}is-font newsletter-caption mb-0 pb-0 text-left">
+                {{ block.settings.paragraph }}
+              </div>
+            </div>
+          {% when 'email_form' %}
+            <div class="col-md-12 text-center" {{ block.shopify_attributes }}>
+              {% assign formId = 'Contact_' | append: section.id %}
+              {% form 'customer', id: formId, novalidate: 'novalidate' %}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                {% if form.errors %}
+                  <div
+                    id="Newsletter-error--{{ section.id }}"
+                    class="alert alert-danger cart-info-bg mt-2 mb-0 text-center rounded-0 w-100 mx-auto"
+                    role="alert"
+                  >
+                    <span class="newsletter-confirmation mb-0 mt-2 cart-text-drawer text-dark">
+                      {{ form.errors | default_errors }}
+                    </span>
+                  </div>
+                {% endif %}
+                {% if form.posted_successfully? %}
+                  <div
+                    id="Newsletter-success--{{ section.id }}"
+                    class="alert alert-info bg-transparent border cart-info-bg mt-2 mb-0 text-center rounded-0 w-100 mx-auto"
+                    role="alert"
+                  >
+                    <span class="newsletter-confirmation mb-0 mt-2 cart-text-drawer text-dark">
+                      {{- 'general.newsletter_form.confirmation' | t -}}
+                    </span>
+                  </div>
+                {% else %}
+                  <div class="col-lg-12 mx-auto px-0">
+                    <div class="input-group subscription-form">
+                      <label class="d-none d-print-block sr-only" for="Email">
+                        {{- block.settings.heading | escape -}}
+                      </label>
+                      <input
+                        type="email"
+                        name="contact[email]"
+                        id="Email"
+                        class="form-control bg-white mb-0 {% if form.errors contains 'email' %}error{% endif %}"
+                        value="{{ form.email }}"
+                        placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+                        aria-required="true"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        autocomplete="email"
+                        required
+                      >
+                      <span class="input-group-btn">
+                        <button
+                          class="btn btn-contact h-100 rounded__btn border"
+                          type="submit"
+                          name="commit"
+                          aria-label="{{ 'general.newsletter_form.submit' | t }}"
+                        >
+                          {{ 'general.newsletter_form.submit' | t }}
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endform %}
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Email signup",
+  "class": "main-newsletter",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "color",
+      "id": "font_color",
+      "label": "Body font",
+      "default": "#212529"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Subscribe to our emails"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "name": "Subheading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "paragraph",
+          "label": "Body text",
+          "default": "Be the first to know about new collections and exclusive offers."
+        }
+      ]
+    },
+    {
+      "type": "email_form",
+      "name": "Email form",
+      "limit": 1
+    }
+  ],
+  "presets": [
+    {
+      "name": "Email signup",
+      "category": "Content",
+      "blocks": [
+        {
+          "type": "heading",
+          "settings": {
+             "heading": "Subscribe to our emails"
+           }
+        },
+        {
+          "type": "paragraph",
+          "settings": {
+             "paragraph": "Be the first to know about new collections and exclusive offers."
+           }
+        },
+        {
+          "type": "email_form"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  .main-newsletter {
+      background: {{ bg_color }};
+  }
+  .{{ section.id }}is-font {
+    color: {{ font_color }};
+  }
+{% endstyle %}

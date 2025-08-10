@@ -1,0 +1,199 @@
+{% assign cart_text = 'cart.general.count_html' | t: itemCount: cart.item_count %}
+<aside class="sidebar rounded__all border" tabindex="-1">
+  <!-- cart header -->
+  <div class="cart-header-details d-flex justify-content-between pb-2 align-items-center px-3 border-bottom-0">
+    <span class="cart-text">
+      <h4 class="js-cart-data-title mb-0" data-added="Just updated your cart">
+        {{ 'cart.general.title' | t }}
+      </h4>
+      <label for="cart-title" class="js-cart-item-count cart-page-title mt-0 text-left d-inline-flex pr-1 hidden">
+        {{ cart_text }}
+      </label>
+    </span>
+    <span class="js-close-cart close-item-cart px-0">{% render 'icon-close-modal' %}</span>
+  </div>
+  <!-- /cart header -->
+  <!-- cart contents -->
+  <div id="mini-cart">
+    <div class="mini-cart-contents js-mini-cart-contents">
+      {% render 'main-cart', button_class: 'mini_page', class: 'pb-0' %}
+    </div>
+    <div class="mini-cart-recommendations d-block">
+      <div class="mini-container">
+        <!-- Recommended products -->
+        {% assign recommended_collection = settings.recommended_collection %}
+        {% assign _colClass = 'col-md-5 col-lg-5 col-sm-5 col-xs-5 p-0' %}
+
+        {% if recommended_collection != blank %}
+        {% if settings.recommendation_title %}
+          <h5 class="h5 d-block px-3 py-2">{{ settings.recommendation_title }}</h5>
+        {% endif %}
+        <div class="cart-order-recommendations d-flex pt-0 px-3 pb-1">
+          <div class="col-md-12 mb-1 px-0">
+            <div class="row cart-products-on-page col-auto mx-auto px-0" data-next-url="{{ paginate.next.url }}">
+              {% for product in collections[recommended_collection].products limit: 3 %}
+                {% render 'product-card',
+                  product: product,
+                  product_options: section.settings.product_options,
+                  _colClass: _colClass,
+                  show_rating: section.settings.show_rating
+                %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        <!-- /Recommended products -->
+        <!-- view cart -->
+        <div class="media mb-2 minicart-payment-footer view-cart px-3">
+          <div class="w-100 d-flex justify-content-between">
+            <a
+              href="{{ routes.cart_url }}"
+              class="view-cart-btn btn btn-transparent btn-block w-100"
+              aria-label="{{ 'cart.general.view_cart' | t }}"
+            >
+              <span>{{ 'cart.general.view_cart' | t }}</span>
+            </a>
+          </div>
+        </div>
+        <!-- /view cart -->
+        <!-- tax instructions -->
+        <div class="card border-0 tax-note-wrapper px-3">
+          <div class="card-body px-0 py-2 text-left">
+            <span class="tax-note rte" tabindex="0">
+              {%- if cart.taxes_included and shop.shipping_policy.body != blank -%}
+                {{ 'cart.general.taxes_included_and_shipping_policy_html' | t: link: shop.shipping_policy.url }}
+              {%- elsif cart.taxes_included -%}
+                {{ 'cart.general.taxes_included_but_shipping_at_checkout' | t }}
+              {%- elsif shop.shipping_policy.body != blank -%}
+                {{ 'cart.general.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url }}
+              {%- else -%}
+                {{ 'cart.general.taxes_and_shipping_at_checkout' | t }}
+              {%- endif -%}
+            </span>
+          </div>
+        </div>
+        <!-- /tax instructions -->
+        <div class="cart-simple-trust-badges">
+          <div class="cart-simple-trust-badges-wrapper">
+            <!-- Free Shipping Badge -->
+            <div class="cart-simple-trust-badge-item">
+              <div class="cart-simple-badge-icon">
+                <img src="{{ settings.trust_badge_1 | img_url: 'master' }}" alt="{{ settings.trust_badge_1_text }}" width="40" height="40">
+              </div>
+              <div class="cart-simple-badge-text">
+                <h3 class="cart-simple-badge-heading">{{ settings.trust_badge_1_text }}</h3>
+                {% comment %} <p class="simple-badge-subheading">No Extra Costs</p> {% endcomment %}
+              </div>
+            </div>
+        
+            <!-- Easy Returns Badge -->
+            <div class="cart-simple-trust-badge-item">
+              <div class="cart-simple-badge-icon">
+                <img src="{{ settings.trust_badge_2 | img_url: 'master' }}" alt="{{ settings.trust_badge_2_text }}" width="40" height="40">
+              </div>
+              <div class="cart-simple-badge-text">
+                <h3 class="cart-simple-badge-heading">{{ settings.trust_badge_2_text }}</h3>
+                {% comment %} <p class="simple-badge-subheading">Return with Ease</p> {% endcomment %}
+              </div>
+            </div>
+        
+            <!-- Secure Checkout Badge -->
+            <div class="cart-simple-trust-badge-item">
+              <div class="cart-simple-badge-icon">
+                <img src="{{ settings.trust_badge_3 | img_url: 'master' }}" alt="{{ settings.trust_badge_3_text }}" width="40" height="40">
+              </div>
+              <div class="cart-simple-badge-text">
+                <h3 class="cart-simple-badge-heading">{{ settings.trust_badge_3_text }}</h3>
+                {% comment %} <p class="simple-badge-subheading">Secure Payment</p> {% endcomment %}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+       
+      </div>
+    </div>
+  </div>
+  <!-- /cart contents -->
+</aside>
+
+
+<style>
+  .cart-simple-trust-badges {
+    width: 100%;
+    margin: 20px 0;
+    border-top: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+    padding: 20px 0;
+  }
+  
+  .cart-simple-trust-badges-wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+  
+  .cart-simple-trust-badge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    min-width: 120px;
+  }
+  
+  .cart-simple-badge-icon {
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .cart-simple-badge-heading {
+    font-size: 11px;
+    font-weight: 400;
+    margin: 0 0 5px 0;
+    color: #333;
+  }
+  
+  .cart-simple-badge-subheading {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
+    color: #777;
+  }
+  
+  @media (max-width: 768px) {
+    .cart-simple-trust-badges-wrapper {
+      flex-direction: row;
+      justify-content: center;
+    }
+    
+    .cart-simple-trust-badge-item {
+      width: 33%;
+      padding: 0 10px;
+    }
+    
+    .cart-simple-badge-heading {
+      font-size: 14px;
+    }
+    
+    .cart-simple-badge-subheading {
+      font-size: 12px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .cart-simple-trust-badges-wrapper {
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .simple-trust-badge-item {
+      width: 100%;
+    }
+  }
+  </style>

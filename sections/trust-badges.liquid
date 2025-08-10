@@ -1,0 +1,220 @@
+<!-- Trust Badges Section -->
+<div id="trust-badges" class="wow fadeIn" data-wow-delay="300ms">
+  <section
+    id="{{ section.id }}"
+    data-section-id="{{ section.id }}"
+    data-section-type="trust-badges"
+    class="trust-badges-section"
+    style="background-color: {{ section.settings.bg_color }}"
+  >
+    <div class="trust-badges-wrapper">
+      {% for block in section.blocks %}
+        <div class="trust-badge-item" {{ block.shopify_attributes }}>
+          <div class="trust-badge-content">
+            <div class="trust-badge-icon">
+              {% if block.settings.image != blank %}
+                <img
+                  src="{{ block.settings.image | img_url: '100x100', crop: 'center' }}"
+                  loading="lazy"
+                  width="50"
+                  height="50"
+                  alt="{{ block.settings.heading | escape }}"
+                >
+              {% else %}
+                <div class="placeholder-image">
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+              {% endif %}
+            </div>
+            <div class="trust-badge-separator"></div>
+            <div class="trust-badge-text">
+              {% if block.settings.heading != blank %}
+                <h3 class="trust-badge-heading" style="color: {{ block.settings.heading_color }}">
+                  {{ block.settings.heading }}
+                </h3>
+              {% endif %}
+              {% if block.settings.subheading != blank %}
+                <p class="trust-badge-subheading" style="color: {{ block.settings.subheading_color }}">
+                  {{ block.settings.subheading }}
+                </p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+<!-- /Trust Badges Section -->
+
+{% schema %}
+{
+  "name": "Trust Badges",
+  "class": "trust-badges-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#2f6e74"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust_badge",
+      "name": "Trust Badge",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Trust Badge Heading"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Additional information about this feature"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Icon"
+        },
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": "Heading Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "subheading_color",
+          "label": "Subheading Color",
+          "default": "#ffffff"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Badges",
+      "category": "Promotional",
+      "blocks": [
+        {
+          "type": "trust_badge",
+          "settings": {
+            "heading": "Excellent Customer Service",
+            "subheading": "Professional Advice from Experts"
+          }
+        },
+        {
+          "type": "trust_badge",
+          "settings": {
+            "heading": "Free Shipping",
+            "subheading": "for Orders over €100"
+          }
+        },
+        {
+          "type": "trust_badge",
+          "settings": {
+            "heading": "100 Days Right of Return",
+            "subheading": "on all Orders from our Webshop"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+.trust-badges-section {
+  width: 100%;
+}
+
+.trust-badges-wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 10px 15px;
+}
+
+.trust-badge-item {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 15px;
+  text-align: center;
+}
+
+.trust-badge-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trust-badge-icon {
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.trust-badge-separator {
+    width: 2px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 1);
+    margin: 0 15px 0 0;
+    flex-shrink: 0;
+}
+
+.trust-badge-icon img,
+.placeholder-image {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.trust-badge-text {
+  text-align: left;
+}
+
+.trust-badge-heading {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 5px 0;
+}
+
+.trust-badge-subheading {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .trust-badges-wrapper {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .trust-badge-item {
+    width: 100%;
+    padding: 5px 15px;
+  }
+  
+  .trust-badge-content {
+    justify-content: flex-start;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 991px) {
+  .trust-badge-heading {
+    font-size: 14px;
+  }
+  
+  .trust-badge-subheading {
+    font-size: 12px;
+  }
+}
+{% endstyle %} 

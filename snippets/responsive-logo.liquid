@@ -1,0 +1,56 @@
+<!-- portrait -->
+{% if image.aspect_ratio <= 1 %}
+  {% assign max_height_image = image.height -%}
+  {% assign max_width_image = max_height_image | times: image.aspect_ratio %}
+<!-- square -->
+{% elsif image.aspect_ratio == 1 %}
+  {% assign max_height_image = image.height | at_most: max_height -%}
+  {% assign max_width_image = max_height_image | times: image.aspect_ratio %}
+<!-- landscape -->
+{% else %}
+  {% assign max_width_image = image.width | at_most: max_width %}
+  {% assign max_height_image = max_width_image | divided_by: image.aspect_ratio %}
+{% endif %}
+
+{%- comment -%} Added incremental number to avoid conflict styling code when the same images are using this snippet {%- endcomment -%}
+{% capture responsive_image_counter %}{% increment responsive_image_counter %}{% endcapture %}
+
+{%- comment -%} Limit image widths to valid options based on image.width {%- endcomment -%}
+{% assign image_widths = '180,360,540,720,900,1080,1296,1512,1728,1944,2160,2376,2592,2808,3024' | split: ',' %}
+{% assign image_widths = image_widths | strip -%}
+
+{% capture image_widths %}
+  {% for width in image_widths %}
+    {% assign width_num = width | plus: 0 | round %}
+    {% if image.width >= width_num %}
+      {{ width_num }}
+    {% endif %}
+  {% endfor %}
+  {{ image.width }}
+{% endcapture %}
+
+<div id="image-wrapper-logo-{{ image.id }}-{{ responsive_image_counter }}" data-image-id="{{ image.id }}" class="{{ wrapper_class }}">
+  <img id="image-logo-{{ image.id }}-{{ responsive_image_counter }}"
+    class="{{ image_class }} disable-lazy"
+    srcset="{% if image.width >= 165 %}{{ image | img_url: '165x' }} 165w,{% endif %}
+            {% if image.width >= 360 %}{{ image | img_url: '360x' }} 360w{% endif %}"
+    src="{{ image | img_url: 'small', crop: 'center' }}"
+    data-src="{{ image | img_url: 'small', crop: 'center' }}"
+    width="{{ img_width }}"
+    height="{{ max_height }}"
+    max-width="{{ img_width }}"
+    data-widths="[{{ img_width }}]"
+    data-aspectratio="{{ image.aspect_ratio }}"
+    alt="{{ image.alt | escape }}"/>
+</div>
+
+<style>
+  #image-logo-{{ image.id }}-{{ responsive_image_counter }} {
+    width: {{ img_width }}px;
+    height: {{ img_width | divided_by: image.aspect_ratio }}px;
+  }
+  #image-wrapper-logo-{{ image.id }}-{{ responsive_image_counter }} {
+    width: {{ img_width }}px;
+    height: {{ img_width | divided_by: image.aspect_ratio }}px;
+  }
+</style>

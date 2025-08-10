@@ -1,0 +1,283 @@
+{%- liquid
+  if section.settings.header_width == '1'
+    assign _colClassLayout = 'container-fluid'
+  else
+    assign _colClassLayout = 'container'
+  endif
+-%}
+
+<section class="mega-menu {{ _colClassLayout }}">
+  <nav id="navbar" class="menu navbar navbar-expand-lg megamenu-bg {{ _colClassLayout }} mx-auto px-0 megamenu-wide">
+    <ul
+      class="navbar-nav gap-3 {% if section.settings.header_style == 'left' %}mr-auto{% else %}mx-auto{% endif %} main-menu"
+      role="list"
+    >
+      {% for link in linklists[section.settings.main_linklist].links %}
+        {% assign link_list_handle = link.title | handleize %}
+        {% assign megamenu = false %}
+        {% for block in section.blocks %}
+          {% if block.type == 'megamenu' %}
+            {%- liquid
+              if block.settings['mega-menu'] == '3'
+                assign _colClass = 'col-md-4 col-sm-4'
+              elsif block.settings['mega-menu'] == '4'
+                assign _colClass = 'col-md-3 col-sm-3'
+              endif
+            -%}
+
+            {% assign menutitle = block.settings.itemtitle | handleize %}
+            {% assign selected_megamenu = block.settings.menu %}
+            {% assign megamenu_style = block.settings.megamenu_style %}
+
+            {% if link_list_handle == menutitle and selected_megamenu != blank %}
+              {% assign megamenu = true %}
+              <!-- megamenu -->
+              {% if megamenu_style == 'multilevel' %}
+                {% render 'mega-menu-style-multilevel',
+                  link: link,
+                  selected_megamenu: selected_megamenu,
+                  _colClassLayout: _colClassLayout,
+                  _colClass: _colClass
+                %}
+              {% else %}
+                {% render 'mega-menu-style-default',
+                  link: link,
+                  selected_megamenu: selected_megamenu,
+                  _colClassLayout: _colClassLayout,
+                  _colClass: _colClass
+                %}
+              {% endif %}
+              <!-- /megamenu -->
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+
+        <!-- promos megamenu -->
+        {%- assign promo_count = 0 -%}
+        {%- capture menu_promotion_html -%}
+          {%- for block in section.blocks -%}
+            {% if block.type == 'menu-promotion' %}
+            {%- if block.settings.title == link.title -%}
+              {%- assign promo_count = promo_count | plus: 1 -%}
+              <div class="menu-promotion">
+                {%- if block.settings.link_url != blank -%}
+                  <a class="menu-promotion__link" href="{{ block.settings.link_url }}">
+                {%- endif -%}
+                <div class="menu-promotion__image">
+                  {% if block.settings.image != blank %}
+                    {%- render 'responsive-image', image: block.settings.image, image_class: "img-fluid lazyload", wrapper_class: "img-wrapper-class img-hover", lazy: "lazy", max_width: 1000, max_height: 1000, media_size: 'aspect-ratio__square' -%}
+                  {% else %}
+                    {{ 'collection-apparel-1' | placeholder_svg_tag }}
+                  {% endif %}
+                </div>
+                {%- if block.settings.promo_heading != blank -%}
+                  <div class="menu-promotion__text card-information__text d-flex h5 pt-3 px-2">{{ block.settings.promo_heading }}</div>
+                {%- endif -%}
+                {%- if block.settings.link_url != blank -%}
+                  </a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+           {% endif %}
+          {%- endfor -%}
+        {%- endcapture -%}
+        {% if promo_count > 0 %}
+          {% render 'mega-menu-style-promos',
+            link: link,
+            menu_promotion_html: menu_promotion_html,
+            promo_count: promo_count
+          %}
+          {% assign megamenu = true %}
+        {% endif %}
+        <!-- /promos megamenu -->
+
+        {% if megamenu == false %}
+          {% if link.links != blank %}
+            <!-- menu with submenu items no megamenu -->
+            <li class="menu-item nav-item single-menu-item {% if link.active %}active{% endif %}">
+              <a
+                id="navbarSupportedContent"
+                href="{{ link.url }}"
+                class="w-100 single-dropdown-item mx-0 px-0 justify-content-center dropdown-toggle header__menu-item list-menu__item"
+              >
+                <span class="{% if link.active %} link-active{% endif %}">
+                  {{ link.title | escape }}
+                </span>
+              </a>
+              <ul class="sub-menu px-0 border" role="list">
+                <div id="accordion" class="p-0">
+                  {% for childlink in link.links %}
+                    <div class="card border-0">
+                      <div
+                        class="{% if childlink.levels >= 1 %}card-header{% endif %}"
+                        id="heading-{{ forloop.index }}"
+                      >
+                        <li class="menu-item single-menu-item{% if childlink.active %}active{% endif %} mb-0 px-3">
+                          <a
+                            href="{{ childlink.url }}"
+                            class="single-dropdown-item mx-0 my-0 px-0 justify-content-center w-100 header__menu-item list-menu__item text-left {% if link.levels > 1 %}collapsed{% endif %}"
+                            {% if childlink.levels >= 1 %}
+                              data-toggle="collapse"
+                              data-target="#collapse{{ forloop.index }}"
+                              aria-expanded="true"
+                              aria-controls="collapse{{ forloop.index }}" aria-label="{{ childlink.title | escape }}"
+                            {% endif %}
+                          >
+                            {{ childlink.title | escape }}
+                          </a>
+                        </li>
+                      </div>
+                      <div
+                        id="collapse{{ forloop.index }}"
+                        class="collapse"
+                        aria-labelledby="headingOne"
+                        data-parent="#accordion"
+                      >
+                        <div class="card-body px-0 py-0">
+                          <div class="pl-0 mb-0">
+                            {% for grandchildlink in childlink.links %}
+                              <li class="menu-item my-0 {% if grandchildlink.active %}active{% endif %} small text-uppercase card-link-secondary mb-0">
+                                <a
+                                  href="{{ grandchildlink.url }}{% if grandchildlink.type == 'product_link' %}{% if grandchildlink.object.variants.size > 1 %}?variant={{ grandchildlink.object.variants.first.id }}{% endif %}{% endif %}"
+                                  class="px-3"
+                                  aria-label="{{ grandchildlink.title }}{{ forloop.index }}"
+                                  {% if grandchildlink.current %}
+                                    aria-current="page"
+                                  {% endif %}
+                                >
+                                  <span class="{% if grandchildlink.active %} link-active{% endif %}">
+                                    {{ grandchildlink.title | escape }}
+                                  </span>
+                                </a>
+                              </li>
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </ul>
+            </li>
+            <!-- /menu with submenu items no megamenu -->
+          {% else %}
+            <!-- no submenu items -->
+            <li class="menu-item nav-item single-menu-item {% if link.active %}active{% endif %}">
+              <a
+                id="regularNavItem-{{ forloop.index }}"
+                href="{{ link.url }}"
+                class="single-dropdown-item mx-0 px-0 justify-content-center header__menu-item list-menu__item"
+              >
+                <span class="{% if link.active %} link-active{% endif %}">
+                  {{ link.title | escape }}
+                </span>
+              </a>
+            </li>
+            <!-- /no submenu items -->
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </nav>
+</section>
+
+{%- style -%}
+    @media (min-width: 600px) {
+      .megamenu-wide > ul > li:hover .sub-menu,
+      .megamenu-wide > ul > li:focus .sub-menu,
+      .megamenu-wide > ul > li:focus-within .sub-menu {
+        max-height: 750px;
+        max-width: 100% !important;
+        min-width: 250px;
+        padding: 0 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.09);
+        position: absolute;
+        display: block;
+        border-bottom-right-radius: var(--global-btn-corner-style) !important;
+        border-bottom-left-radius: var(--global-btn-corner-style) !important;
+      }
+    }
+    .megamenu-parent-items .dropdown-toggle:after {
+        position: absolute;
+        top: 16px;
+        right: 10px;
+        transform: rotate(270deg);
+    }
+    .megamenu-items-inner:not(.megamenu-item-1) {
+      display: none;
+    }
+    /* desktop mega menu css */
+      .sub-menu.no-child-menu-items {
+          width: 33.3333333333% !important;
+          right: unset !important;
+      }
+      .sub-menu.no-child-menu-items .row {
+          display: block !important;
+      }
+      .sub-menu.no-child-menu-items .col-md-4{
+          max-width: 100% !important;
+      }
+      .sub-menu.no-child-menu-items .col-md-8{
+          display: none !important;
+     }
+     .mega-menu-style-multilevel .col-md-8 {
+          border-left: 0 !important;
+     }
+  /* /desktop mega menu css */
+  /* promos megamenu */
+  .mega-menu-promotion-grid {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      justify-content: space-between;
+  }
+  .mega-menu-promotion-grid .menu-promotion {
+    max-width: calc(16.9% - 1.5rem);
+  }
+  .mega-menu-promotion-cards .menu-promotion__image svg,
+  .mega-menu-promotion-cards .menu-promotion__image img {
+      aspect-ratio: 1 !important;
+      width: 100%;
+      max-width: 350px;
+      height: auto;
+      -o-object-fit: cover;
+      object-fit: cover;
+      -o-object-position: center center;
+      object-position: center center;
+      transition: opacity .4s cubic-bezier(.25,.46,.45,.94);
+  }
+  .mega-menu-promotion-cards .menu-promotion__link {
+      padding: 0 !important;
+  }
+  .mega-menu-promotion-cards-wrp {
+      padding: 15px;
+  }
+  /* /promos megamenu */
+{%- endstyle -%}
+
+<script>
+  var megamenuParentItems = document.querySelectorAll('.megamenu-parent-items li a');
+  if(megamenuParentItems != null){
+    megamenuParentItems.forEach(function(item,index){
+      item.onmouseover = function(){
+       var currentItemClass = this.dataset.megamenu;
+       var currentItem = document.querySelector('.'+currentItemClass);
+        if(currentItem == null){
+           item.closest('.megamenu').classList.add('no-child-menu-items');
+         } else {
+           item.closest('.megamenu').classList.remove('no-child-menu-items');
+         }
+
+       var megamenuParentItems = item.closest('.megamenu').querySelectorAll('.megamenu-items-inner');
+        megamenuParentItems.forEach(function(itemInner,index){
+          if(itemInner == currentItem){
+              itemInner.style.display = "flex";
+          } else {
+              itemInner.style.display = "none";
+          }
+        });
+      }
+    });
+  }
+</script>

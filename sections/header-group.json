@@ -1,0 +1,149 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement-section": {
+      "type": "announcement-bar",
+      "blocks": {
+        "text_ztkTGU": {
+          "type": "text",
+          "settings": {
+            "announcement_bar_text_1": "FREE DESIGN CONSULTATIONS",
+            "hn_cta_url": "shopify://pages/interior-design-consultation"
+          }
+        }
+      },
+      "block_order": [
+        "text_ztkTGU"
+      ],
+      "custom_css": [
+        ".tpro-wrapper {background-color: #2a3640;}",
+        ".tpro-second .background p {color: #ffffff;}"
+      ],
+      "settings": {
+        "tpro_bgcolor": "#2a3640",
+        "tpro_textcolor": "#ffffff",
+        "announcement_bar": true,
+        "home_page_only": false,
+        "autoplay": false,
+        "autoplay_speed": 2000
+      }
+    },
+    "announcement_bar_qbW8Tn": {
+      "type": "announcement-bar",
+      "blocks": {
+        "text_39kcGa": {
+          "type": "text",
+          "settings": {
+            "announcement_bar_text_1": "30 Day Money Back Guarantee",
+            "hn_cta_url": "#"
+          }
+        },
+        "text_ktt6cV": {
+          "type": "text",
+          "settings": {
+            "announcement_bar_text_1": "Fast Shipping",
+            "hn_cta_url": "#"
+          }
+        },
+        "text_gy6U6V": {
+          "type": "text",
+          "settings": {
+            "announcement_bar_text_1": "Live US Customer Support",
+            "hn_cta_url": "#"
+          }
+        },
+        "text_iFmJ8y": {
+          "type": "text",
+          "settings": {
+            "announcement_bar_text_1": "Free Custom Design Layout",
+            "hn_cta_url": "#"
+          }
+        }
+      },
+      "block_order": [
+        "text_39kcGa",
+        "text_ktt6cV",
+        "text_gy6U6V",
+        "text_iFmJ8y"
+      ],
+      "custom_css": [
+        ".tpro-second .background p {color: #1c1b1b; font-weight: 600;}"
+      ],
+      "settings": {
+        "tpro_bgcolor": "#fafafa",
+        "tpro_textcolor": "#1c1b1b",
+        "announcement_bar": true,
+        "home_page_only": false,
+        "autoplay": true,
+        "autoplay_speed": 7000
+      }
+    },
+    "header-section": {
+      "type": "header",
+      "blocks": {
+        "megamenu_w9UWCY": {
+          "type": "megamenu",
+          "settings": {
+            "itemtitle": "Shelving Units",
+            "menu": "shelving-units",
+            "megamenu_style": "default",
+            "mega-menu": "3"
+          }
+        },
+        "megamenu_GL4CYX": {
+          "type": "megamenu",
+          "settings": {
+            "itemtitle": "Floating Shelves",
+            "menu": "floating-shelves",
+            "megamenu_style": "default",
+            "mega-menu": "3"
+          }
+        },
+        "megamenu_LjemaY": {
+          "type": "megamenu",
+          "settings": {
+            "itemtitle": "Boards & Supports",
+            "menu": "shelf-components",
+            "megamenu_style": "default",
+            "mega-menu": "3"
+          }
+        }
+      },
+      "block_order": [
+        "megamenu_w9UWCY",
+        "megamenu_GL4CYX",
+        "megamenu_LjemaY"
+      ],
+      "custom_css": [
+        ".icon-btn:hover,.icon-btn:focus {background-color: #f1f3f5;}",
+        ".single-dropdown-item {color: #d14728; font-weight: bold;}"
+      ],
+      "settings": {
+        "main_logo": "shopify://shop_images/400x100.png",
+        "main_logo_max_width": 200,
+        "search_contact": "search",
+        "account_hide": true,
+        "search_hide": true,
+        "header_layout": "stacked",
+        "menucolor": "#ffffff",
+        "header_style": "left",
+        "main_linklist": "main-menu-copy"
+      }
+    }
+  },
+  "order": [
+    "announcement-section",
+    "announcement_bar_qbW8Tn",
+    "header-section"
+  ]
+}

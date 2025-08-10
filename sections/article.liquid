@@ -1,0 +1,378 @@
+{% comment %}
+  Article page
+{% endcomment %}
+
+{%- liquid
+  assign _colClassLayout = 'container'
+
+  assign new_comment = false
+  assign number_of_comments = article.comments_count
+
+  if comment and comment.created_at
+    assign new_comment = true
+    assign new_comment_id = comment.id
+  endif
+
+  if new_comment
+    assign duplicate_comment = false
+    for comment in article.comments
+      if comment.id == new_comment_id
+        assign duplicate_comment = true
+        break
+      endif
+    endfor
+
+    unless duplicate_comment
+      assign number_of_comments = article.comments_count | plus: 1
+    endunless
+  endif
+
+  if comment.status == 'pending'
+    assign number_of_comments = article.comments_count | plus: 1
+  else
+    assign number_of_comments = article.comments_count
+  endif
+
+  assign article_words = article.content | strip_html | strip_newlines | downcase | replace: 'and', '' | replace: 'the', '' | split: ' '
+  assign article_image = article.image | default: article.image
+-%}
+
+{% capture date %}{{ article.published_at | time_tag: format: 'month_day_year' }}{% endcapture %}
+
+<article id="{{ section.id }}" role="article">
+  <section id="article" class="section-{{ section.id }}-padding">
+    <div class="container-fluid">
+      <div class="blog-section">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'featured_media' %}
+              {% if article.image != blank %}
+                <div id="article-banner" class="container-fluid px-0">
+                  <!-- article image -->
+                  <section class="collection-banner-section">
+                    <div class="collection-banner-image-wrapper">
+                      {{
+                        article_image
+                        | image_url: width: 2048
+                        | image_tag:
+                          class: 'collection-banner-image img-fluid',
+                          widths: '1600, 1800, 2200, 2400, 2800, 3200',
+                          height: article_image.height,
+                          width: article_image.width,
+                          alt: article_image.alt
+                        | escape
+                      }}
+                    </div>
+                    <div class="banner-overlay-div d-none"></div>
+                  </section>
+                  <!-- end article image -->
+                </div>
+              {% endif %}
+            {% when 'blog_author' %}
+              <section
+                class="theme-content blog_author"
+                data-section-id="{{ section.id }}"
+                data-section-type="home-intro-content"
+              >
+                <div class="custom-widget-wrapper">
+                  <div class="container" {{ block.shopify_attributes }}>
+                    {% if block.settings.show_title %}
+                      <div class="article-title-intro">
+                        <h1 class="text-left mb-3">{{ article.title | escape }}</h1>
+                      </div>
+                    {% endif %}
+                    {% if block.settings.show_author %}
+                      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 px-0">
+                        <div class="">
+                          <label class="card-text text-left d-block mb-3" itemprop="dateCreated pubdate datePublished">
+                            {{ 'blogs.article.author_on_date_html' | t: author: article.author, date: date }}
+                          </label>
+                        </div>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </section>
+            {% when 'overview' %}
+              <section
+                class="theme-content blog_overview"
+                data-section-id="{{ section.id }}"
+                data-section-type="home-intro-content"
+              >
+                <div class="article-page mx-auto col-md-12">
+                  <div class="container">
+                    <div class="row">
+                      <div class="{% if article.tags.size > 0 %}col-md-9 px-0 {% else %}col-md-12 px-0{% endif %}">
+                        <div class="container px-0">
+                          <div class="card rounded-0 border-0">
+                            <div
+                              class="card-body rte px-0"
+                              data-word-count="{{ article_words | size }}"
+                              data-read-time="{{ article_words | size | divided_by: 250 | round }}"
+                            >
+                              {{ article.content }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {% if article.tags.size > 0 %}
+                        <div class="{% if article.tags.size > 0 %}col-md-3{% else %}col-{% endif %}">
+                          <div class="container">
+                            <div class="card rounded-0 border-0 pt-0">
+                              <div class="card-body rte px-0 py-0">
+                                <div class="mb-3 mt-1">
+                                  {% for tag in article.tags %}
+                                    <div class="tagcloud">
+                                      <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="tag-cloud-link">
+                                        {{- tag -}}
+                                      </a>
+                                    </div>
+                                  {% endfor %}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {% endif %}
+                      <!-- blog articles -->
+                      <div class="col-md-12">
+                        <div class="container px-0">
+                          {% if blog.comments_enabled? %}
+                            <h3 class="heading-text">
+                              {{ 'blogs.comments.with_count' | t: count: number_of_comments }}
+                            </h3>
+                            {% paginate article.comments by 2 %}
+                              <div id="comments" class="mb-4">
+                                {%- if article.comments_count > 0 -%}
+                                  <div class="blog-comments">
+                                    {% if comment.status == 'pending' and comment.content %}
+                                      <div class="card border-0 rounded-0" id="{{ comment.id }}">
+                                        <div class="card-body rte pl-0 pr-0">
+                                          {{ comment.content }}
+                                          {% capture date %}{{ comment.created_at | time_tag: format: 'month_day_year' }}{% endcapture %}
+                                          <p>
+                                            {{
+                                              'blogs.article.comment_meta_html'
+                                              | t: author: comment.author, date: date
+                                            }}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    {% endif %}
+                                    {% for comment in article.comments %}
+                                      <div class="card border-0 rounded-0" id="{{ comment.id }}">
+                                        <div class="card-body rte pl-0 pr-0">
+                                          {{ comment.content }}
+                                          {% capture date %}{{ comment.created_at | time_tag: format: 'month_day_year' }}{% endcapture %}
+                                          <p>
+                                            {{
+                                              'blogs.article.comment_meta_html'
+                                              | t: author: comment.author, date: date
+                                            }}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    {% endfor %}
+                                  </div>
+                                  {% if paginate.pages > 1 %}
+                                    {% render 'pagination', paginate: paginate, anchor: '', class: '' %}
+                                  {% endif %}
+                                {% endif %}
+                              </div>
+                            {% endpaginate %}
+                            <div class="blog-comments mb-0">
+                              {% form 'new_comment', article %}
+                                {%- liquid
+                                  assign post_message = 'blogs.comments.success'
+                                  if blog.moderated? and comment.status == 'unapproved'
+                                    assign post_message = 'blogs.comments.success_moderated'
+                                  endif
+                                -%}
+                                <h4 class="heading-text">{{ 'blogs.comments.title' | t }}</h4>
+                                <!-- alerts -->
+                                {% if form.posted_successfully? %}
+                                  <div class="alert alert-success mt-3" role="alert">
+                                    <span class="form-status w-100 d-block" tabindex="-1" autofocus>
+                                      {{- post_message | t -}}
+                                    </span>
+                                  </div>
+                                {% endif %}
+                                <!-- comments form -->
+                                <div class="form-row">
+                                  <div class="form-group col-md-6">
+                                    <label class="d-none d-print-block sr-only" for="CommentAuthor">
+                                      {{- 'blogs.comments.name' | t -}}
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="comment[author]"
+                                      id="CommentAuthor"
+                                      class="{% if form.errors contains 'author' %}input-error{% endif %} form-control"
+                                      placeholder="{{ 'blogs.comments.name' | t }}"
+                                      value="{{ form.author }}"
+                                      {% if form.errors contains 'author' %}
+                                        aria-invalid="true"
+                                        aria-describedby="CommentForm-author-error"
+                                      {% endif %}
+                                      autocapitalize="words"
+                                    >
+                                    {% if form.errors contains 'author' %}
+                                      <div class="alert alert-info mt-3 mb-0" role="alert">
+                                        <span class="form-status w-100 d-block">
+                                          {{- 'blogs.comments.name' | t }}
+                                          {{ form.errors.messages.author }}.</span
+                                        >
+                                      </div>
+                                    {% endif %}
+                                  </div>
+                                  <div class="form-group col-md-6">
+                                    <label class="d-none d-print-block sr-only" for="CommentEmail">
+                                      {{- 'blogs.comments.email' | t -}}
+                                    </label>
+                                    <input
+                                      type="email"
+                                      name="comment[email]"
+                                      id="CommentEmail"
+                                      class="{% if form.errors contains 'email' %}input-error{% endif %} form-control"
+                                      placeholder="{{ 'blogs.comments.email' | t }}"
+                                      value="{{ form.email }}"
+                                      spellcheck="false"
+                                      autocomplete="off"
+                                      {% if form.errors contains 'email' %}
+                                        aria-invalid="true"
+                                        aria-describedby="CommentForm-email-error"
+                                      {% endif %}
+                                      autocapitalize="off"
+                                    >
+                                    {% if form.errors contains 'email' %}
+                                      <div class="alert alert-info mt-3 mb-0" role="alert">
+                                        <span class="form-status w-100 d-block">
+                                          {{- 'blogs.comments.email' | t }}
+                                          {{ form.errors.messages.email }}.</span
+                                        >
+                                      </div>
+                                    {% endif %}
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <textarea
+                                    rows="5"
+                                    name="comment[body]"
+                                    id="CommentForm-body"
+                                    class="text-area form-control"
+                                    aria-required="true"
+                                    {% if form.errors contains 'body' %}
+                                      aria-invalid="true" aria-describedby="CommentForm-body-error"
+                                    {% endif %}
+                                    placeholder="{{ 'blogs.comments.title' | t }}"
+                                  >{{ form.body }}</textarea>
+                                </div>
+                                {% if form.errors contains 'body' %}
+                                  <div class="alert alert-info mt-3 mb-0" role="alert">
+                                    <span class="form-status w-100 d-block">
+                                      {{- 'blogs.comments.message' | t }}
+                                      {{ form.errors.messages.body }}.</span
+                                    >
+                                  </div>
+                                {% endif %}
+                                {% if blog.moderated? %}
+                                  <p class="blog-comment-note py-3 mb-0">
+                                    {{ 'blogs.comments.moderated' | t }}
+                                  </p>
+                                {% endif %}
+                                <input type="submit" class="btn btn-contact" value="{{ 'blogs.comments.post' | t }}">
+                              {% endform %}
+                            </div>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</article>
+
+{% schema %}
+{
+  "name": "Article",
+  "class": "index-home-article",
+  "blocks": [
+    {
+      "type": "featured_media",
+      "name": "Featured blog image",
+      "limit": 1,
+      "settings": [
+      ]
+    },
+    {
+      "type": "blog_author",
+      "name": "Blog details",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_title",
+          "label": "Show blog heading",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_author",
+          "label": "Show author and date",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "overview",
+      "name": "Blog description",
+      "limit": 1,
+      "settings": [
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    }
+  ]
+}
+{% endschema %}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}

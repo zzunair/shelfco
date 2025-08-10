@@ -1,0 +1,274 @@
+{% comment %}
+  Recently viewed products section on product page
+{% endcomment %}
+
+<section
+  id="{{ section.id }}"
+  class="recently-viewed-products section-{{ section.id }}-padding wow fadeIn no-Js"
+  data-wow-delay="300ms"
+  style="display: none;"
+>
+  <div class="collection-list">
+    <div class="product-item collection-block-info mb-0">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 px-0 slider-parent w-100">
+            <div class="slider-container multiple" tabindex="-1">
+              <!-- Header -->
+              <div class="col-md-12">
+                {% if section.settings.section_header != blank %}
+                  <div class="title text-left pt-0">
+                    <h2 class="text-left mb-0">{{ section.settings.section_header }}</h2>
+                  </div>
+                {% endif %}
+              </div>
+              <!-- /Header -->
+              <div id="" class="recently_viewed_products2 pt-1 row mx-auto"></div>
+              <div class="controls recent-controls" style="display: none;">
+                <button role="button" aria-label="Previous" class="glider-prev prev-btn">
+                  {% render 'icon-prev' %}
+                </button>
+                <button role="button" aria-label="Next" class="glider-next next-btn">{% render 'icon-next' %}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+ {
+   "name": "Recently viewed products",
+   "class": "recently-viewed-section",
+   "settings": [
+     {
+       "type": "range",
+       "id": "padding_top",
+       "min": 0,
+       "max": 100,
+       "step": 4,
+       "unit": "px",
+       "label": "Top padding",
+       "default": 20
+     },
+     {
+       "type": "range",
+       "id": "padding_bottom",
+       "min": 0,
+       "max": 100,
+       "step": 4,
+       "unit": "px",
+       "label": "Bottom padding",
+       "default": 20
+     },
+     {
+       "type": "text",
+       "id": "section_header",
+       "label": "Heading",
+       "default": "Recently viewed"
+     }
+   ]
+ }
+{% endschema %}
+
+<script
+  type="text/javascript"
+>
+// Recently Viewed Products Start
+/* Add Products to the local storage */
+if (document.querySelectorAll('#product').length > 0) {
+  var product = window.product2;
+  var products;
+  if (localStorage.getItem('viewedProducts')){
+    products = localStorage.getItem('viewedProducts');
+  }
+  if (products){
+    products = JSON.parse(products);
+    if (products.length < 10){
+     products.push(product);
+    }
+    else {
+      products = products.slice(1);
+      products.push(product);
+    }
+  }
+  else {
+    products = [];
+    products.push(product);
+  }
+  function arrUnique(standardsList) {
+    var sl = standardsList;
+    var out = [];
+    for (var i = 0, l = sl.length; i < l; i++) {
+      var unique = true;
+      for (var j = 0, k = out.length; j < k; j++) {
+        if ((sl[i].handle === out[j].handle)) {
+            unique = false;
+          console.log('sl[i]', sl[i].handle);
+        }
+      }
+      if (unique) {
+        out.push(sl[i]);
+      }
+    }
+    return out;
+  }
+  var products2 = arrUnique(products);
+  products2 = JSON.stringify(products2);
+  localStorage.setItem('viewedProducts', products2);
+}
+
+var products = localStorage.getItem('viewedProducts');
+  const recentlyViewedProducts = document.querySelector('.recently_viewed_products2');
+  if (products){
+    products = JSON.parse(products);
+     if (products.length > 0){
+       if (products.length == 1){
+         if (window.product2.handle == products[0].handle){
+           document.querySelector('.recently-viewed-products').style = 'display: none';
+         }
+         else {
+           document.querySelector('.recently-viewed-products').style = 'display: block';
+         }
+       }
+       else {
+        setTimeout(function(){
+        document.querySelector('.recently-viewed-products').style = 'display: block';
+         showProducts(products);
+          if (products.length > 3){
+            function recurse() {
+              if (tns){
+                setTimeout(function(){
+                  turnSliderOn();
+                }, 1000);
+              }
+              else {
+                recurse();
+              }
+            }
+            recurse();
+            document.querySelector('.recent-controls').style = "display: block";
+           }
+         }, 1000);
+       }
+     }
+   }
+   function showProducts(products){
+     if(products.length > 0) {
+      products.forEach((product, index) => {
+        if (!(product.handle == window.product2.handle)){
+          var handle = product.handle;
+          var product_id = '';
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            //Check if image exisits, otherwise render placeholder
+            const productImage = product.images.length;
+            const productVariant = product.variants[0];
+
+            //url conditional
+            const url = product.variants.length > 1 ? `${product.handle}?variant=${product.variants[0].id}` : `${product.handle}`;
+            // console.log(url);
+
+            const imageChecked = productImage > 0 ?
+            `<a href="${url}" tabindex="-1"><div class="reveal img-fluid recomendation-image">
+              <img class="img-fluid lazyload" data-src="${product.images[0]}" alt="${product.title}" width="1000px" height="1000px" loading="lazy"/>
+            </div></a>` : `${window.strings.placeholder}`;
+
+            //HTML template literal elements to be added to recently_viewed_products2
+            const productRow = `
+            <div class="col-md-4 col-lg-4 col-sm-12 col-xs-6" tabindex="-1" data-value="">
+              <div class="product-item mb-0 wow fadeIn rec-img card-wrapper d-block">
+                <div class="product-thumb" tabindex="0">
+                  ${product.compare_at_price > product.price ? `<div class="position-absolute product-alerts"><span class="badge badge-sale badge-pill badge-primary mb-0 mr-0 on-sale">${window.theme.onSale}</span></div>` : ""}
+                  ${imageChecked}
+                </div>
+                <div class="product-details-card py-3 px-2 d-flex">
+                  <a href="${url}">
+                    <div class="product-content card-information">
+                      <div class="card-information__wrapper mb-2">
+                        <span class="card-information__text h5 mr-0">${product.title}</span>
+                      </div>
+                    </div>
+                  </a>
+                  <div class="product-content main-content options-styles-unit-price">
+                    <div class="d-inline-flex">
+                      <span class="card-information__text h5 text-decoration-none">
+                        <input type="hidden" name="converted_price" value="${Shopify.formatMoney(product.price, window.theme.moneyFormat)}" >
+                        <span class="js-price js-price-recommend money money_price" data-default-price="">
+                        ${product && product.price_varies ? `from ` : ""} ${Shopify.formatMoney(product.price, window.theme.moneyFormat)}
+                        </span>
+                        ${product.compare_at_price > product.price ? `<span class="money"><s class="ml-1 js-price-compare js-price-recommend-compare money money_price">${Shopify.formatMoney(product.compare_at_price, window.theme.moneyFormat)}</s></span>` : ""}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            `;
+              //append productRow to DOM
+              recentlyViewedProducts.insertAdjacentHTML('afterbegin', productRow);
+            }
+          }
+          xhttp.open("GET", '/products/' + handle + '.json', true);
+          xhttp.send();
+        }
+      });
+    }
+  }
+  function turnSliderOn() {
+  var element = document.querySelector('.recently_viewed_products2');
+  element.classList.remove('row');
+    var slider = tns({
+        container: '.recently_viewed_products2',
+        items: 1,
+        slideBy: 1,
+        nav: false,
+        speed: 400,
+        mode: 'carousel',
+        prevButton: '.recently-viewed-products .glider-prev',
+        nextButton: '.recently-viewed-products .glider-next',
+        autoplayButtonOutput: false,
+        mouseDrag: true,
+        autoplay: false,
+        controls: true,
+        freezable: true,
+        touch: false,
+        mouseDrag: false,
+        preventScrollOnTouch: 'true',
+        navPosition: 'bottom',
+        rewind: true,
+        lazyload: true,
+        center: false,
+        loop: false,
+        controlsContainer: '.recently-viewed-products .controls',
+        responsive: {
+          480: {
+            items: 1,
+          },
+          640: {
+            items: 2,
+          },
+          768: {
+            items: 3,
+          }
+        }
+      });
+    slider.refresh();
+  }
+</script>
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}

@@ -1,0 +1,27 @@
+{% comment %}
+  Renders a image with various sizes
+
+  Usage:
+  {% render 'responsive-image' %}
+{% endcomment %}
+
+<div id="image-wrapper-{{ image.id }}-{{ responsive_image_counter }}" data-image-id="{{ image.id }}" class="{{ wrapper_class }} position-relative">
+  <img loading='{{ lazy }}' id="image-{{ image.id }}-{{ responsive_image_counter }}"
+       class="{{ image_class }} position-relative {% if media_size == 'square' %}aspect-ratio__square{% elsif media_size == 'portrait' %}aspect-ratio__portrait{% else %}aspect-ratio__unset{% endif %}"
+       src="{{ image | img_url: '1000x' }}"
+       srcset="{% if image.width >= 650 %}{{ image | img_url: '650x' }} 650w,{% endif %}
+               {% if image.width >= 950 %}{{ image | img_url: '950x' }} 950w,{% endif %}
+               {% if image.width >= 1080 %}{{ image | img_url: '1080x' }} 1080w,{% endif %}
+               {% if image.width >= 1296 %}{{ image | img_url: '1296x' }} 1296w,{% endif %}
+               {% if image.width >= 1512 %}{{ image | img_url: '1512x' }} 1512w,{% endif %}
+               {% if image.width >= 1728 %}{{ image | img_url: '1728x' }} 1728w,{% endif %}
+               {% if image.width >= 2048 %}{{ image | img_url: '2048x' }} 2048w{% endif %}"
+       data-src="{{ image | img_url: '1000x' }}"
+       width="{{ max_width }}"
+       height="{{ max_height }}"
+       max-width="{{ max_width }}"
+       data-widths="[650, 950, 1080, 1296, 1512, 1728, 2048]"
+       sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+       data-aspectratio="{{ image.aspect_ratio | divided_by: image.aspect_ratio }}"
+       alt="{{ image.alt | escape }}"/>
+</div>

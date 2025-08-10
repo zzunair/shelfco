@@ -1,0 +1,196 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "static-page",
+      "custom_css": [],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "main_rich_text_c77C7z": {
+      "type": "main-rich-text",
+      "custom_css": [
+        "@media (min-width: 576px) {.container {width: 85%; }}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "title": "",
+        "text": "<h3>Hassle-Free Returns Within 90 Days of Purchase!</h3><p>We stand by our high-quality home shelving products and hope you love your new decor. However, we also understand that shopping online is sometimes a leap of faith and things happen. So, to make sure you’re completely satisfied, we offer a no-stress, 90-day return policy.</p><p><strong>ALL Clearance Outlet products are final sale.</strong> There are no returns or exchanges for products that have prices ending in $0.99.<br/><br/><strong>In the event your shipment is lost or contains defective or damaged products – please </strong><a href=\"https://shelf-co.com/pages/contact-us\" title=\"Contact Us\"><strong>CONTACT US</strong></a><strong> immediately!</strong></p>",
+        "button_text": "",
+        "button_url": ""
+      }
+    },
+    "main_custom_liquid_CtJjND": {
+      "type": "main-custom-liquid",
+      "custom_css": [
+        ".col-md-12 {text-align: center;}",
+        "a.btn.btn-contact {margin: 2%; font-size: large;}"
+      ],
+      "settings": {
+        "custom_liquid": "<a class=\"btn btn-contact\" href=\"#Returns\">RETURNS</a>\n<a class=\"btn btn-contact\" href=\"#Exchanges\">EXCHANGES</a>\n<a class=\"btn btn-contact\" href=\"#Damages\">DAMAGES</a>",
+        "padding_top": 20,
+        "padding_bottom": 0
+      }
+    },
+    "main_custom_liquid_az9Bj9": {
+      "type": "main-custom-liquid",
+      "settings": {
+        "custom_liquid": "<div id=\"Returns\"></div>",
+        "padding_top": 0,
+        "padding_bottom": 100
+      }
+    },
+    "main_promo_banner_wFxiNF": {
+      "type": "main-promo-banner",
+      "custom_css": [
+        "@media only screen and (min-width: 800px) {.typography-banner {padding-left: 50px; }}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "typography_banner": "RETURNS",
+        "typography_btn": "",
+        "typography_url": "",
+        "background_color": "#2a3640",
+        "font_color": "#fafafa",
+        "border_color": "#fafafa"
+      }
+    },
+    "main_rich_text_jhcQCh": {
+      "type": "main-rich-text",
+      "custom_css": [
+        "@media (min-width: 576px) {.container {width: 90%; }}",
+        "li {padding: 0.5rem;}",
+        "ol {margin-left: 1.5rem;}"
+      ],
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 20,
+        "title": "",
+        "text": "<p>If you examine your merchandise upon receiving your order and are not completely satisfied with it, <strong>you can return your product within 90 days</strong> of the original purchase date for an exchange or refund. We ask that the merchandise you’re returning be in <strong>new and resalable condition, with the original packaging intact.</strong></p><p><strong>ALL Clearance Outlet products are final sale.</strong> There are no returns or exchanges for products that have prices ending in $0.99.</p><p>You are responsible for the return postage back to our warehouse. Return shipping prices will vary from the original shipping charge. Please <a href=\"/pages/contact-us\" title=\"Contact Us\"><span style=\"text-decoration:underline\"><strong>contact us</strong></span></a> to receive a return shipping quote. Please note that should you need to return your order, or any items from your order,<strong> the original shipping charges and return shipping costs are both-nonrefundable. You are responsible for paying all freight charges.</strong></p><p></p><p><strong>To make a return, follow these steps:</strong></p><ol><li>Verify the original date of purchase for your order was less than 90 days ago. Unfortunately, <strong>we cannot accept any returns after 90 days.</strong></li><li>Visit our <a href=\"/pages/returns-portal\" title=\"Returns Portal\"><span style=\"text-decoration:underline\"><strong>Returns Portal</strong></span></a> and complete the brief informational form. If you are not returning your entire order, please specify which items you will be returning.</li><li>Specify your return shipping method within the Returns Portal. Choose from the following options.<br/><br/>a. \"Yes, please send me a return label.\" We will create a pre-paid return label for you. We will be happy to handle this for you and will deduct return shipping charges from your order refund. If you do not receive a return label from FedEx within 2 business days of your request, please contact us.<br/><br/>b. \"No, I will send it back myself.\" Place your order in the original packaging along with any paperwork you were given. You are free to ship with the carrier of your choice if sending the product back yourself. We recommend choosing a service that allows you to track and insure your package. Send your order back to the following address.<br/><br/>5017 Boone Avenue North, Suite 200<br/>New Hope, MN 55428</li><li>Carefully return your items to their original packaging and then <strong>pack them in a box suitable for shipping. </strong>Please include your original paperwork if you have it.</li></ol><p></p><p>Once we’ve received your return shipment with merchandise in original packaging and resalable condition, we will issue a credit in the original form of payment. <strong>Your total refund will be the amount of your purchase, less any shipping charges that were applied to your order.</strong></p>",
+        "button_text": "Returns Portal",
+        "button_url": "shopify://pages/returns-portal"
+      }
+    },
+    "main_custom_liquid_i79YnB": {
+      "type": "main-custom-liquid",
+      "settings": {
+        "custom_liquid": "<div id=\"Exchanges\"></div>",
+        "padding_top": 0,
+        "padding_bottom": 100
+      }
+    },
+    "main_promo_banner_7F3cXD": {
+      "type": "main-promo-banner",
+      "custom_css": [
+        "@media only screen and (min-width: 800px) {.typography-banner {padding-left: 50px; }}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "typography_banner": "EXCHANGES",
+        "typography_btn": "",
+        "typography_url": "",
+        "background_color": "#2a3640",
+        "font_color": "#fafafa",
+        "border_color": "#fafafa"
+      }
+    },
+    "main_rich_text_WpGT8B": {
+      "type": "main-rich-text",
+      "custom_css": [
+        "@media (min-width: 576px) {.container {width: 90%; }}",
+        "li {padding: 0.5rem;}",
+        "ol {margin-left: 1.5rem;}"
+      ],
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 20,
+        "title": "",
+        "text": "<p>If you would like to exchange the product you purchased for something different, <strong>you can make an exchange within 90 days</strong> of the original purchase date. We ask that the merchandise you’re returning be in <strong>new and resalable condition, with the original packaging intact.</strong></p><p><strong>ALL Clearance Outlet products are final sale.</strong> There are no returns or exchanges for products that have prices ending in $0.99.</p><p>You are responsible for the return postage back to our warehouse. Return shipping prices will vary from the original shipping charge. Please <a href=\"/pages/contact-us\" title=\"Contact Us\"><span style=\"text-decoration:underline\"><strong>contact us</strong></span></a> to receive a return shipping quote. Please note that should you need to return your order, or any items from your order,<strong> the original shipping charges and return shipping costs are both-nonrefundable. You are responsible for paying all freight charges.</strong></p><p></p><p><strong>To make a return, follow these steps:</strong></p><ol><li>Verify the original date of purchase for your order was less than 90 days ago. Unfortunately, <strong>we cannot accept any returns after 90 days.</strong></li><li>Visit our <a href=\"/pages/returns-portal\" title=\"Returns Portal\"><span style=\"text-decoration:underline\"><strong>Returns Portal</strong></span></a> and complete the brief informational form. If you are not returning your entire order, please specify which items you will be returning.</li><li>Specify your return shipping method within the Returns Portal. Choose from the following options.<br/><br/>a. \"Yes, please send me a return label.\" We will create a pre-paid return label for you. We will be happy to handle this for you and will deduct return shipping charges from your order refund. If you do not receive a return label from FedEx within 2 business days of your request, please contact us.<br/><br/>b. \"No, I will send it back myself.\" Place your order in the original packaging along with any paperwork you were given. You are free to ship with the carrier of your choice if sending the product back yourself. We recommend choosing a service that allows you to track and insure your package. Send your order back to the following address.<br/><br/>5017 Boone Avenue North, Suite 200<br/>New Hope, MN 55428</li><li>Carefully return your items to their original packaging and then <strong>pack them in a box suitable for shipping.</strong> Please include your original paperwork if you have it.</li></ol><p></p><p>Once we’ve received your return shipment with merchandise in original packaging and resalable condition, we will issue a credit in the original form of payment. <strong>Your total refund will be the amount of your purchase, less any shipping charges that were applied to your order.</strong></p>",
+        "button_text": "Returns Portal",
+        "button_url": "shopify://pages/returns-portal"
+      }
+    },
+    "main_custom_liquid_6Ck777": {
+      "type": "main-custom-liquid",
+      "settings": {
+        "custom_liquid": "<div id=\"Damages\"></div>",
+        "padding_top": 0,
+        "padding_bottom": 100
+      }
+    },
+    "main_promo_banner_dRUp3w": {
+      "type": "main-promo-banner",
+      "custom_css": [
+        "@media only screen and (min-width: 800px) {.typography-banner {padding-left: 50px; }}"
+      ],
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "typography_banner": "DAMAGES",
+        "typography_btn": "",
+        "typography_url": "",
+        "background_color": "#2a3640",
+        "font_color": "#fafafa",
+        "border_color": "#fafafa"
+      }
+    },
+    "main_rich_text_YpLwPg": {
+      "type": "main-rich-text",
+      "custom_css": [
+        "@media (min-width: 576px) {.container {width: 90%; }}",
+        "li {padding: 0.5rem;}",
+        "ol {margin-left: 1.5rem;}"
+      ],
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 20,
+        "title": "",
+        "text": "<p><strong>In the event your shipment is lost or contains defective products – please </strong><a href=\"/pages/contact-us\" title=\"Contact Us\"><span style=\"text-decoration:underline\"><strong>CONTACT US</strong></span></a><strong> immediately!</strong><br/><br/>To quickly receive a replacement, you must <strong>contact us within 30 days of receiving your order.</strong><br/><br/>Please fill out the<a href=\"/pages/damages-form\" title=\"Damages Form\"> <span style=\"text-decoration:underline\"><strong>Damages Form</strong></span></a> to provide us with information regarding your damaged product. You will be asked to include product information as well as a photo of the damage.<br/><br/>Once we receive this information, we will contact you with further information regarding your replacement product.</p>",
+        "button_text": "Damages Form",
+        "button_url": "shopify://pages/damages-form"
+      }
+    },
+    "main_rich_text_9krtJb": {
+      "type": "main-rich-text",
+      "custom_css": [
+        "@media only screen and (min-width: 800px) {.container {width: 75%; }}"
+      ],
+      "settings": {
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "title": "Our Commitment to Customer Service",
+        "text": "<p>If you have any concerns, please pick up the phone and call us. Our office is staffed with real people who answer phone calls and emails from customers. We're ready to offer advice and troubleshooting for anything from a first-time do-it-yourself project to planning the large-scale remodel of a room.</p>",
+        "button_text": "Contact Us",
+        "button_url": "shopify://pages/contact-us"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "main_rich_text_c77C7z",
+    "main_custom_liquid_CtJjND",
+    "main_custom_liquid_az9Bj9",
+    "main_promo_banner_wFxiNF",
+    "main_rich_text_jhcQCh",
+    "main_custom_liquid_i79YnB",
+    "main_promo_banner_7F3cXD",
+    "main_rich_text_WpGT8B",
+    "main_custom_liquid_6Ck777",
+    "main_promo_banner_dRUp3w",
+    "main_rich_text_YpLwPg",
+    "main_rich_text_9krtJb"
+  ]
+}

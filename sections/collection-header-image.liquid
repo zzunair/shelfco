@@ -1,0 +1,68 @@
+{% comment %}
+  Collection header section
+{% endcomment %}
+
+{%- liquid
+  assign _colClassLayout = 'container-fluid px-0'
+  assign collection_image = collection.image
+%}
+
+<!-- collection info -->
+<section class="container section-hero appear">
+  <div class="section-content">
+    <h1 class="typography-hero-headline" tabindex="0">
+      <span class="hero-headline-line-2">
+        {{ collection.title }}
+      </span>
+    </h1>
+    {% if section.settings.enable_description and collection.description != blank %}
+      <div class="copy-wrapper" tabindex="0">
+        <p class="typography-hero-paragraph large-centered mb-0">
+          {{ collection.description }}
+        </p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+<!-- /collection info -->
+<!-- collection banner -->
+{% if collection.image and section.settings.enable_image %}
+  <section class="collection-banner-section border-top">
+    <div class="collection-banner-image-wrapper">
+      {{
+        collection_image
+        | image_url: width: 2048
+        | image_tag:
+          class: 'collection-banner-image img-fluid',
+          widths: '1600, 1800, 2200, 2400, 2800, 3200',
+          height: collection_image.height,
+          width: collection_image.width,
+          alt: collection_image.alt
+        | escape
+      }}
+    </div>
+    <div class="banner-overlay-div d-none"></div>
+  </section>
+{% endif %}
+<!-- /collection banner -->
+
+{% schema %}
+{
+  "name": "Collection header",
+  "class": "index-home-collections-template border-bottom",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_description",
+      "default": true,
+      "label": "Enable description"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_image",
+      "default": true,
+      "label": "Enable image"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,216 @@
+{% comment %}
+  Renders a product card
+
+  Usage:
+  {% render 'product-card' %}
+{% endcomment %}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant | default: product.variants.first
+  assign current_selling_plan_allocation = current_variant.selected_selling_plan_allocation
+
+  if current_selling_plan_allocation == null and current_variant.requires_selling_plan == false
+    assign current_selling_plan_allocation = current_variant.selling_plan_allocations | first
+  endif
+
+  assign offer = current_selling_plan_allocation | default: current_variant
+
+  if product == empty
+    assign onboarding = true
+    assign title = 'general.accessibility.pick_your_product' | t
+    assign price = 'general.accessibility.zero_price' | t
+  endif
+
+  if has_selected_variant
+    assign target = product.selected_or_first_available_variant
+  else
+    assign target = product
+  endif
+
+  assign compare_at_price = target.compare_at_price | default: 2000
+  assign price = target.price | default: 2000
+  assign offer_amount = offer.price | default: 2000
+
+  assign money_price = price | money
+  assign offer_price = offer_amount | money
+  assign compare_price = compare_at_price | money
+
+  if settings.currency_code_enabled
+    assign money_price = price | money_with_currency
+    assign offer_price = offer_amount | money_with_currency
+    assign compare_price = compare_at_price | money_with_currency
+  endif
+
+  if target == product and product.price_varies
+    assign money_price = 'products.product.from_price_html' | t: price: money_price
+  endif
+-%}
+
+<div
+  class="collection-toggle mb-5 {% if template == 'search' %}col-md-3 col-lg-3 col-sm-6 col-xs-6{% else %}{{ _colClass }}{% endif %}"
+  tabindex="-1"
+>
+  <div
+    class="product-item d-flex flex-column h-100 justify-content-between px-lg-0 px-md-0 px-xs-0 px-sm-0 card-wrapper"
+    tabindex="-1"
+  >
+    <!-- BLANK INFO -->
+    {% if onboarding == true %}
+      <!-- image -->
+      <div class="product-thumb" tabindex="0">
+        <div class="reveal img-fluid" tabindex="-1">
+          <div class="blank-image">
+            {{ 'product-3' | placeholder_svg_tag: 'placeholder-svg border rounded__all' }}
+          </div>
+        </div>
+      </div>
+      <!-- title -->
+      <div class="product-content-onboarding product-details-card py-3 px-1 d-flex justify-content-around card-information">
+        <div class="card-information__wrapper mb-0">
+          <span class="card-information__text h5 mr-0">{{ title | escape }}</span>
+        </div>
+        <span class="card-information__text mb-0 font-weight-normal text-decoration-none money_price">
+          <span class="money money_price">{{ price | money_with_currency }}</span>
+        </span>
+      </div>
+      <!-- btns -->
+      <div class="add-to-cart__wrapper mt-0 w-100">
+        <div class="add-to-cart__submit w-wrapper pb-0">
+          <div class="atc-container mb-0">
+            <button
+              type="text"
+              name="add"
+              class="btn btn-contact mb-0 mx-auto w-100"
+              disabled="disabled"
+              aria-label="unavailable"
+            >
+              <span class="">
+                {{ 'products.product.unavailable' | t }}
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <!-- /BLANK INFO -->
+      <!-- PRODUCT INFO -->
+      <!-- image -->
+      <div class="product-thumb" tabindex="0">
+        <div class="reveal img-fluid" tabindex="-1">
+          <div class="position-absolute product-alerts" tabindex="-1">
+            {% render 'product-labels', product: product %}
+          </div>
+          <a
+            href="{{ product.url | within: collection }}{% if product.variants.size >= 1 %}?variant={{ product.selected_or_first_available_variant.id }}{% endif %}"
+            class="focus-inset"
+            aria-label="view collection"
+            tabindex="-1"
+          >
+            {% if product.featured_image != blank %}
+              {% render 'responsive-image' with image: product.featured_image, image_class: "img-fluid lazyload bg-white", wrapper_class: "img-wrapper-class img-hover", lazy: "lazy", max_width: 1000, max_height: 1000, media_size: section.settings.image_ratio %}
+            {% endif %}
+            {% if product.featured_image == blank %}
+              <div class="blank-image">
+                {{ 'product-3' | placeholder_svg_tag: 'placeholder-svg rounded__all border' }}
+              </div>
+            {% endif %}
+            {% if product.images.size > 1 and show_second_img %}
+              <div class="hidden dark-on-hover">
+                {% render 'responsive-image' with image: product.images[1], image_class: "img-fluid lazyload bg-white", wrapper_class: "img-wrapper-class img-hover", lazy: "lazy", max_width: 1000, max_height: 1000, media_size: section.settings.image_ratio %}
+              </div>
+            {% endif %}
+          </a>
+        </div>
+      </div>
+      <!-- /image -->
+      <div class="product-details-card d-flex px-2">
+        <!-- title -->
+        <a
+          href="{{ product.url | within: collection }}{% if product.variants.size > 1 %}?variant={{ product.selected_or_first_available_variant.id }}{% endif %}"
+          class="full-unstyled-link"
+          aria-label="{{ product.title }}"
+        >
+          <div class="product-content card-information">
+            <div class="card-information__wrapper mb-0">
+              <span class="card-information__text h5 mr-0">{{ product.title }}</span>
+            </div>
+          </div>
+        </a>
+        <!-- /title -->
+        <!-- prices -->
+        <div class="product-content main-content options-styles-unit-price py-1">
+          <div class="d-inline-flex" data-id="{{ product.id }}">
+            <span class="card-information__text h5 mb-0 text-decoration-none p-lh" tabindex="0">
+              <!-- product price -->
+              <span class="price__regular js-price money money_price" data-default-price="{{ money_price }}">
+                {% if offer.selling_plan %}
+                  {{ offer_price }}
+                {% else %}
+                  {{ money_price }}
+                {% endif %}
+              </span>
+              <!-- /product price -->
+              <!-- product compare price -->
+              {% if target.compare_at_price > target.price %}
+                <s class="price__sale ml-0 js-price-compare">
+                  <span class="money money_price">{{ compare_price }}</span>
+                </s>
+              {% endif %}
+              <!-- /product compare price -->
+            </span>
+          </div>
+          <!-- unit pricing -->
+          {% if current_variant.unit_price_measurement.reference_value >= 1 %}
+            <div class="d-inline-flex" data-id="{{ product.id }}">
+              <span class="unit-price caption{% if product.available == false or product.selected_or_first_available_variant.unit_price_measurement == nil %} hidden{% endif %}">
+                <!-- unit price -->
+                <span class="hidden">{{ 'products.product.unit_price' | t }}</span>
+                {% if product.variants.size > 1 %}
+                  <span>
+                    <span
+                      class="js-unit-price money"
+                      data-unit-price="{{ current_variant.unit_price_measurement.reference_value | money }}"
+                    >
+                      {{- current_variant.unit_price | money -}}
+                    </span>
+                    <span aria-hidden="true">/</span>
+                    <span class="">&nbsp;{{ 'general.accessibility.unit_price_separator' | t }}&nbsp;</span>
+                  </span>
+                {% endif %}
+                <!-- /unit price -->
+                <!-- unit measure -->
+                <span
+                  class="js-unit-measure"
+                  data-unit-measure="{{ current_variant.unit_price_measurement.reference_value }}"
+                >
+                  {% if current_variant.unit_price_measurement.reference_value != 1 %}
+                    {{ current_variant.unit_price_measurement.reference_value }}
+                  {% endif %}
+                  {{ current_variant.unit_price_measurement.reference_unit }}
+                </span>
+                <!-- /unit measure -->
+              </span>
+            </div>
+            <!-- /unit pricing -->
+          {% endif %}
+        </div>
+        <!-- /prices -->
+        <!-- ratings -->
+        <div
+          class="yotpo-widget-instance pt-1"
+          data-yotpo-instance-id="571082"
+          data-yotpo-product-id="{{product.id}}"
+          data-yotpo-cart-product-id="{{item.product.id}}"
+          data-yotpo-section-id="{{template.name}}"
+        ></div>
+        <!-- /ratings -->
+      </div>
+      {% if settings.show_quick_buy %}
+        <!-- quick form -->
+        {% render 'quick-form', product: product, _btnClass: 'border' %}
+        <!-- /quick form -->
+      {% endif %}
+      <!-- /PRODUCT INFO -->
+    {% endif %}
+  </div>
+</div>

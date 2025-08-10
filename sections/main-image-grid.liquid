@@ -1,0 +1,166 @@
+{% comment %}
+  Collage section
+{% endcomment %}
+
+<section
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding wow fadeIn"
+  data-wow-delay="300ms"
+  data-section-id="{{ section.id }}"
+  data-section-type="media-grid"
+>
+  <div class="container media-grid">
+    {% for block in section.blocks %}
+      {% assign font_color = block.settings.font_color %}
+      {% assign media_image = block.settings.image | default: block.settings.image %}
+
+      {% assign font_color = font_color | color_to_rgb | remove_first: ')' | append: ', 1)' %}
+      {% style %}
+        .{{ section.id }}is-font-{{ forloop.index0 }} {
+          color: {{ font_color }};
+        }
+      {% endstyle %}
+
+      <div class="media-grid-box {% cycle 'a', 'c', 'd', 'f' %} rounded__all">
+        <a href="{{ block.settings.grid_url }}">
+          <div class="card grid-container border-0" tabindex="0">
+            {% if media_image == blank %}
+              {% if forloop.last == true %}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg rounded__all border h-100' }}
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg rounded__all border h-100' }}
+              {% endif %}
+            {% else %}
+              {{
+                media_image
+                | image_url: width: 2048
+                | image_tag:
+                  class: 'img-fluid lazyload grid-media-image rounded__all',
+                  widths: '500, 600, 1000, 1200, 1500, 1800, 2200, 2400',
+                  height: media_image.height,
+                  width: media_image.width,
+                  loading: 'lazy',
+                  alt: media_image.alt
+                | escape
+              }}
+            {% endif %}
+            {% if block.settings.grid_caption != blank %}
+              <div class="card-body grid-item-content">
+                <h4 class="grid-card-title {{ section.id }}is-font-{{ forloop.index0 }}">
+                  {{ block.settings.grid_caption }}
+                </h4>
+              </div>
+            {% endif %}
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collage",
+  "class": "featured-image-grid",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "1000 x 1000px .jpg recommended"
+        },
+        {
+          "type": "text",
+          "id": "grid_caption",
+          "label": "Heading",
+          "default": "Text to go here."
+        },
+        {
+          "type": "color",
+          "id": "font_color",
+          "label": "Text color",
+          "default": "#1b1b1b"
+        },
+        {
+          "type": "url",
+          "id": "grid_url",
+          "label": "Link",
+          "default": "/collections/all"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+     "name": "Collage",
+      "category": "Content",
+      "settings": {},
+      "blocks": [
+          {
+           "type": "image",
+            "settings": {
+              "grid_caption": "Text to go here."
+            }
+          },
+          {
+           "type": "image",
+            "settings": {
+              "grid_caption": "Text to go here."
+            }
+          },
+          {
+           "type": "image",
+            "settings": {
+              "grid_caption": "Text to go here."
+            }
+          },
+          {
+           "type": "image",
+            "settings": {
+              "grid_caption": "Text to go here."
+            }
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}

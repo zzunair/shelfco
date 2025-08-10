@@ -1,0 +1,167 @@
+{{ 'component-filter.css' | asset_url | stylesheet_tag }}
+<link rel="stylesheet" href="{{ 'component-filter.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'component-filter.css' | asset_url | stylesheet_tag }}</noscript>
+
+<div id="sidebar_filter" class="mobile-only tablet-hide laptop-hide">
+  <!-- close menu -->
+  <span class="js-close-menu px-0">{% render 'icon-close-modal' %}</span>
+  <!-- /close menu -->
+  <div class="side-inner sidebar-menu-filter d-flex flex-column justify-content-start mt-4">
+    <!-- filter values -->
+    <div class="main-menu-list-items h-auto align-items-left">
+      <div class="nav-menu">
+        {% if template contains 'search' %}
+          {% render 'search-mobile-sidebar', filters: filters %}
+        {% else %}
+          {% render 'collection-sidebar' %}
+        {% endif %}
+      </div>
+    </div>
+    <!-- /filter values -->
+  </div>
+</div>
+
+<script id="filter-sidebar" type="text/javascript">
+  //keep mobile filter menu open
+  const keepMenuOpen = () => {
+    if(!document.body.classList.contains('show-sidebar-filter')) {
+      document.body.classList.add('show-sidebar-filter');
+      document.body.classList.add('active');
+      console.log('Menu opened');
+    }
+  }
+  //close mobile filter menu
+  const keepMenuClosed = () => {
+    if(document.body.classList.contains('show-sidebar-filter')) {
+      document.body.classList.remove('show-sidebar-filter');
+      document.body.classList.remove('active');
+      const menuOverlay = document.querySelector('.menu-popup-background')
+      if(menuOverlay){
+        menuOverlay.remove();
+      }
+      console.log('Menu closed');
+    }
+  }
+  //create filter menu overlay
+  const createOverlay = () => {
+    const sidebarOverlay = document.createElement('div');
+    sidebarOverlay.classList.add('menu-popup-background');
+    document.getElementsByTagName('body')[0].appendChild(sidebarOverlay);
+    console.log('Overlay created');
+  }
+  //when hamburger icons is clicked
+  document.querySelector('.js-filter-toggle').onclick = function(e) {
+    createOverlay();
+    keepMenuOpen();
+  };
+  //keep filter menu open when clicking inside sidebar
+  document.querySelector('.sidebar-menu-filter').onclick = function(e) {
+    document.body.removeEventListener('click', closeSidebar);
+    keepMenuOpen();
+    createOverlay();
+  }
+  //close sidebar when clicked on overlay
+  const closeSidebar = (e) => {
+    passive: true;
+    var container = document.querySelector(".sidebar-menu-filter");
+    var $body = document.body;
+    if(!(container.classList[0] === e.target.classList[0]) && container.querySelector(e.target.classList[0]) == null){
+      if($body.classList.contains('show-sidebar-filter')) {
+        keepMenuClosed();
+      }
+    }
+  }
+  //invoke event listeners
+  document.addEventListener("DOMContentLoaded", function(e) {
+    const mobileEl = document.querySelector('.mobile-logo-wrapper');
+    passive: true;
+    document.addEventListener('click', closeSidebar, true);
+    mobileEl.addEventListener('touchstart', closeSidebar, { passive: true });
+    mobileEl.addEventListener('touchend', closeSidebar, { passive: true });
+    mobileEl.addEventListener('touchcancel', closeSidebar, { passive: true });
+    mobileEl.addEventListener('touchmove', closeSidebar, { passive: true });
+  });
+
+  document.querySelectorAll('.reset-filter-button').forEach(function(self){
+    var $this = this;
+    self.addEventListener("click", function(event){
+      event.preventDefault();
+      var filterURL = this.getAttribute('href');
+  	  if (!(filterURL.includes("extended"))){
+        filterURL = filterURL + '&view=extended';
+      }
+      var request = fetch(filterURL, {
+        method: "GET"
+      })
+      .then(response => response.text())
+      .then(function(response){
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(response, "text/html");
+        console.log(doc);
+
+        if(document.body.getAttribute("id") == "search") {
+          document.body.innerHTML = response;
+        } else {
+          allProducts.innerHTML = response;
+        }
+        var $products = document.querySelector(".products");
+        removeFilter = $products.querySelectorAll("a[aria-label=remove]");
+        removeFilter.forEach(function(item, index){
+          console.log(item, "remove filter item");
+          item.onclick = function(e){
+            e.preventDefault();
+            storefrontFilter.removeFilterFunction(this);
+          }
+        });
+        $products.querySelectorAll("#form-id input").forEach(function(item, index){
+          item.onchange = function(e){
+            console.log(item.closest('#form-id').className , "product filter item");
+            var classNames = item.closest('#form-id').className;
+            e.preventDefault();
+            e.stopPropagation();
+            storefrontFilter.productFilter(this, classNames, $products);
+          }
+        });
+        console.log('new_colClass', localStorage.getItem('new_colClass'));
+        var _colclass = localStorage.getItem('_colclass'),
+            new_colClass = localStorage.getItem('new_colClass');
+
+        $products.querySelectorAll(".products-on-page > .collection-toggle").forEach( function(item, index){
+          item.setAttribute("data-newcol-id", new_colClass);
+          if (_colclass) {
+            var classesArr = _colclass.split(" ");//remove these classes
+            if(typeof classesArr != "undefined"){
+              item.classList.remove(...classesArr);
+              classesArr = new_colClass.split(" ");//add these classes
+              item.classList.add(...classesArr);
+            }}
+        });
+      })
+      .then(() => {
+      console.log('Init slim select');
+      const selects = document.querySelectorAll(`select.select2:not([data-ssid])`);
+      selects.forEach((selectElement) => {
+        let specialSelect = selectElement;
+        new SlimSelect({
+          select: specialSelect,
+          closeOnSelect: true,
+          hideSelectedOption: false,
+          showSearch: false,
+          onChange: (e) => {
+            val = e.value;
+            console.log(val);
+          }
+        });
+      });
+      var scrpt = document.querySelectorAll('#filter-sidebar')
+      for (var n = 0; n < scrpt.length; n++)
+        {
+          eval(scrpt[n].innerHTML)
+        }
+      })
+      .catch((err) => {
+        console.log('Rejected', err);
+      });
+    });
+  });
+</script>

@@ -1,0 +1,488 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Lumpat menyang isi",
+      "js_disabled_in_browser_html": "Kanggo fungsi lengkap situs iki perlu kanggo ngaktifake JavaScript. <a class=\"{{ class }}\" href=\"{{ link }}\" target=\"{{ _blank }}\"><u>Klik kene</u></a> kanggo instruksi babagan carane ngaktifake JavaScript ing browser web sampeyan.",
+      "next": "Sabanjure",
+      "previous": "Sadurunge",
+      "language": "Ganti Basa",
+      "select_language": "Basa",
+      "more_info": "Info liyane",
+      "accept": "Nampa",
+      "clear": "Busek kabeh",
+      "send": "Kirimi Pesen",
+      "filter": "Nyaring",
+      "reset": "Reset",
+      "sort_by": "Urut miturut",
+      "filter_by": "Filter dening",
+      "requirements": "Syarat",
+      "dispatch": "kanggo kiriman",
+      "unit_price_separator": "saben",
+      "each": "saben",
+      "from": "saka",
+      "to": "kanggo",
+      "shop_all": "Toko Kabeh",
+      "subscribe": "Langganan & Simpen",
+      "save": "Sampeyan Simpen",
+      "close": "Nutup",
+      "one_time": "Siji Wektu Tuku",
+      "purchase_options": "Pilihan",
+      "option": "Siji Pilihan",
+      "please_select": "Mangga pilih",
+      "delivery_frequency": "Frekuensi Pangiriman",
+      "subscription_title": "Rincian Langganan",
+      "subscription_details": "Sampeyan bisa nyimpen nalika langganan produk iki",
+      "pick_your_product": "Judul Produk",
+      "zero_price": "2000",
+      "vendor": "Erickson",
+      "language_changed": "Basa diganti",
+      "currency_changed": "Mata uang diganti",
+      "product_removed": "Item dibusak",
+      "inventoryMin": "Sampeyan kudu nambah paling sethithik 1 item menyang cart.",
+      "inventoryMax": "Kabeh Simpenan item iki wis ditambahake menyang cart.",
+      "inventoryLimit": "Ora ana saham liyane sing kasedhiya kanggo item iki.",
+      "total_reviews": "total reviews",
+      "star_reviews_info": "{{ rating_value }} metu saka {{ rating_max }} lintang",
+      "country": "negara/wilayah",
+      "free_gift": "Hadiah gratis sampeyan wis ditambahake",
+      "placeholder": "Nuduhake informasi babagan merek sampeyan karo pelanggan.",
+      "error": "Kesalahan",
+      "before": "sadurunge",
+      "after": "Sawise"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "page": "kaca {{ number }}",
+      "next": "Kaca sabanjuré",
+      "previous": "Kaca sadurunge"
+    },
+    "social_links": {
+      "twitter": "Twitter",
+      "facebook": "Facebook",
+      "pinterest": "Pinterest",
+      "instagram": "Instagram",
+      "tumblr": "Tumblr",
+      "snapchat": "Snapchat",
+      "youtube": "YouTube",
+      "vimeo": "Vimeo",
+      "tiktok": "TikTok"
+    },
+    "shop": {
+      "title": "Toko Panjenengan",
+      "read_more": "Waca liyane",
+      "topbar": "Top Bar Pengumuman",
+      "showing_html": "Nuduhake {{ number_products }} produk"
+    },
+    "meta": {
+      "tags": "Tagged \"{{ tags }}\"",
+      "page": "kaca {{ page }}"
+    },
+    "breadcrumbs": {
+      "home": "Ngarep"
+    },
+    "404": {
+      "title": "404 Kaca Ora Ditemokake",
+      "subtext_html": "Kaca sing sampeyan jaluk ora ana. Klik <a href=\"/collections/all\">here</a> kanggo terus blanja."
+    },
+    "password_page": {
+      "opening_soon": "Opening Rauh",
+      "spread_the_word": "Nyebarake tembung",
+      "login_form_heading": "Ketik toko nggunakake sandhi",
+      "login_form_password_label": "Sandi",
+      "login_form_password_placeholder": "Sandi panjenengan",
+      "login_form_submit": "Ketik",
+      "signup_form_heading": "Temokake nalika kita mbukak",
+      "signup_form_email_label": "Email",
+      "signup_form_email_placeholder": "Emailipun Panjenengan",
+      "signup_form_submit": "Kirimake",
+      "signup_form_success": "Kita bakal ngirim email langsung sadurunge mbukak!",
+      "admin_link_html": "Apa sampeyan pemilik toko? <a href=\"/admin\" class=\"link underlined-link\">Mlebu kene</a>",
+      "password_link": "Ketik nggunakake tembung sandhi",
+      "powered_by_shopify_html": "Toko iki bakal powered by {{ shopify }}"
+    },
+    "social": {
+      "share_on_facebook": "Nuduhake",
+      "share_on_twitter": "Tweet",
+      "share_on_pinterest": "Pin iku",
+      "alt_text": {
+        "share_on_facebook": "Nuduhake ing Facebook",
+        "share_on_twitter": "Tweet ing Twitter",
+        "share_on_pinterest": "Pin ing Pinterest"
+      }
+    },
+    "search": {
+      "title": "Telusuri produk",
+      "placeholder": "Telusuri toko kita",
+      "page": "kaca",
+      "products": "Produk",
+      "suggestions": "Saran",
+      "search_for": "Nggoleki",
+      "submit": "Nggoleki",
+      "heading": {
+        "one": "asil panelusuran",
+        "other": "asil panelusuran"
+      },
+      "results_with_count": {
+        "one": "{{ count }} asil kanggo \"{{ terms }}\"",
+        "other": "{{ count }} asil kanggo \"{{ terms }}\""
+      },
+      "no_results_html": "Ora ana asil sing ditemokake “{{ terms }}”. Priksa ejaan utawa gunakake tembung utawa frasa sing beda."
+    },
+    "newsletter_form": {
+      "newsletter_email": "Gabung mailing list kita",
+      "email_placeholder": "Alamat email",
+      "confirmation": "Matur nuwun kanggo langganan",
+      "submit": "Langganan"
+    }
+  },
+  "blogs": {
+    "article": {
+      "author_on_date_html": "Dikirim dening {{ author }} ing {{ date }}",
+      "comment_meta_html": "Dikirim dening {{ author }} {{ date }}",
+      "read_more": "Waca liyane",
+      "read_more_title": "Waca liyane: {{ title }}",
+      "by_author": "dening {{ author }}",
+      "tags": "Tag"
+    },
+    "comments": {
+      "title": "Ninggalake komentar",
+      "name": "jeneng",
+      "email": "Email",
+      "message": "Kepiye carane bisa mbantu sampeyan?",
+      "post": "Kirim komentar",
+      "moderated": "Elinga, komentar kudu disetujoni sadurunge diterbitake",
+      "success_moderated": "Komentar sampeyan wis kasil dikirim. Kita bakal nerbitake ing sawetara wektu, amarga blog kita wis moderat.",
+      "success": "Komentar sampeyan wis kasil dikirim! matur nuwun!",
+      "with_count": {
+        "one": "{{ count }} komentar",
+        "other": "{{ count }} komentar"
+      }
+    },
+    "general": {
+      "categories": "Kategori",
+      "no_articles": "Blog {{ blog_title }} kosong",
+      "empty_button": "Bali menyang homepage",
+      "all_tag": "Kabeh"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Gerobakku",
+      "discount_title": "Kode diskon",
+      "delivery_instructions": "cathetan pesenan",
+      "remove": "Mbusak",
+      "view_cart": "Ndeleng Cart",
+      "payment_icons": "Kita Nampa",
+      "note": "Tambah Cathetan Cart",
+      "subtotal": "Subtotal",
+      "shipping_at_checkout": "Pengiriman & pajak diwilang ing checkout",
+      "calculate_shipping": "Ngitung Pangiriman",
+      "update": "Update Cart",
+      "checkout": "Deloken",
+      "discount_at_checkout": "Yen diskon bener dikenali, iku bakal Applied ing checkout.",
+      "order": "Ringkesan pesenan",
+      "empty": "Kranjang sampeyan saiki kosong.",
+      "cookies_required": "Aktifake cookie kanggo nggunakake kréta blanja",
+      "continue_browsing_html": "Terus blanja",
+      "item_quantity": "Jumlah item",
+      "savings": "Sampeyan nyimpen",
+      "count_html": "<span class=\"js-cart-item-count\">{{ itemCount }}</span>",
+      "total_html": "<span class=\"js-cart-item-total\">{{ totalPrice }}</span>",
+      "close": "Nutup",
+      "taxes_and_shipping_policy_at_checkout_html": "Pajak lan <a href=\"{{ link }}\" class=\"focus-inset shipping-text\"><u>pengiriman</u></a> diwilang ing checkout.",
+      "taxes_included_but_shipping_at_checkout": "Tax klebu lan kapal diwilang ing checkout.",
+      "taxes_included_and_shipping_policy_html": "Pajak klebu. <a href=\"{{ link }}\" class=\"focus-inset shipping-text\"><u>Pengiriman</u></a> diwilang ing checkout.",
+      "taxes_and_shipping_at_checkout": "Pajak lan kapal diwilang ing checkout.",
+      "supported_payment_methods": "Cara pembayaran sing didhukung"
+    },
+    "label": {
+      "product": "produk",
+      "name": "jeneng",
+      "days": "Dina",
+      "hours": "jam",
+      "minutes": "menit",
+      "seconds": "Detik",
+      "order_within": "Urutan ing",
+      "price": "Rega",
+      "quantity": "Jumlah",
+      "total": "Total",
+      "discounted_price": "Diskon",
+      "original_price": "rega asli",
+      "original_total": "Asli total"
+    }
+  },
+  "collections": {
+    "general": {
+      "no_matches": "Nyuwun sewu, ora ana produk ing koleksi iki",
+      "link_title_html": "Bali menyang homepage",
+      "explore": "Jelajahi koleksi kita.",
+      "collection_title_html": "saka {{ collectionTitle }} produk.",
+      "sort_by": "Nyaring Miturut",
+      "collection_title": "Jeneng koleksi sampeyan",
+      "view_collection": "Ndeleng Koleksi",
+      "sort_by_tag": "Urut Miturut",
+      "clear": "Cetha"
+    },
+    "collection_list": {
+      "item_count": {
+        "zero": "0 item",
+        "one": "1 item",
+        "other": "{{ count }} item"
+      }
+    }
+  },
+  "contact": {
+    "form": {
+      "name": "jeneng",
+      "email": "Email",
+      "contact_us": "Hubungi Kita",
+      "phone": "Nomer telpon",
+      "message": "Pesen",
+      "send": "Ngirim",
+      "post_success": "Matur nuwun kanggo ngubungi kita. Kita bakal bali menyang sampeyan sanalika bisa."
+    }
+  },
+  "structured_data": {
+    "breadcrumbs": {
+      "cart": "grobag",
+      "collections": "Koleksi",
+      "page": "kaca {{ page }}",
+      "products": "Produk",
+      "search": "Nggoleki",
+      "tags_html": "Tagged \"{{ tags }}\""
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "Akun Kula",
+      "details": "Rincian akun",
+      "view_addresses": "Ndeleng Alamat",
+      "return": "Bali menyang Rincian akun"
+    },
+    "activate_account": {
+      "title": "Aktifake Akun",
+      "subtext": "Kita wis ngirim email karo link kanggo nganyari sandi.",
+      "password": "Sandi",
+      "password_confirm": "Konfirmasi Sandi",
+      "submit": "Aktifake Akun",
+      "cancel": "Nolak Undangan"
+    },
+    "addresses": {
+      "title": "Alamat Panjenengan",
+      "default": "Alamat Default",
+      "add_new": "Tambah Alamat Anyar",
+      "edit_address": "Sunting alamat",
+      "first_name": "Jeneng pisanan",
+      "last_name": "Jeneng mburi",
+      "company": "Perusahaan",
+      "address1": "Alamat 1",
+      "address2": "Alamat 2",
+      "city": "kutha",
+      "country": "negara",
+      "province": "Provinsi",
+      "zip": "Pos/Kode Pos",
+      "phone": "Telpon",
+      "set_default": "Setel minangka alamat gawan",
+      "add": "Tambah Alamat",
+      "update": "Update Alamat",
+      "cancel": "Batal",
+      "edit": "Sunting",
+      "delete": "Mbusak",
+      "delete_confirm": "Apa sampeyan yakin pengin mbusak alamat iki?"
+    },
+    "login": {
+      "title": "mlebu",
+      "email": "Email",
+      "password": "Sandi",
+      "forgot_password": "Kelalen sandi?",
+      "sign_in": "Mlebu",
+      "cancel": "Bali menyang Toko",
+      "guest_title": "Terus dadi tamu",
+      "guest_continue": "Terus"
+    },
+    "orders": {
+      "title": "Riwayat pesenan",
+      "order_number": "dhawuh",
+      "date": "Tanggal",
+      "payment_status": "Status Pembayaran",
+      "fulfillment_status": "Status Pemenuhan",
+      "total": "Total",
+      "none": "Sampeyan durung nggawe pesenan."
+    },
+    "order": {
+      "title": "dhawuh {{ name }}",
+      "date": "Diselehake ing {{ date }}",
+      "cancelled": "Pesenan dibatalake ing {{ date }}",
+      "cancelled_reason": "alesan: {{ reason }}",
+      "billing_address": "Alamat Tagihan",
+      "payment_status": "Status Pembayaran",
+      "shipping_address": "Alamat Pengiriman",
+      "fulfillment_status": "Status Pemenuhan",
+      "discount": "Diskon",
+      "shipping": "Pengiriman",
+      "tax": "Pajak",
+      "logout": "Metu",
+      "product": "produk",
+      "sku": "SKU",
+      "price": "Rega",
+      "quantity": "Jumlah",
+      "total": "Total",
+      "fulfilled_at": "Tanggal kawujud",
+      "track_shipment": "Lacak kiriman",
+      "tracking_url": "Link nelusuri",
+      "tracking_company": "Pembawa",
+      "tracking_number": "Nomer nelusuri",
+      "subtotal": "Subtotal"
+    },
+    "recover_password": {
+      "title": "Reset sandi",
+      "email": "Email",
+      "submit": "Kirimake",
+      "cancel": "Batal",
+      "subtext": "Kita bakal ngirim email kanggo ngreset sandhi.",
+      "success": "Kita wis ngirim email karo link kanggo nganyari sandi."
+    },
+    "reset_password": {
+      "title": "Reset sandi akun",
+      "subtext": "Ketik sandhi anyar kanggo {{ email }}",
+      "password": "Sandi",
+      "password_confirm": "Konfirmasi Sandi",
+      "submit": "Reset Sandi"
+    },
+    "register": {
+      "title": "Nggawe akun",
+      "first_name": "Jeneng pisanan",
+      "last_name": "Jeneng mburi",
+      "email": "Email",
+      "password": "Sandi",
+      "submit": "Nggawe",
+      "business": "Pilih Bisnis Sampeyan",
+      "cancel": "Bali menyang Toko"
+    }
+  },
+  "homepage": {
+    "onboarding": {
+      "blog_title": "Judul postinganmu",
+      "blog_excerpt": "Toko sampeyan durung nerbitake kiriman blog. Blog bisa digunakake kanggo ngomong babagan peluncuran produk anyar, tips, utawa warta liyane sing pengin dituduhake karo pelanggan. Sampeyan bisa mriksa blog e-dagang Shopify kanggo inspirasi lan saran kanggo toko lan blog sampeyan dhewe.",
+      "blog_author": "jeneng pangarang",
+      "product_title": "Contoh Judul Produk",
+      "collection_title": "Contoh Judul Koleksi",
+      "no_content": "Bagean iki saiki ora kalebu konten apa wae. Tambah isi menyang bagean iki nggunakake sidebar."
+    }
+  },
+  "layout": {
+    "cart": {
+      "title": "grobag",
+      "items_count": {
+        "one": "item",
+        "other": "item"
+      }
+    },
+    "footer": {
+      "social_platform": "{{ name }} ing {{ platform }}",
+      "copyright": "Hak cipta",
+      "payment_methods": "Cara pembayaran ditampa"
+    },
+    "customer": {
+      "account": "Akun",
+      "logged_in_as_html": "Mlebet minangka {{ first_name }}",
+      "log_out": "Metu",
+      "log_in": "mlebu log",
+      "create_account": "Nggawe akun"
+    }
+  },
+  "products": {
+    "product": {
+      "regular_price": "Reguler regane",
+      "sold_out": "Entèk",
+      "unavailable": "Ora kasedhiya",
+      "available": "Produk iki kasedhiya",
+      "description": "Katrangan",
+      "features": "Tampilake liyane",
+      "shipping": "Pengiriman",
+      "reviews": "Ulasan",
+      "on_sale": "Didol",
+      "pre_order": "Pre Order",
+      "new": "Mung Tekan",
+      "from": "saka",
+      "from_price_html": "saka {{ price }}",
+      "on_sale_from_html": "On Sale saka {{ price }}",
+      "from_text_html": "saka {{ price }}",
+      "quantity": "Jumlah",
+      "add_to_cart": "Tambah menyang Kréta",
+      "added_to_cart": "Item ditambahake menyang Kréta",
+      "quick_add_to_cart": "Tambah cepet",
+      "add_subscription": "Tambah Langganan menyang Kréta",
+      "view_product": "Ndeleng Produk",
+      "personalisation": "Pribadhi item sampeyan",
+      "related_products": "Dianjurake Kanggo Sampeyan",
+      "complementary_products": "Produk Pelengkap",
+      "collection_products": "Koleksi Pilihan",
+      "recently_viewed_products": "bubar dideleng",
+      "in_stock": "Ing Simpenan",
+      "options": "{{ optionCount }} pilihan",
+      "unit_price": "rega unit",
+      "share": "Nuduhake",
+      "copy": "Nyalin Link",
+      "copied": "Disalin menyang clipboard",
+      "xr_button": "Deleng ing angkasa",
+      "include_taxes": "Pajak klebu.",
+      "exclude_taxes": "Ora kalebu pajak.",
+      "shipping_policy_html": "<a href=\"{{ link }}\" class=\"focus-inset shipping-text\"><u>Pengiriman</u></a> diwilang ing checkout."
+    },
+    "pickup_availability": {
+      "view_store_info": "Deleng informasi toko",
+      "check_other_stores": "Priksa kasedhiyan ing kabeh toko",
+      "pick_up_available": "Jupuk kasedhiya",
+      "pick_up_available_at_html": "Jupuk <span class=\"pickup-status\">kasedhiya</span> ing <span class=\"color-foreground\">{{ location_name }}</span>",
+      "pick_up_unavailable_at_html": "Jupuk ora kasedhiya ing <span class=\"color-foreground\">{{ location_name }}</span>",
+      "unavailable": "Ora bisa mbukak kasedhiyan pickup",
+      "refresh": "Refresh"
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "Punika Panjenengan {{ value }} kertu bingkisan kanggo {{ shop }}!",
+      "subtext": "Kertu hadiah sampeyan",
+      "gift_card_code": "Kode kertu hadiah",
+      "disabled": "dipatèni",
+      "active": "Kadaluwarsa ing {{ expiry }}",
+      "shop_link": "Terus blanja",
+      "remaining_html": "Sisa {{ balance }}",
+      "redeem_html": "Gunakake kode iki ing checkout kanggo nebus Panjenengan {{ value }} kertu bingkisan",
+      "add_to_apple_wallet": "Tambah menyang Apple Wallet",
+      "qr_image_alt": "Kode QR — pindai kanggo nebus kertu bingkisan",
+      "copy_code": "Salin kode",
+      "expired": "Kadaluwarsa",
+      "copy_code_success": "Kode kasil disalin",
+      "print_gift_card": "Print"
+    },
+    "recipient": {
+      "label": "Tampilake formulir panampa kanggo produk kertu bingkisan",
+      "info": "Yen diaktifake, produk kertu bingkisan bisa dikirim menyang panampa kanthi pesen pribadi.",
+      "checkbox": "Aku arep ngirim iki minangka hadiah",
+      "email_label": "Email panampa",
+      "email_label_optional": "Email panampa (opsional)",
+      "email": "Email",
+      "name_label": "Jeneng panampa (opsional)",
+      "name": "jeneng",
+      "message_label": "Pesen (opsional)",
+      "message": "Pesen",
+      "max_characters": "{{ max_chars }} karakter maks",
+      "gift_heading": "Mangga wenehi alamat email kanggo nerusake",
+      "error_heading": "Email ora bisa kosong."
+    }
+  },
+  "date_formats": {
+    "month_day_year": "%B %d, %Y"
+  }
+}

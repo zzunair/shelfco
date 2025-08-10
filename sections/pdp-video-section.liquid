@@ -1,0 +1,405 @@
+{% schema %}
+{
+  "name": "Product Video",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Video Settings"
+    },
+    {
+      "type": "select",
+      "id": "video_source",
+      "label": "Video source",
+      "options": [
+        {
+          "value": "youtube",
+          "label": "YouTube"
+        },
+        {
+          "value": "vimeo",
+          "label": "Vimeo"
+        },
+        {
+          "value": "upload",
+          "label": "Upload"
+        }
+      ],
+      "default": "youtube"
+    },
+    {
+      "type": "text",
+      "id": "youtube_url",
+      "label": "YouTube URL",
+      "info": "e.g. https://www.youtube.com/watch?v=_9VUPq3SxOc",
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+    },
+    {
+      "type": "text",
+      "id": "vimeo_url",
+      "label": "Vimeo URL",
+      "info": "e.g. https://vimeo.com/123456789"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Upload video"
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "Cover image (optional)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_controls",
+      "label": "Show video controls",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": false,
+      "info": "Note: Autoplay may not work on all devices"
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Loop video",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "muted",
+      "label": "Mute video",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "full",
+          "label": "Full width"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f7f7f7"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Video",
+      "category": "Video"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+.pdp-video-section {
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  background-color: {{ section.settings.background_color }};
+}
+
+.video-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.video-container--small {
+  max-width: 600px;
+}
+
+.video-container--medium {
+  max-width: 800px;
+}
+
+.video-container--large {
+  max-width: 1000px;
+}
+
+.video-container--full {
+  max-width: 100%;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  background: #000;
+}
+
+.video-wrapper iframe,
+.video-wrapper video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.video-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.video-cover::after {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 70px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  position: relative;
+}
+
+.video-cover::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 25px solid #000;
+  position: absolute;
+  z-index: 3;
+  transform: translateX(5px);
+}
+
+@media screen and (max-width: 749px) {
+  .video-cover::after {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .video-cover::before {
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 18px solid #000;
+  }
+}
+</style>
+
+<section class="pdp-video-section">
+  <div class="video-container video-container--{{ section.settings.container_width }}">
+    <div class="video-wrapper" data-video-id="{{ video_id }}">
+      {% if section.settings.cover_image != blank %}
+        <div class="video-cover js-video-cover" style="background-image: url('{{ section.settings.cover_image | img_url: 'master' }}')"></div>
+      {% endif %}
+      
+      {% if section.settings.video_source == 'youtube' and section.settings.youtube_url != blank %}
+        {% if section.settings.youtube_url contains '?v=' %}
+          {% assign video_id = section.settings.youtube_url | split: '?v=' | last | split: '&' | first %}
+        {% elsif section.settings.youtube_url contains 'youtu.be/' %}
+          {% assign video_id = section.settings.youtube_url | split: 'youtu.be/' | last %}
+        {% else %}
+          {% assign video_id = section.settings.youtube_url %}
+        {% endif %}
+        
+        <div id="youtube-{{ section.id }}" class="js-youtube" 
+          data-video-id="{{ video_id }}"
+          data-controls="{{ section.settings.show_controls }}"
+          data-autoplay="{{ section.settings.autoplay }}"
+          data-loop="{{ section.settings.loop }}"
+          data-muted="{{ section.settings.muted }}">
+        </div>
+
+      {% elsif section.settings.video_source == 'vimeo' and section.settings.vimeo_url != blank %}
+        {% if section.settings.vimeo_url contains 'vimeo.com/' %}
+          {% assign video_id = section.settings.vimeo_url | split: 'vimeo.com/' | last | split: '?' | first %}
+        {% else %}
+          {% assign video_id = section.settings.vimeo_url %}
+        {% endif %}
+        
+        <div id="vimeo-{{ section.id }}" class="js-vimeo"
+          data-video-id="{{ video_id }}"
+          data-controls="{{ section.settings.show_controls }}"
+          data-autoplay="{{ section.settings.autoplay }}"
+          data-loop="{{ section.settings.loop }}"
+          data-muted="{{ section.settings.muted }}">
+        </div>
+
+      {% elsif section.settings.video_source == 'upload' and section.settings.video != blank %}
+        <video id="video-{{ section.id }}" class="js-upload-video"
+          {% if section.settings.cover_image == blank %}playsinline{% endif %}
+          {% if section.settings.autoplay %}autoplay{% endif %}
+          {% if section.settings.loop %}loop{% endif %}
+          {% if section.settings.muted %}muted{% endif %}
+          {% if section.settings.show_controls %}controls{% endif %}>
+          <source src="{{ section.settings.video }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // YouTube API
+    function loadYouTubeAPI() {
+      if (document.querySelector('.js-youtube')) {
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      }
+    }
+
+    // Vimeo API
+    function loadVimeoAPI() {
+      if (document.querySelector('.js-vimeo')) {
+        var tag = document.createElement('script');
+        tag.src = "https://player.vimeo.com/api/player.js";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        tag.onload = initVimeoVideos;
+      }
+    }
+
+    // Initialize YouTube videos
+    window.onYouTubeIframeAPIReady = function() {
+      document.querySelectorAll('.js-youtube').forEach(function(el) {
+        var videoId = el.dataset.videoId;
+        var controls = el.dataset.controls === 'true' ? 1 : 0;
+        var autoplay = el.dataset.autoplay === 'true' ? 1 : 0;
+        var loop = el.dataset.loop === 'true' ? 1 : 0;
+        var muted = el.dataset.muted === 'true' ? 1 : 0;
+        
+        new YT.Player(el.id, {
+          videoId: videoId,
+          playerVars: {
+            controls: controls,
+            autoplay: autoplay,
+            loop: loop,
+            mute: muted,
+            rel: 0,
+            modestbranding: 1,
+            playsinline: 1
+          },
+          events: {
+            onReady: function(event) {
+              if (muted) event.target.mute();
+              if (loop) event.target.setLoop(true);
+            }
+          }
+        });
+      });
+    };
+
+    // Initialize Vimeo videos
+    function initVimeoVideos() {
+      document.querySelectorAll('.js-vimeo').forEach(function(el) {
+        var videoId = el.dataset.videoId;
+        var controls = el.dataset.controls === 'true';
+        var autoplay = el.dataset.autoplay === 'true';
+        var loop = el.dataset.loop === 'true';
+        var muted = el.dataset.muted === 'true';
+        
+        var player = new Vimeo.Player(el.id, {
+          id: videoId,
+          controls: controls,
+          autoplay: autoplay,
+          loop: loop,
+          muted: muted,
+          playsinline: true,
+          responsive: true
+        });
+        
+        if (muted) player.setVolume(0);
+      });
+    }
+
+    // Handle video covers
+    function setupVideoCovers() {
+      document.querySelectorAll('.js-video-cover').forEach(function(cover) {
+        cover.addEventListener('click', function() {
+          this.style.display = 'none';
+          
+          var wrapper = this.closest('.video-wrapper');
+          var youtubeEl = wrapper.querySelector('.js-youtube');
+          var vimeoEl = wrapper.querySelector('.js-vimeo');
+          var uploadVideoEl = wrapper.querySelector('.js-upload-video');
+          
+          if (youtubeEl) {
+            var videoId = youtubeEl.dataset.videoId;
+            var iframe = document.createElement('iframe');
+            iframe.setAttribute('src', 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0');
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allowfullscreen', '1');
+            iframe.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture');
+            youtubeEl.parentNode.replaceChild(iframe, youtubeEl);
+          } else if (vimeoEl) {
+            var videoId = vimeoEl.dataset.videoId;
+            var iframe = document.createElement('iframe');
+            iframe.setAttribute('src', 'https://player.vimeo.com/video/' + videoId + '?autoplay=1');
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allowfullscreen', '1');
+            iframe.setAttribute('allow', 'autoplay; fullscreen');
+            vimeoEl.parentNode.replaceChild(iframe, vimeoEl);
+          } else if (uploadVideoEl) {
+            uploadVideoEl.setAttribute('controls', 'true');
+            uploadVideoEl.play();
+          }
+        });
+      });
+    }
+
+    // Initialize everything
+    loadYouTubeAPI();
+    loadVimeoAPI();
+    setupVideoCovers();
+  });
+</script>

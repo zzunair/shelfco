@@ -1,0 +1,10 @@
+{% assign filters = search.filters %}
+<section class="mega-menu container">
+  <nav id="navbar" class="filter-menu navbar-expand-lg megamenu-bg {{ _colClassLayout }} px-0 py-0 mb-0 d-flex">
+    <div class="collection-sorting mb-4 filter-wrapper">
+      <!-- /clear all options from filter -->
+      {% render 'search-product-sorting', filters: filters %}
+    </div>
+  </nav>
+</section>
+{% render 'filter-sidebar', filters: filters %}

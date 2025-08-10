@@ -1,0 +1,108 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "trust_badges_qKLpM3": {
+      "type": "trust-badges",
+      "blocks": {
+        "trust_badge_X39PXc": {
+          "type": "trust_badge",
+          "settings": {
+            "heading": "Buy With Confidence",
+            "subheading": "30-Days Money-Back Guarantee",
+            "image": "shopify://shop_images/icons8-calendar-48.png",
+            "heading_color": "#ffffff",
+            "subheading_color": "#ffffff"
+          }
+        },
+        "trust_badge_3kTHC6": {
+          "type": "trust_badge",
+          "settings": {
+            "heading": "Fast Shipping",
+            "subheading": "Order Processed the Next Day",
+            "image": "shopify://shop_images/icons8-truck-48.png",
+            "heading_color": "#ffffff",
+            "subheading_color": "#ffffff"
+          }
+        },
+        "trust_badge_rFYzVb": {
+          "type": "trust_badge",
+          "settings": {
+            "heading": "US Customer Support",
+            "subheading": "Live Professional Customer Support",
+            "image": "shopify://shop_images/icons8-man-on-phone-50.png",
+            "heading_color": "#ffffff",
+            "subheading_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "trust_badge_X39PXc",
+        "trust_badge_3kTHC6",
+        "trust_badge_rFYzVb"
+      ],
+      "settings": {
+        "bg_color": "#d44628"
+      }
+    },
+    "footer-section": {
+      "type": "footer",
+      "blocks": {
+        "footer_link_1": {
+          "type": "links",
+          "settings": {
+            "menu": "products"
+          }
+        },
+        "footer_link_2": {
+          "type": "links",
+          "settings": {
+            "menu": "resources"
+          }
+        },
+        "footer_link_3": {
+          "type": "links",
+          "settings": {
+            "menu": "information"
+          }
+        },
+        "links_E9FjAb": {
+          "type": "links",
+          "settings": {
+            "menu": "contact-us"
+          }
+        }
+      },
+      "block_order": [
+        "footer_link_1",
+        "footer_link_2",
+        "footer_link_3",
+        "links_E9FjAb"
+      ],
+      "custom_css": [
+        ".title {padding-bottom: 20px;}",
+        ".footer-list-item {max-width: 200px;}"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "show_payment_icons": true,
+        "enable_follow_on_shop": false,
+        "content_button": "View Privacy Policy & Legal Notices",
+        "content_url": "shopify://pages/privacy-policy"
+      }
+    }
+  },
+  "order": [
+    "trust_badges_qKLpM3",
+    "footer-section"
+  ]
+}

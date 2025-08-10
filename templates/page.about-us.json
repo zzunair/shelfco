@@ -1,0 +1,119 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "static-page",
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "main_image_with_text_bCzWiB": {
+      "type": "main-image-with-text",
+      "blocks": {
+        "image_76DpPw": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/dolle.jpg",
+            "content_title": "Our Story",
+            "content_caption": "Shelf & Co. is a one-stop shop with a range of decorative and functional shelving systems, shelf brackets, and shelf accessories. Our premium shelving products are designed and manufactured by Dolle Shelving, an industry-leading shelving manufacturer based in Groß-Rohrheim, Germany; just south of Frankfurt. Shelf & Co is proud to bring these products directly to your doorstep. By avoiding the middleman, we are able to offer you fair and affordable prices on all of our products.",
+            "content_button": "",
+            "content_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_76DpPw"
+      ],
+      "custom_css": [
+        ".paragraph {line-height: 175%;}"
+      ],
+      "settings": {
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "switchLayout": "2"
+      }
+    },
+    "main_image_with_text_AGixe4": {
+      "type": "main-image-with-text",
+      "blocks": {
+        "image_3YaJkp": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/floating_849abc52-7796-44d4-baf3-63b81b168181.jpg",
+            "content_title": "Our Products",
+            "content_caption": "Our unique product offering gives you the opportunity to personalize shelving options to fit your needs. Shelf & Co. offers separate shelf components so that you can choose the colors and styles that are perfect for you. Choose from our wide range of shelving units, shelf boards, shelf brackets, and shelf clips to create your ideal shelf. If you are looking for design inspiration, explore our pre-made shelf kits and shelving units that include shelf boards, shelf brackets, or shelf clips.",
+            "content_button": "Start Shopping",
+            "content_url": "shopify://collections"
+          }
+        }
+      },
+      "block_order": [
+        "image_3YaJkp"
+      ],
+      "custom_css": [
+        ".paragraph {line-height: 175%;}"
+      ],
+      "settings": {
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "switchLayout": "1"
+      }
+    },
+    "main_image_with_text_fWryxV": {
+      "type": "main-image-with-text",
+      "blocks": {
+        "image_dY8dRr": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/yomo_shelf.jpg",
+            "content_title": "Our Customers",
+            "content_caption": "In every shelving product we design, our team uses the highest-quality materials to create beautiful home shelving and storage solutions that are both functional and design-oriented. Shelf & Co's dedicated customer service team is here to answer all your questions, from product details to installation instructions. We pride ourselves on offering the best service for our customers.",
+            "content_button": "See Reviews",
+            "content_url": "shopify://pages/customer-reviews"
+          }
+        }
+      },
+      "block_order": [
+        "image_dY8dRr"
+      ],
+      "custom_css": [
+        ".paragraph {line-height: 175%;}"
+      ],
+      "settings": {
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "switchLayout": "2"
+      }
+    },
+    "main_rich_text_AiyT8V": {
+      "type": "main-rich-text",
+      "custom_css": [
+        "@media only screen and (min-width: 800px) {.container {width: 75%; }}"
+      ],
+      "settings": {
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "title": "Our Commitment to Customer Service",
+        "text": "<p>If you have any concerns, please pick up the phone and call us. Our office is staffed with real people who answer phone calls and emails from customers. We're ready to offer advice and troubleshooting for anything from a first-time do-it-yourself project to planning the large-scale remodel of a room.</p>",
+        "button_text": "Contact Us",
+        "button_url": "shopify://pages/contact-us"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "main_image_with_text_bCzWiB",
+    "main_image_with_text_AGixe4",
+    "main_image_with_text_fWryxV",
+    "main_rich_text_AiyT8V"
+  ]
+}

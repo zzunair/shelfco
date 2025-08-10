@@ -1,0 +1,65 @@
+{% comment %}
+  Renders mobile header
+
+  Usage:
+  {% render 'mobile-nav' %}
+{% endcomment %}
+
+{% assign cart_text = 'cart.general.count_html' | t: itemCount: cart.item_count %}
+{% render 'sidebar-menu' with section: section %}
+
+<header>
+  <div id="mobile-header" class="desktop-hide laptop-hide tablet mobile border-bottom">
+   <!-- mobile menu -->
+   <div class="container">
+     <!-- start mobile menu -->
+     <div class="mobile-nav-logo text-center">
+       <!-- burger menu -->
+        <ul class="mobile-nav-bar mb-0">
+          <li class="mobile-nav-item mobile-nav-icon mobile-menu-icon pr-0">
+            <div class="custom-menu">
+              <div class="toggle">
+                <a href="#" class="js-menu-toggle-home" data-toggle="collapse" data-target="#main-navbar" aria-label="main-navbar">
+                  {% render 'icon-menu' %}
+                </a>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <!-- /burger menu -->
+        <!-- logo -->
+        <div class="container px-0 mobile-logo-wrapper">
+          {% if section.settings.main_logo == blank %}
+          <div class="h5 site-header-logo my-0 text-center">
+            <a href="{{ routes.root_url }}" class="site-header-logo-link">{{ shop.name }}</a>
+          </div>
+          {% else %}
+          <a href="{{ routes.root_url }}" title="{{ shop.name | escape }}" aria-label="{{ shop.name | escape }}">
+            {{ section.settings.main_logo | image_url: width: 2048 | image_tag:
+              class: 'd-block img-fluid header-logo mx-auto',
+              widths: '50, 100, 150, 200, 250, 300, 400, 500',
+              height: section.settings.main_logo.height,
+              width: section.settings.main_logo_max_width,
+              alt: main_logo.alt | escape
+            }}
+          </a>
+          {% endif %}
+        </div>
+        <!-- /logo -->
+        <!-- cart -->
+         <ul class="mobile-nav-bar mb-0">
+           <li class="mobile-nav-item mobile-nav-cart ">
+             <a href="{{ routes.cart_url }}" class="js-cart-link" aria-label="items in bag">
+               {% render "icon-cart" %}
+              <div class="cart-link text-link total_count_vue{% if cart.item_count > 0 %} cart-added{% endif %}">
+                <span class="js-cart-item-count cart-text cart-text-count">{{ cart_text }}</span>
+              </div>
+            </a>
+          </li>
+        </ul>
+       <!-- cart -->
+     </div>
+     <!-- end mobile menu -->
+    </div>
+  </div>
+</header>

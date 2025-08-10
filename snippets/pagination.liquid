@@ -1,0 +1,73 @@
+{% comment %}
+  Renders pagination on collection and article pages
+
+  Usage:
+  {% render 'pagination' %}
+{% endcomment %}
+
+{% assign colExtended = false %}
+{% if template contains 'collection.extended' %}
+  {% assign colExtended = true %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'component-pagination.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'component-pagination.css' | asset_url | stylesheet_tag }}</noscript>
+
+{% if paginate.parts.size > 0 %}
+  <div class="{{ class | default: 'container' }}">
+    <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+      <ul class="pagination-list list-unstyled mb-0" role="list">
+        {% if paginate.previous %}
+          {% assign previousURL = paginate.previous.url | append: anchor | remove: '&view=extended' %}
+          <li>
+            <a
+              href="{{ previousURL }}"
+              class="pagination-item pagination-item--next pagination-item-arrow link"
+              aria-label="{{ 'general.pagination.previous' | t }}"
+            >
+              {% render 'icon-caret' %}
+            </a>
+          </li>
+        {% endif %}
+        {% for part in paginate.parts %}
+          <li>
+            {% if part.is_link %}
+              {% assign partLink = part.url | append: anchor | remove: '&view=extended' %}
+              <a
+                href="{{ partLink }}"
+                class="pagination-item link"
+                aria-label="{{ 'general.pagination.page' | t: number: part.title }}"
+              >
+                {{- part.title -}}
+              </a>
+            {% else %}
+              {% if part.title == paginate.current_page %}
+                <span
+                  class="pagination-item pagination-item--current"
+                  aria-current="page"
+                  aria-label="{{ 'general.pagination.page' | t: number: part.title }}"
+                >
+                  {{- part.title -}}
+                </span>
+              {% else %}
+                <span class="pagination-item">{{ part.title }}</span>
+              {% endif %}
+            {% endif %}
+          </li>
+        {% endfor %}
+        {% if paginate.next %}
+          <li>
+            {% assign nextURL = paginate.next.url | append: anchor | remove: '&view=extended' %}
+            <a
+              href="{{ nextURL }}"
+              class="pagination-item pagination-item--prev pagination-item-arrow link"
+              aria-label="{{ 'general.pagination.next' | t }}"
+            >
+              {% render 'icon-caret' %}
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+{% endif %}

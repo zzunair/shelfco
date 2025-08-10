@@ -1,0 +1,463 @@
+{% comment %}
+  Image banner section
+{% endcomment %}
+
+{%- liquid
+  assign _colClassLayout = 'container-fluid'
+  assign _wrapper = 'container-fluid px-0'
+  assign _roundedAll = ''
+-%}
+
+<section
+  id="{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  class="image-banner section-{{ section.id }}-padding"
+  data-section-type="image-banner"
+  tabindex="0"
+>
+  <div class="image-banner-wrapper">
+    <div class="container-fluid px-0">
+      {% assign font_color = section.settings.font_color %}
+
+      {% if section.settings.text_align == 'left' %}
+        {% assign _textAlign = 'text-left' %}
+
+      {% elsif section.settings.text_align == 'center' %}
+        {% assign _textAlign = 'text-center' %}
+
+      {% elsif section.settings.text_align == 'right' %}
+        {% assign _textAlign = 'text-right' %}
+      {% endif %}
+
+      {% assign contentPosition = section.settings.content_position %}
+      {% assign desktop_image = section.settings.image | default: section.settings.image %}
+      {% assign bg_color_opacity = section.settings.bg_color_opacity %}
+      {% assign opacity = 10 | minus: section.settings.opacity %}
+
+      <div class="{{ section.id }}is-bg h-100">
+        {% assign font_color = font_color | color_to_rgb | remove_first: ')' | append: ', 1)' %}
+        {% style %}
+          .{{ section.id }}is-font {
+            color: {{ font_color }};
+          }
+          .overlay-{{ forloop.index0 }} {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: {{ bg_color_opacity }} !important;
+            opacity: {{ opacity | divided_by: 10.0 }} !important;
+            pointer-events: none;
+            -webkit-transition: 0.5s ease;
+            transition: 0.5s ease;
+            z-index: 0;
+          }
+        {% endstyle %}
+        <div id="{{ section.id }}">
+          <!-- desktop -->
+          <div class="section_hero laptop desktop tablet mobile-hide">
+            <div class="section_hero-overlay-container {{ _wrapper }}">
+              <div class="section_hero-image_bg {{ _roundedAll }} section_full_width_img">
+                <div class="section_hero-image_wrapper content-position-{{ contentPosition }}">
+                  {% if desktop_image == blank %}
+                    {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg border' }}
+                  {% else %}
+                    <a href="{{ section.settings.banner_url }}">
+                      {% assign widths = '450, 660, 900, 1320, 1800, 2136, 2400, 3600, 7680' %}
+                      {% assign height = '100vh' %}
+                      {% assign sizes = '100vw' %}
+                      {{
+                        desktop_image
+                        | image_url: width: 3840
+                        | image_tag:
+                          loading: '',
+                          height: height,
+                          sizes: sizes,
+                          widths: widths,
+                          class: 'section_hero-image hide-no-js',
+                          alt: desktop_image.alt
+                        | escape
+                      }}
+                    </a>
+                  {% endif %}
+                  <div class="overlay-{{ forloop.index0 }}"></div>
+
+                  <div class="section_hero-overlay medium">
+                    <div class="container section_hero-title_container subtitle-first">
+                      {% if section.settings.banner_caption != blank %}
+                        <h5
+                          class="{{ section.id }}is-font section_hero-subtitle wow fadeInUp mb-2 {{ _textAlign }}"
+                          data-wow-delay="300ms"
+                        >
+                          {{ section.settings.banner_caption | escape }}
+                        </h5>
+                      {% endif %}
+                      {% if section.settings.banner_title != blank %}
+                        <h2
+                          class="{{ section.id }}is-font section_hero-title wow fadeInUp mb-3 {{ _textAlign }}"
+                          data-wow-delay="300ms"
+                        >
+                          {{ section.settings.banner_title | escape }}
+                        </h2>
+                      {% endif %}
+                    </div>
+                    {% if section.settings.banner_url != blank and section.settings.banner_button != blank %}
+                      <div class="section_hero-button_wrapper container {{ _textAlign }} tablet laptop desktop">
+                        <a
+                          href="{{ section.settings.banner_url }}"
+                          title="{{ section.settings.banner_button | escape }}"
+                          class="btn btn-contact wow fadeInUp"
+                          data-wow-delay="300ms"
+                        >
+                          {{ section.settings.banner_button | escape }}
+                        </a>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end desktop -->
+          <!-- mobile -->
+            <div id="{{ section.id }}" class="section_hero mobile laptop-hide desktop-hide tablet-hide">
+              <div class="has-top-border">
+                <div class="section_hero-overlay-container">
+                  <div class="section_hero-image_bg">
+                    <div class="section_hero-image_wrapper">
+                      {% if desktop_image == blank %}
+                        {{ 'product-apparel-4' | placeholder_svg_tag: 'mx-auto placeholder-svg' }}
+                      {% else %}
+                        <a href="{{ section.settings.banner_url }}">
+                          {% assign widthsMob = '450, 660, 900, 1320' %}
+                          {% assign heightMob = '100vh' %}
+                          {% assign sizesMob = '100vw' %}
+                          {{
+                            desktop_image
+                            | image_url: width: 840
+                            | image_tag:
+                              loading: '',
+                              height: heightMob,
+                              sizes: sizesMob,
+                              widths: widthsMob,
+                              class: 'section_hero-image rounded__all',
+                              alt: desktop_image.alt
+                            | escape
+                          }}
+                        </a>
+                        <noscript>
+                          {{
+                            desktop_image
+                            | image_url: width: 800
+                            | image_tag:
+                              class: 'section_hero-image rounded__all',
+                              widths: '800, 900, 1200, 1000',
+                              height: desktop_image.height,
+                              width: desktop_image.width,
+                              alt: desktop_image.alt
+                            | escape
+                          }}
+                        </noscript>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="overlay-{{ forloop.index0 }}"></div>
+                  <div class="section_hero-overlay center top small">
+                    <div class="section_hero-title_container subtitle-first slide-text">
+                      {% if section.settings.banner_caption != blank %}
+                        <h5
+                          class="{{ section.id }}is-font section_hero-subtitle wow fadeInUp mb-2"
+                          data-wow-delay="300ms"
+                        >
+                          {{ section.settings.banner_caption | escape }}
+                        </h5>
+                      {% endif %}
+                      {% if section.settings.banner_title != blank %}
+                        <h1
+                          class="{{ section.id }}is-font section_hero-title wow fadeInUp mb-3"
+                          data-wow-delay="300ms"
+                        >
+                          {{ section.settings.banner_title | escape }}
+                        </h1>
+                      {% endif %}
+                    </div>
+                    {% if section.settings.banner_url != blank and section.settings.banner_button != blank %}
+                      <div class="section_hero-button_wrapper tablet laptop desktop">
+                        <a
+                          href="{{ section.settings.banner_url }}"
+                          title="{{ section.settings.banner_button | escape }}"
+                          class="btn btn-contact"
+                        >
+                          {{ section.settings.banner_button | escape }}
+                        </a>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- end mobile -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Image banner",
+  "class": "main-image-banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Opacity",
+      "info": "The opacity settings specifies the transparency of the image."
+    },
+    {
+      "type": "color",
+      "id": "bg_color_opacity",
+      "label": "Background opacity color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "opacity",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "label": "Background opacity",
+      "default": 10
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "2880 x 1800px .jpg recommended for desktop"
+    },
+    {
+      "type": "text",
+      "id": "banner_caption",
+      "label": "Subheading",
+      "default": "Pair with text"
+    },
+    {
+      "type": "text",
+      "id": "banner_title",
+      "label": "Heading",
+      "default": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "banner_button",
+      "label": "Button label",
+      "default": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "banner_url",
+      "label": "Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "label": "Text align",
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "options": [
+        {
+          "value": "top-left",
+          "label": "Top left"
+        },
+        {
+          "value": "middle-left",
+          "label": "Middle left"
+        },
+        {
+          "value": "bottom-left",
+          "label": "Bottom left"
+        },
+        {
+          "value": "top-center",
+          "label": "Top center"
+        },
+        {
+          "value": "middle-center",
+          "label": "Middle center"
+        },
+        {
+          "value": "bottom-center",
+          "label": "Bottom center"
+        },
+        {
+          "value": "top-right",
+          "label": "Top right"
+        },
+        {
+          "value": "middle-right",
+          "label": "Middle right"
+        },
+        {
+          "value": "bottom-right",
+          "label": "Bottom right"
+        }
+      ],
+      "label": "Content position",
+      "default": "middle-left"
+    },
+    {
+      "type": "header",
+      "content": "Text color"
+    },
+    {
+      "type": "color",
+      "id": "font_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+     "name": "Image banner",
+      "category": "Content",
+        "settings": {
+    		}
+      }
+    ]
+  }
+{% endschema %}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  #{{ section.id }} .image-banner-wrapper .section_hero-image_wrapper {
+      display: flex;
+      height: 100%;
+  }
+  #{{ section.id }} .image-banner-wrapper .section_hero-overlay {
+      max-width: 700px;
+      left: 0px !important;
+      padding: 24px 0 !important;
+      top: unset !important;
+      transform: unset;
+      position: relative;
+  }
+  #{{ section.id }} .image-banner-wrapper .section_hero-image_wrapper.content-position-top-left {
+      flex-wrap: wrap;
+      flex-direction: column;
+      align-content: flex-start;
+      justify-content: flex-start;
+  }
+  #{{ section.id }} .image-banner-wrapper .section_hero-image_wrapper.content-position-middle-left {
+      flex-wrap: wrap;
+      flex-direction: column;
+      align-content: flex-start;
+      justify-content: center;
+  }
+  #{{ section.id }} .image-banner-wrapper .section_hero-image_wrapper.content-position-bottom-left {
+      flex-wrap: wrap;
+      flex-direction: column;
+      align-content: flex-start;
+      justify-content: space-between;
+      align-items: flex-start;
+  }
+  #{{ section.id }} .image-banner-wrapper .section_hero-image_wrapper.content-position-top-center {
+      flex-wrap: wrap;
+      flex-direction: row;
+      align-content: flex-start;
+      justify-content: space-between;
+  }
+  #{{ section.id }} .image-banner-wrapper .section_hero-image_wrapper.content-position-middle-center {
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: nowrap;
+      align-items: center;
+  }
+  #{{ section.id }} .image-banner-wrapper .section_hero-image_wrapper.content-position-bottom-center {
+      flex-wrap: wrap;
+      flex-direction: row;
+      align-content: flex-end;
+      justify-content: space-between;
+      align-items: flex-end;
+  }
+  #{{ section.id }} .image-banner-wrapper .section_hero-image_wrapper.content-position-top-right {
+      flex-wrap: wrap;
+      flex-direction: column;
+      align-content: flex-end;
+      justify-content: flex-start;
+      align-items: flex-end;
+  }
+  #{{ section.id }} .image-banner-wrapper .section_hero-image_wrapper.content-position-middle-right {
+      flex-wrap: wrap;
+      flex-direction: column;
+      align-content: flex-end;
+      justify-content: center;
+      align-items: center;
+  }
+  #{{ section.id }} .image-banner-wrapper .section_hero-image_wrapper.content-position-bottom-right {
+      flex-wrap: wrap;
+      flex-direction: column;
+      align-content: flex-end;
+      justify-content: flex-end;
+      align-items: flex-end;
+  }
+  @media screen and (max-width: 640px) {
+    #{{ section.id }} .image-banner-wrapper .section_hero-overlay {
+        position: absolute;
+    }
+    #{{ section.id }} .image-banner-wrapper .section_hero-overlay-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+  }
+{% endstyle %}

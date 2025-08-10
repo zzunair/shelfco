@@ -1,0 +1,385 @@
+{% comment %}
+  Product details section on product page
+{% endcomment %}
+
+{{ 'component-product-details.css' | asset_url | stylesheet_tag: preload: true }}
+
+<section id="{{ section.id }}" class="section-{{ section.id }}-padding wow fadeIn" data-wow-delay="300ms">
+  <div class="container">
+    {% comment %}
+      <div class="product-block">
+        {% if section.settings.feature_heading_1 != blank %}
+          <div class="product-block__label">
+            {{ section.settings.feature_heading_1 | escape }}
+          </div>
+        {% endif %}
+        <div class="product-overview">
+          <div class="product-overview__text">
+            {% if product.description != blank %}
+              <span>{{ product.description }}</span>
+            {% else %}
+              {{ 'general.accessibility.placeholder' | t }}
+            {% endif %}
+          </div>
+          {% if section.settings.enable_btn %}
+            <div class="product-overview__buttons">
+              <div
+                class="block-button button--primary button--black product-overview__feature-btn focus-inset"
+                data-features-button=""
+                tabindex="0"
+              >
+                {{ 'products.product.features' | t }}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endcomment %}
+
+    <div>
+      {%- assign active_product = product -%}
+      <div class="tab-customize">
+  {%- for block in section.blocks -%}
+      {% case block.type %}
+        {%- when 'details' -%}
+        <button class="tablinks-cus" onclick="openTab(event, 'tab-details')" id="tab-cus-active">
+          Product Details
+        </button>
+        
+        {%- when '@app' -%}
+          <button class="tablinks-cus" onclick="openTab(event, 'tab-reviews')">Reviews</button>
+
+        {%- when 'guide' -%}
+          <button class="tablinks-cus" onclick="openTab(event, 'tab-assembly-guide')">Assembly Guide</button>
+        
+         {%- when 'info' -%}
+          <button class="tablinks-cus" onclick="openTab(event, 'tab-{{forloop.index0}}')">{{ block.settings.feature_title | escape }}</button>
+        {%- endcase -%}
+        {% endfor %}
+      </div>
+      
+      <!-- Tab content -->
+            {% for block in section.blocks %}
+         {% case block.type %}
+           
+         {%- when 'details' -%}
+      <div id="tab-details" class="tabcontent-cus">
+          <div class="row">
+            <div class="col-md-7 mb-4 mb-sm-0" style="padding-right: 50px">
+              <h4>{{ product.title }}</h4>
+        {% assign cols = product.description | split: '<!-- split -->' %}
+                  <div>
+                    {{ cols[0] }}
+                  </div>
+            </div>
+            <div class="col-md-5">
+          <h5>Specifications</h5>
+          {{ block.settings.details }}
+            </div>
+          </div>
+      </div>
+           
+{%- when 'guide' -%}
+       {%- if active_product.metafields.custom.assembly_guide != blank -%}
+        <div id="tab-assembly-guide" class="tabcontent-cus" style="text-align: center;">
+         <embed src="{{ active_product.metafields.custom.assembly_guide }}" width="90%" height="550">
+        </div>
+      {%- else -%}
+        <div id="tab-assembly-guide" class="tabcontent-cus" style="text-align: center;">
+         {{ block.settings.assembly }}
+                  {% if block.settings.section_button != blank %}
+                        <div class="buttons-wrapper mt-0 mb-0 justify-content-center">
+                          <a
+                            href="{{ block.settings.section_url }}"
+                            class="btn btn-contact"
+                            aria-label="{{ block.settings.section_button }}"
+                            tabindex="0"
+                          >
+                            {{ block.settings.section_button }}
+                          </a>
+                        </div>
+                      {% endif %}
+        </div>
+          {%- endif -%}
+      
+         {%- when 'info' -%}
+        <div id="tab-{{forloop.index0}}" class="tabcontent-cus" style="text-align: center;">
+          {{ block.settings.product_tab }}
+                  {% if block.settings.section_button != blank %}
+                        <div class="buttons-wrapper mt-0 mb-0 justify-content-center">
+                          <a
+                            href="{{ block.settings.section_url }}"
+                            class="btn btn-contact"
+                            aria-label="{{ block.settings.section_button }}"
+                            tabindex="0"
+                          >
+                            {{ block.settings.section_button }}
+                          </a>
+                        </div>
+                      {% endif %}
+        </div>
+           
+            {%- when '@app' -%}
+           <div id="tab-reviews" class="tabcontent-cus">
+                   {% render block %}
+           </div>
+           
+           {%- endcase -%}
+      {% endfor %}
+
+      <script>
+              function openTab(evt, cityName) {
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("tabcontent-cus");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("tablinks-cus");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+          }
+          document.getElementById(cityName).style.display = "block";
+          evt.currentTarget.className += " active";
+        }
+        document.getElementById("tab-cus-active").click();
+      </script>
+    </div>
+
+    {% comment %}
+      <div class="product-block product-features">
+        {% if section.settings.feature_heading_2 != blank %}
+          <div class="product-block__label">
+            {{ section.settings.feature_heading_2 | escape }}
+          </div>
+        {% endif %}
+        <div class="product-features__row">
+          {% for block in section.blocks %}
+            {% if forloop.first == true %}
+              {% assign first_block = block %}
+            {% endif %}
+            <div class="product-features__item">
+              <div class="product-features__title">
+                {{ block.settings.feature_title | escape }}
+              </div>
+              <div class="product-features__text">
+                {{ block.settings.product_tab_1 }}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endcomment %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product Tabs",
+  "class": "section-product-tabs",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    }
+  ],
+  "blocks": [
+       {
+      "type": "details",
+      "name": "Product Details",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "details",
+          "label": "Body text",
+          "info": "You can add information directly on a product page using this content block.",
+          "default": "<p>You can use this description to display some useful information to your customers.</p>"
+        }
+      ]
+    },
+    {
+      "type": "info",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature_title",
+          "label": "Tab Title",
+          "default": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "product_tab",
+          "label": "Body text",
+          "info": "You can add information directly on a product page using this content block.",
+          "default": "<p>You can use this description to display some useful information to your customers.</p>"
+        },
+               {
+          "type": "text",
+          "id": "section_button",
+          "label": "Button label",
+          "default": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "section_url",
+          "label": "Link",
+          "default": "/collections/all"
+        }
+      ]
+    },
+          {
+        "type": "@app"
+      },
+          {
+        "type": "guide",
+        "name":"Assembly Guide",
+         "settings": [
+        {
+          "type": "richtext",
+          "id": "assembly",
+          "label": "Body text",
+          "info": "Add text to be displayed when an assembly guide is not available.",
+          "default": "<p>You can use this description to display some useful information to your customers.</p>"
+        },
+       {
+          "type": "text",
+          "id": "section_button",
+          "label": "Button label",
+          "default": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "section_url",
+          "label": "Link",
+          "default": "/collections/all"
+        }
+      ]
+      }
+  ]
+}
+{% endschema %}
+
+{% style %}
+    .tab-customize {
+      border-bottom: 1px solid #ccc;
+    }
+    .tab-customize button {
+      background-color: inherit;
+      border: 1px solid transparent;
+      outline: none;
+      cursor: pointer;
+      padding: 20px;
+      transition: 0.3s, border 0s;
+      position: relative;
+      top: 1px;
+      border-bottom: 1px solid transparent;
+      font-size:18px;
+    }
+    @media screen and (max-width: 640px) {
+      .tab-customize button {
+        width: 100%;
+        padding: 10px 20px;
+        border-left: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+      }
+      .tab-customize button:first-child {
+        border-top: 1px solid #ccc !important;
+      }
+    }
+    .tab-customize button:hover {
+     color: #D14728;
+    }
+    .tab-customize button.active {
+      border: 1px solid #ccc;
+      border-bottom: 1px solid white;
+    }
+    @media screen and (max-width: 640px) {
+      .tab-customize button.active {
+        border-top: 0;
+        color: #D14728;
+        border-bottom: 1px solid #ccc;
+      }
+    }
+    .tabcontent-cus {
+      display: none;
+      padding: 30px 30px;
+      border-bottom: 1px solid #ccc;
+      border-left: 1px solid #ccc;
+      border-right: 1px solid #ccc;
+    }
+    @media screen and (max-width: 640px) {
+      #tab-1 .col-md-7 {
+        padding-right: 15px !important;
+      }
+      .tabcontent-cus {
+        padding: 15px;
+      }
+    }
+    .tabcontent-cus .yotpo-base-layout {
+      width: 100% !important;
+    }
+    .tabcontent-cus .yotpo-main-widget-tabs:not(.pp-embedded-displayed) {
+      margin-top: 0;
+    }
+    .tabcontent-cus .yotpo-display-l .yotpo-main-layout .yotpo-head, .yotpo-display-m .yotpo-main-layout .yotpo-head {
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+  .yotpo-filters-container .yotpo-filters-container-inner .yotpo-filters-top-panel .yotpo-score-filter-container {
+    margin-right: 25px;
+  }
+    .tabcontent-cus .btn-color-primary{
+      background: var(--color-btn-main-bg);
+      color: var(--color-btn-main-text);
+      display: inline-block;
+      border: var(--global-border-weight) solid var(--color-border);
+      font-family: var(--font-stack-body);
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-body);
+      letter-spacing: var(--letter-spacing);
+      padding: 10px;
+      text-transform: var(--global-btn-style);
+      height: 45px;
+      border-radius: var(--global-btn-corner-style);
+      -moz-border-radius: var(--global-btn-corner-style);
+      -webkit-border-radius: var(--global-btn-corner-style);
+      width: fit-content;
+      -webkit-appearance: none;
+    }
+
+  
+     @media screen and (max-width: 640px) {
+       .tabcontent-cus iframe {
+         width: 100%;
+       }
+     }
+
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+{% endstyle %}

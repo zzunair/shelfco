@@ -1,0 +1,180 @@
+{% comment %}
+  FAQs section
+{% endcomment %}
+
+<section
+  id="{{ section.id }}"
+  class="container wow fadeIn section-{{ section.id }}-padding"
+  data-wow-delay="300ms"
+  tabindex="1"
+>
+  <div class="container" id="{{ section.settings.content_title }}">
+    <div class="row align-items-center justify-content-center">
+        <div class="faq-left-content mr-lg-3 mr-md-3 mr-sm-0 mr-xs-0">
+          {% if section.settings.content_title != blank %}
+            <h2 class="title hero-title mb-0">{{ section.settings.content_title | escape }}</h2>
+          {% endif %}
+          {% if section.settings.content_caption != blank %}
+            <p class="paragraph m-0">{{ section.settings.content_caption }}</p>
+          {% endif %}
+        </div>
+        <div class="faq-items-wrapper p-5 rounded__all border">
+          {% for block in section.blocks %}
+            <div class="faq-item-wrapper py-3 {% if forloop.last == false %}border-bottom{% endif %}" tabindex="0">
+              {% if block.settings.faq_title != blank %}
+                <h5 class="faq-item mb-0 dropdown-toggle">{{ block.settings.faq_title | escape }}</h5>
+              {% endif %}
+              {% if block.settings.faq_content != blank %}
+                <div class="faq-item-content my-3 {% if forloop.first == false %}hidden{% endif %}">
+                  {{ block.settings.faq_content }}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQs",
+  "class": "main-faqs-section",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    },
+    {
+      "type": "text",
+      "id": "content_title",
+      "label": "Heading",
+      "default": "Have a question? We are happy to help."
+    },
+    {
+      "type": "richtext",
+      "id": "content_caption",
+      "label": "Body text",
+      "default": "<p>Share some information with customers on how to find answers to frequently asked questions.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Faq",
+      "settings": [
+        {
+          "type": "text",
+          "id": "faq_title",
+          "label": "Heading",
+          "default": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "faq_content",
+          "label": "Body text",
+          "default": "<p>Add details of related question.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQs",
+      "category": "Content",
+      "settings": {
+      },
+      "blocks": [
+        {
+         "type": "text",
+         "settings": {
+            "faq_title": "Question",
+            "faq_content": "<p>Add details of related question.</p>"
+          }
+        },
+        {
+         "type": "text",
+         "settings": {
+            "faq_title": "Question",
+            "faq_content": "<p>Add details of related question.</p>"
+          }
+        },
+        {
+         "type": "text",
+         "settings": {
+            "faq_title": "Question",
+            "faq_content": "<p>Add details of related question.</p>"
+          }
+        },
+        {
+         "type": "text",
+         "settings": {
+            "faq_title": "Question",
+            "faq_content": "<p>Add details of related question.</p>"
+          }
+        },
+        {
+         "type": "text",
+         "settings": {
+            "faq_title": "Question",
+            "faq_content": "<p>Add details of related question.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  .faq-item-wrapper .faq-item {
+      align-items: center;
+      justify-content: space-between;
+      display: flex;
+      cursor: pointer;
+      white-space: normal;
+      word-break: break-all;
+  }
+  .faq-item-wrapper .dropdown-toggle:after {
+      width: 18px;
+      height: 18px;
+  }
+  @media (max-width:767px) {
+    .faq-left-content {
+      padding: 15px 0px !important;
+    }
+    .faq-items-wrapper {
+      padding: 20px 15px !important;
+    }
+    .faq-left-content h2.title {
+      text-align: left;
+    }
+  }
+{% endstyle %}

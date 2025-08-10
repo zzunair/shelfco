@@ -1,0 +1,46 @@
+{% comment %}
+  Renders a blank pproduct card
+
+  Usage:
+  {% render 'product-card-placeholder' %}
+{% endcomment %}
+
+{% liquid
+  assign title = 'general.accessibility.pick_your_product' | t
+  assign price = 'general.accessibility.zero_price' | t
+%}
+
+<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 px-0">
+  <div class="product-item mb-2 px-lg-0 px-md-0 px-xs-2 px-sm-2 card-wrapper" tabindex="-1">
+    <!-- image -->
+    <div class="product-thumb" tabindex="0">
+      <div class="reveal img-fluid" tabindex="-1">
+        <div class="blank-image">
+          {{ 'product-3' | placeholder_svg_tag: 'placeholder-svg border rounded__all' }}
+        </div>
+      </div>
+    </div>
+    <!-- /image -->
+    <!-- blank product info -->
+    <div class="product-content-onboarding product-details-card py-3 px-1 d-flex justify-content-around card-information">
+      <div class="card-information__wrapper mb-1">
+        <span class="card-information__text h5 mr-0">{{ title | escape }}</span>
+      </div>
+      <span class="card-information__text mb-0 font-weight-normal text-decoration-none">
+        <span class="money money_price">{{ price | money_with_currency }}</span>
+      </span>
+    </div>
+    <!-- /blank product info -->
+    <!-- button -->
+    <div class="add-to-cart__wrapper mt-0 w-100">
+      <div class="add-to-cart__submit w-wrapper pb-0">
+        <div class="atc-container mb-0">
+          <button type="text" name="add" class="btn btn-contact mb-0 mx-auto w-100" disabled="disabled" aria-label="unavailable">
+            <span class="">{{ 'products.product.unavailable' | t }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- /button -->
+  </div>
+</div>

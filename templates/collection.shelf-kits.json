@@ -1,0 +1,235 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "collection-header-image",
+      "settings": {
+        "enable_description": true,
+        "enable_image": false
+      }
+    },
+    "main_collection_list_AVg7qL": {
+      "type": "main-collection-list",
+      "blocks": {
+        "featured_collection_4wGxL8": {
+          "type": "featured_collection",
+          "disabled": true,
+          "settings": {
+            "collection": "wood-shelf-kits-1",
+            "altername": "",
+            "font_color": "#ffffff",
+            "bg_color_opacity": "#000000",
+            "opacity": 8
+          }
+        },
+        "featured_collection_YijFAf": {
+          "type": "featured_collection",
+          "disabled": true,
+          "settings": {
+            "collection": "glass-shelf-kits-1",
+            "altername": "",
+            "font_color": "#ffffff",
+            "bg_color_opacity": "#000000",
+            "opacity": 8
+          }
+        },
+        "featured_collection_3nhHxL": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "floating-shelf-kits",
+            "image": "shopify://shop_images/Floating_Shelf_Kits.jpg",
+            "altername": "",
+            "font_color": "#ffffff",
+            "bg_color_opacity": "#ffffff",
+            "opacity": 7
+          }
+        },
+        "featured_collection_gE4GXT": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "deco-shelves",
+            "altername": "Decorative Shelf Kits",
+            "font_color": "#ffffff",
+            "bg_color_opacity": "#000000",
+            "opacity": 8
+          }
+        },
+        "featured_collection_XTanrr": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "corner-shelf-kits",
+            "image": "shopify://shop_images/corner_shelf_kit.jpg",
+            "altername": "",
+            "font_color": "#ffffff",
+            "bg_color_opacity": "#ffffff",
+            "opacity": 7
+          }
+        },
+        "featured_collection_RRgGC3": {
+          "type": "featured_collection",
+          "disabled": true,
+          "settings": {
+            "collection": "wall-shelving-kits",
+            "altername": "",
+            "font_color": "#ffffff",
+            "bg_color_opacity": "#000000",
+            "opacity": 8
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_4wGxL8",
+        "featured_collection_YijFAf",
+        "featured_collection_3nhHxL",
+        "featured_collection_gE4GXT",
+        "featured_collection_XTanrr",
+        "featured_collection_RRgGC3"
+      ],
+      "custom_css": [
+        ".grid-wrapper {gap: 15px;}",
+        ".image-wrapper img {width: 100%; height: 400px; object-fit: cover;}"
+      ],
+      "settings": {
+        "collection_list_width": "4",
+        "show_view_all": false,
+        "collection_button": "Shop all",
+        "slide_url": "shopify://collections/all"
+      }
+    },
+    "circular_collection_list_hABJUp": {
+      "type": "circular-collection-list",
+      "blocks": {
+        "collection_item_JyCUR4": {
+          "type": "collection_item",
+          "disabled": true,
+          "settings": {
+            "collection": "floating-shelf-kits",
+            "custom_title": "",
+            "custom_link": "",
+            "image": "shopify://shop_images/Black_Floating_Shelves.jpg",
+            "font_color": "#000000",
+            "bg_color": "#ffffff"
+          }
+        },
+        "collection_item_kGAxeV": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "shelf-components",
+            "custom_title": "White Floating Shelves",
+            "custom_link": "shopify://collections/white-floating-shelves",
+            "image": "shopify://shop_images/white_floating_shelves.jpg",
+            "font_color": "#000000",
+            "bg_color": "#ffffff"
+          }
+        },
+        "collection_item_fNQUQj": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "boon-accessorized-shelving-systems",
+            "custom_title": "Gray Floating Shelves",
+            "custom_link": "shopify://collections/gray-floating-shelves",
+            "image": "shopify://shop_images/Gray_Floating_Shelves.jpg",
+            "font_color": "#000000",
+            "bg_color": "#ffffff"
+          }
+        },
+        "collection_item_FVc7cN": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "boon-accessories",
+            "custom_title": "Black Floating Shelves",
+            "custom_link": "shopify://collections/black-floating-shelves",
+            "image": "shopify://shop_images/Black_Floating_Shelves.jpg",
+            "font_color": "#000000",
+            "bg_color": "#ffffff"
+          }
+        },
+        "collection_item_3aMmaH": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "",
+            "custom_title": "Bathroom Floating Shelves",
+            "custom_link": "shopify://collections/bathroom-floating-shelves",
+            "image": "shopify://shop_images/Bathroom_floating_shelves.jpg",
+            "font_color": "#000000",
+            "bg_color": "#ffffff"
+          }
+        },
+        "collection_item_AarUkK": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "",
+            "custom_title": "Floating Shelves For Bedroom",
+            "custom_link": "shopify://collections/floating-shelves-for-bedroom",
+            "image": "shopify://shop_images/Floating_Shelves_for_bedroom.jpg",
+            "font_color": "#000000",
+            "bg_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "collection_item_JyCUR4",
+        "collection_item_kGAxeV",
+        "collection_item_fNQUQj",
+        "collection_item_FVc7cN",
+        "collection_item_3aMmaH",
+        "collection_item_AarUkK"
+      ],
+      "custom_css": [
+        "#circular-collection-list .grid-wrapper {justify-content: center;}"
+      ],
+      "settings": {}
+    },
+    "product-grid": {
+      "type": "collections-template",
+      "blocks": {
+        "filter-sort": {
+          "type": "filter-sort",
+          "settings": {
+            "enable_filtering": true,
+            "enable_sorting": true
+          }
+        },
+        "product-grid": {
+          "type": "product-grid",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "filter-sort",
+        "product-grid"
+      ],
+      "custom_css": [
+        ".nav-link {padding-top: 8px; padding-bottom: 8px;}",
+        "form {font-size: small;}",
+        ".filter-form .ss-main .ss-single-selected {height: auto;}",
+        ".ss-main .ss-single-selected .placeholder {padding-top: 5px; padding-bottom: 5px;}",
+        ".mobile-version-filter-form {padding: 25px;}",
+        ".active-facets-button {padding: 2px 10px;}"
+      ],
+      "settings": {
+        "product_limit": 50,
+        "show_rating": true,
+        "image_ratio": "square",
+        "show_secondary_image": true,
+        "col_row_size": "3",
+        "preorder_enabled": false,
+        "new_enabled": true
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "main_collection_list_AVg7qL",
+    "circular_collection_list_hABJUp",
+    "product-grid"
+  ]
+}

@@ -1,0 +1,91 @@
+{% comment %}
+  Renders the cart count in the header
+
+  Usage:
+  {% render 'cart-menu' %}
+{% endcomment %}
+
+{% assign cart_text = 'cart.general.count_html' | t: itemCount: cart.item_count %}
+{% assign cart_total = 'cart.general.total_html' | t: totalPrice: cart.total_price %}
+
+<ul class="top-menu mobile-nav-bar list-inline float-right {% if section.settings.header_style == 'center' %}my-0{% else %}my-auto{% endif %} gap-4">
+ <!-- customer account -->
+ {% if shop.customer_accounts_enabled %}
+ {% if section.settings.account_hide %}
+  <li class="mobile-nav-item mobile-nav-cart js-account" tabindex="-1">
+    <a href="{{ routes.account_url }}" name="view-account" class="icon-btn border menu-color" aria-label="view account" tabindex="0">
+      {% if customer %}
+        {% render "icon-account" | customer_account_link %}
+      {% else %}
+        {% render "icon-account" %}
+      {% endif %}
+    </a>
+  </li>
+ {% endif %}
+ {% endif %}
+ <!-- /customer account -->
+  <!-- cart block with icons -->
+  <li class="mobile-nav-item mobile-nav-cart list-inline-item mini-cart js-cart-bag mr-0 no-Js" tabindex="-1">
+    <a {% if template == 'cart' %}href="{{ routes.cart_url }}"{% else %}href="#"{% endif %}class="mobile-nav-item js-cart-link border menu-color {% if template != 'cart' %}js-menu-toggle{% endif %} icon-btn" aria-label="view cart page" tabindex="0">
+     {% render "icon-cart" %}
+     <div class="cart-link text-link total_count_vue">
+       <span class="cart-text cart-text-count">{{ cart_text }}</span>
+     </div>
+    </a>
+  </li>
+  <noscript class="noscript-cart">
+    <li class="mobile-nav-item mobile-nav-cart list-inline-item mini-cart js-cart-bag mr-0 px-2">
+      <a href="{{ routes.cart_url }}" class="mobile-nav-item js-cart-link icon-btn bg-white" aria-label="bag items">
+       {% render "icon-cart" %}
+       <div class="cart-link text-link total_count_vue">
+         <span class="js-cart-item-count cart-text cart-text-count">{{ cart_text }}</span>
+       </div>
+      </a>
+    </li>
+  </noscript>
+  <!-- /cart block with icons -->
+  {% if section.settings.search_hide and section.settings.header_style != 'center' and section.settings.header_style != 'left' %}
+  <li class="mobile-nav-item-search mobile-nav-cart list-inline-item my-auto pt-0 menu-color" tabindex="0">
+    {% if section.settings.search_contact == 'search' %}
+    <div class="my-0">
+      {% render 'search-form-header' %}
+    </div>
+    {% else %}
+    <div class="pl-2 my-0">
+      <a href="{{ section.settings.contact_btn_url }}" class="btn btn-contact wow fadeIn d-none d-sm-block size-content-fit">
+        {{ section.settings.contact_btn_text }}
+      </a>
+    </div>
+    {% endif %}
+  </li>
+  {% endif %}
+</ul>
+
+{% style %}
+.menu-color {
+  background-color: var(--color-body-bg);
+}
+{% endstyle %}
+
+<noscript>
+  <style>
+    .no-Js {
+      display: none;
+    }
+    .noscript-cart {
+      display: -webkit-inline-box;
+      display: -ms-inline-flexbox;
+      display: inline-flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      padding: 0 5px 0 0;
+      margin-right: 0;
+      cursor: pointer;
+      position: relative;
+    }
+  </style>
+</noscript>

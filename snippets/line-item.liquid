@@ -1,0 +1,174 @@
+{% comment %}
+  Renders a cart items in the cart page
+
+  Usage:
+  {% render 'line-items' %}
+{% endcomment %}
+
+{%- liquid
+  assign has_gift = false
+  if item.product.price == 0 or item.product.variants.size < 1 or item.product.title contains 'Gift'
+  assign has_gift = true
+  endif
+
+  assign discounted_item_price = item.variant.compare_at_price | minus: item.variant.price | money
+-%}
+
+<div class="line-item card my-0 border-0 rounded-0 pt-0 erickson_{{ item.id }}">
+  <div class="row no-gutters p-3">
+    <div class="col-md-3 col-xs-6 col-sm-6 col line-image" tabindex="0">
+      {% if item.image != blank %}
+      <a href="{{ item.url }}" aria-label="{{ item.product.title }} image focus-inset" tabindex="-1">
+        {% render 'responsive-image' with image: item.image, image_class: "img-fluid cart-item rounded__all", lazy: "lazy", wrapper_class: "img-wrapper", max_width: 500, max_height: 500, crop: center %}
+      </a>
+      {% else %}
+        {{ 'product-3' | placeholder_svg_tag: 'placeholder-svg border rounded__all' }}
+      {% endif %}
+    </div>
+    <!-- remove icon -->
+    <a class="remove-lines js-remove-line mini-cart-remove close-item-cart" href="/cart/change?line={{ forloop.index }}&amp;quantity=0" title="Remove" aria-label="Remove">
+      {% render 'icon-close-modal' %}
+    </a>
+    <!-- /remove icon -->
+    <div class="line-info col-md-9 col-xs-6 col-sm-6 col">
+      <div class="card-block mt-0 pl-3 pr-0 py-0 d-flex flex-column justify-content-center flex-column justify-content-center w-100 h-100">
+        <div class="d-xs-block d-sm-block d-md-block d-lg-block lh-1 mr-5">
+          <!-- Title and QTY -->
+          <h5 class="card-title mini-cart-title mb-0 mr-0 py-0 d-block">
+            <a href="{{ item.url }}" class="cart-text-drawer cart-pro py-0" aria-label="{{ item.product.title }}" tabindex="0">
+              {{ item.product.title }}
+            </a>
+          </h5>
+          <!-- /Title and QTY -->
+
+          <!-- line item from product page -->
+          {% if item.product.has_only_default_variant == false
+            or item.properties.size != 0
+            or item.selling_plan_allocation != null
+          %}
+            <dl class="mb-0">
+              {% if item.product.has_only_default_variant == false %}
+                {% for option in item.options_with_values %}
+                  <div class="d-flex gap-2 cart-item-product-option pt-0">
+                    <dt>{{ option.name }}:</dt>
+                    <dd class="mb-0">{{ option.value }}</dd>
+                  </div>
+                {% endfor %}
+              {% endif %}
+              {% for property in item.properties %}
+                {% assign property_first_char = property.first | slice: 0 %}
+                {% if property.last != blank and property_first_char != '_' %}
+                  <div class="d-flex gap-2 cart-item-product-option pt-0">
+                    <dt>{{ property.first }}:</dt>
+                    <dd class="mb-0">
+                      {% if property.last contains '/uploads/' %}
+                        <a href="{{ property.last }}" class="link" target="_blank">
+                          {{ property.last | split: '/' | last }}
+                        </a>
+                      {% else %}
+                        {{ property.last }}
+                      {% endif %}
+                    </dd>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </dl>
+          {% endif %}
+          <!-- /line item from product page -->
+
+          <!-- Price -->
+          {% assign hasDiscount = false %}
+          {% if item.original_price != item.final_price %}
+            {% assign hasDiscount = true %}
+          {% endif %}
+          <div class="card-text cart-text-drawer py-0 d-block cart-item-wrapper" data-price-see="{{ item.original_price | money }}">
+            <!-- line item dscount -->
+            <div class="cart-item-price regular-price">
+              <!-- with discount -->
+              <div class="{% unless hasDiscount %}hidden{% endunless %} d-block" data-cart-item-discounted-price-group>
+                <span class="order-discount d-block" data-cart-item-final-price>
+                  {{ item.final_price | money }}
+                </span>
+                <span class="item-original d-block small" data-cart-item-final-price>
+                  <s class="money" data-cart-item-original-price>{{ item.original_price | money }}</s>
+                </span>
+              </div>
+              <!-- /with discount -->
+              <!-- orginal price -->
+              <div class="{% if hasDiscount %}hidden{% endif %} py-1 d-block" data-cart-item-regular-price-group>
+                <span class="money" data-cart-item-regular-price>{{ item.original_price | money }}</span>
+                <span class="sr-only hidden">{{ 'products.product.regular_price' | t }}</span>
+              </div>
+              <!-- /orginal price -->
+            </div>
+            <!-- end line item dscount -->
+            <!-- variant price and compare price -->
+             <div class="cart-item-price d-none with-compare small {% if hasDiscount %}hidden{% endif %}">
+               {% if item.variant.compare_at_price != item.variant.price %}
+                 <span class="sr-only hidden">{{ 'cart.label.discounted_price' | t }}</span>
+                 <s class="money">{{ item.variant.compare_at_price | money }}</s>
+                 <span class="sr-only hidden">{{ 'cart.label.original_price' | t }}</span>
+               {% endif %}
+             </div>
+             <!-- /variant price and compare price -->
+          </div>
+          <!-- /Price -->
+        </div>
+        <div class="d-block justify-content-start line-item-info {% if item.selling_plan_allocation %}mb-0{% endif %}">
+          <!-- Unit price -->
+          {% if item.variant.available and item.variant.unit_price_measurement %}
+          <div class="unit-price-measure py-1">
+            <span class="sr-only hidden">{{ 'products.product.unit_price' | t }}</span>
+             {% capture unit_price_separator %}
+             <span class="line-divider" aria-hidden="true">/</span>
+             <span class="sr-only hidden">&nbsp;{{ 'general.accessibility.unit_price_separator' | t }}&nbsp;</span>
+             {% endcapture %}
+             {% capture unit_price_base_unit %}
+               {% if item.variant.unit_price_measurement.reference_value != 1 %}
+                 {{ item.variant.unit_price_measurement.reference_value }}
+               {% endif %}
+               {{ item.variant.unit_price_measurement.reference_unit }}
+             {% endcapture %}
+             <span data-unit-price class="money">{{ item.variant.unit_price | money }}</span>{{ unit_price_separator }}<span class="js-item-unit-price" data-unit-price-base-unit>{{ unit_price_base_unit }}</span>
+          </div>
+          {% endif %}
+          <!-- /Unit price -->
+
+          <!-- selling plan item -->
+          {% if item.selling_plan_allocation %}
+          <span class="selling-plan mb-0 d-flex py-1 align-items-center">
+            <span class="discounts_discount_text">{{ item.selling_plan_allocation.selling_plan.name }}</span>
+          </span>
+          {% endif %}
+          <!-- /selling plan item -->
+
+          <!-- line item cart discounts -->
+          {% if item.line_level_discount_allocations.size > 0 %}
+            {% for discount_allocation in item.line_level_discount_allocations %}
+            <div class="d-flex py-1 mb-1 align-items-center">
+              <span class="discounts_discount">{% render 'icon-discount' %}</span>
+              <span class="discounts_discount_text">{{ discount_allocation.discount_application.title }}</span>
+            </div>
+            {% endfor %}
+          {% endif %}
+          <!-- /line item discounts -->
+        </div>
+
+        {% if variant.inventory_management == 'shopify' %}
+          {% if item.variant.inventory_policy == 'continue' %}
+            {% assign max = 1000 %}
+          {% else %}
+            {% assign max = item.variant.inventory_quantity %}
+          {% endif %}
+        {% else %}
+         {% assign max = 1000 %}
+        {% endif %}
+
+        <!-- QTY Selector -->
+        {% assign quantity_id = 'updates_' | append: item.key %}
+        {% render 'quantity-picker' with name: 'updates[]', id: quantity_id, value: item.quantity, price: item.original_price, min: 0, max: max, field_class: 'js-line-quantity', item_id: item.id, single_variant: item.product.has_only_default_variant, selling_plan: item.selling_plan_allocation, loop_index : forloop.index, has_gift: has_gift %}
+        <!-- /QTY Selector -->
+      </div>
+    </div>
+  </div>
+</div>

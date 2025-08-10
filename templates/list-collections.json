@@ -1,0 +1,37 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main_welcome_text_zxPVjg": {
+      "type": "main-welcome-text",
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "text": "All Products",
+        "welcome_bgcolor": "#ffffff",
+        "welcome_textcolor_2": "#2a3640",
+        "welcome_textcolor_1": "#2a3640"
+      }
+    },
+    "main": {
+      "type": "list-collection",
+      "settings": {
+        "collection_list_width": "4",
+        "font_color": "#ffffff",
+        "bg_color_opacity": "#000000",
+        "opacity": 0.2
+      }
+    }
+  },
+  "order": [
+    "main_welcome_text_zxPVjg",
+    "main"
+  ]
+}

@@ -1,0 +1,318 @@
+{{ 'component-collection-promo.css' | asset_url | stylesheet_tag }}
+<link rel="stylesheet" href="{{ 'component-collection-promo.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'component-collection-promo.css' | asset_url | stylesheet_tag }}</noscript>
+
+{%- liquid
+  assign _colClassLayout = 'container-fluid px-0'
+-%}
+
+<!-- collection list -->
+<div id="collection-list" class="wow fadeIn" data-wow-delay="300ms">
+  <section
+    id="{{ section.id }}"
+    data-section-id="{{ section.id }}"
+    data-section-type="collection-banners"
+    class="home-grid {{ _colClassLayout }} collection-category"
+  >
+    <div class="grid-wrapper row-of-3">
+      {% for block in section.blocks %}
+        {% if block.settings.collection != empty %}
+          {% assign collection_item_count = block.settings.collection.all_products_count %}
+          {% assign collection_title = block.settings.collection.title %}
+          {% assign collection_url = block.settings.collection.url %}
+          {% assign collection_header = block.settings.section_title %}
+          {% assign collection_caption = block.settings.section_caption %}
+          {% assign image_placeholder = false %}
+          {% assign font_color = block.settings.font_color %}
+          {% assign bg_color_opacity = block.settings.bg_color_opacity %}
+          {% assign opacity = 10 | minus: block.settings.opacity %}
+          {% assign image_custom = block.settings.image %}
+
+          {% if block.settings.collection.image %}
+            {% assign collection_image = block.settings.collection.image %}
+          {% else %}
+            {% assign collection_image = block.settings.collection.featured_image %}
+          {% endif %}
+
+        {% else %}
+          {% assign collection_item_count = 10 %}
+          {% assign collection_title = 'collections.general.collection_title' | t %}
+          {% assign collection_url = '#' %}
+          {% assign image_placeholder = true %}
+        {% endif %}
+
+        {% if collection_item_count == 0 or block.settings.collection == empty %}
+          <div class="grid-item {{ _rowLayout }}">
+            <div class="collection-list__item grid__item list-collection-main">
+              <a
+                class="card card--stretch rounded-0 border-0"
+                title="{{ collection_title | escape }}"
+                href="{{ collection_url }}"
+              >
+                <div class="card--stretch card-colored color-background-1">
+                  <div class="overlay-card"></div>
+                  <div class="card__text-spacing card__text-hover">
+                    <div class="text-wrapper">
+                      <div class="{{ section.id }}is-font-{{ forloop.index0 }} text-title-wrapper">
+                        <h2 class="card-title my-0 py-2 collection-title-empty text-dark">
+                          {{ collection_title }}
+                        </h2>
+                      </div>
+                      <div class="{{ section.id }}is-font-{{ forloop.index0 }} text-cta collection-text-empty">
+                        {% if collection_item_count >= 1 %}
+                          <span class="text-dark">
+                            {{- 'collections.collection_list.item_count' | t: count: collection_item_count -}}
+                          </span>
+                        {% else %}
+                          <span class="text-dark">{{ 'collections.collection_list.item_count' | t: count: 0 }}</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        {% else %}
+          <div class="grid-item {{ _rowLayout }}">
+            {% assign font_color = font_color | color_to_rgb | remove_first: ')' | append: ', 1)' %}
+            {% style %}
+              .{{ section.id }}is-font-{{ forloop.index0 }} {
+                color: {{ font_color }};
+              }
+              #collection-list .home-grid .grid-wrapper .grid-item .overlay-{{ forloop.index0 }} {
+                position: absolute;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: {{ bg_color_opacity }} !important;
+                opacity: {{ opacity | divided_by: 10.0 }};
+                pointer-events: none;
+                -webkit-transition: 0.5s ease;
+                transition: 0.5s ease;
+                z-index: 0;
+                text-align: center;
+              }
+              #collection-list .home-grid .grid-wrapper .grid-item:hover .overlay-{{ forloop.index0 }} {
+                opacity: {{ opacity | divided_by: 10.0 | plus: 0.2 }};
+              }
+              #collection-list .card-title {
+                font-size: x-large;
+              }
+              #collection-list .text-cta {
+                opacity: 0;
+                -webkit-transition: 0.4s ease;
+                transition: 0.4s ease;
+              }
+              #collection-list .home-grid .grid-wrapper .grid-item:hover .text-cta {
+                opacity: 1;
+              }
+              @media (max-width: 480px) {
+                #collection-list .text-cta {
+                opacity: 1;
+              }
+              #collection-list .home-grid .grid-wrapper .grid-item .overlay-{{ forloop.index0 }} {
+                opacity: {{ opacity | divided_by: 10.0 | plus: 0.2 }};
+              }
+              }
+            {% endstyle %}
+            <div class="blocker">
+              <a class="linkwrap" title="{{ collection_title }}" href="{{ collection_url }}"></a>
+            </div>
+            <div class="image-wrapper">
+              {% if image_custom != blank %}
+              <img
+                class="img-fluid img-fluid-collection collection_image"
+                src="{{ image_custom | img_url: '1000x' }}"
+                data-widths="[600,800,1000,1200]"
+                data-sizes="auto"
+                loading="lazy"
+                width="{{ image_custom.width }}"
+                height="{{ image_custom.width | divided_by: image_custom.aspect_ratio | round }}"
+                alt="{{ collection.title | escape }}"
+                sizes="1000px"
+                srcset="
+                  {% if image_custom.width >= 600 %}{{ image_custom | img_url: '600x' }} 600w,{% endif %}
+                  {% if image_custom.width >= 800 %}{{ image_custom | img_url: '800x' }} 800w,{% endif %}
+                  {% if image_custom.width >= 1000 %}{{ image_custom | img_url: '1000x' }} 1000w,{% endif %}
+                  {% if image_custom.width >= 1200 %}{{ image_custom | img_url: '1200x' }} 1200w{% endif %}
+                "
+              >
+              {% else %}
+              <img
+                class="img-fluid img-fluid-collection collection_image"
+                src="{{ collection_image | img_url: '1000x' }}"
+                data-widths="[600,800,1000,1200]"
+                data-sizes="auto"
+                loading="lazy"
+                width="{{ collection_image.width }}"
+                height="{{ collection_image.width | divided_by: collection_image.aspect_ratio | round }}"
+                alt="{{ collection.title | escape }}"
+                sizes="1000px"
+                srcset="
+                  {% if collection_image.width >= 600 %}{{ collection_image | img_url: '600x' }} 600w,{% endif %}
+                  {% if collection_image.width >= 800 %}{{ collection_image | img_url: '800x' }} 800w,{% endif %}
+                  {% if collection_image.width >= 1000 %}{{ collection_image | img_url: '1000x' }} 1000w,{% endif %}
+                  {% if collection_image.width >= 1200 %}{{ collection_image | img_url: '1200x' }} 1200w{% endif %}
+                "
+              >
+              {% endif %}
+            </div>
+            <div class="overlay-{{ forloop.index0 }}"></div>
+            <div class="text-wrapper">
+              <a class="linkwrap" title="{{ collection_title }}" href="{{ collection_url }}">
+              <div class="text-title-wrapper">
+                <h2 class="{{ section.id }}is-font-{{ forloop.index0 }} text-title card-title">
+                  {% if collection_header == blank %}
+                  {{ collection_title | escape }}
+                  {% else %}
+                  {{ collection_header }}
+                  {% endif %}
+                </h2>
+              </div>
+              <div class="{{ section.id }}is-font-{{ forloop.index0 }} text-cta">
+                {{ collection_caption }}
+              </div>
+              </a>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <!-- shop all -->
+    {% if section.settings.show_view_all and section.blocks.size < collections.size %}
+      <div class="container-fluid products-row border-0 px-0 py-3">
+        <div class="card rounded-0 border-0">
+          <div class="card-body mx-auto p-0">
+            <a href="{{ section.settings.slide_url }}" class="btn btn-contact">
+              {{ section.settings.collection_button }}
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    <!-- /shop all -->
+  </section>
+</div>
+<!-- /collection list -->
+
+{% schema %}
+{
+  "name": "Featured Promo",
+  "class": "main-collection-list",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "select",
+      "id": "collection_list_width",
+      "options": [
+        {
+          "value": "2",
+          "label": "Row of 2"
+        },
+        {
+          "value": "3",
+          "label": "Row of 3"
+        }
+      ],
+      "label": "Section layout",
+      "info": "Set the number of collections per row",
+      "default": "2"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show button",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "collection_button",
+      "label": "Button label",
+      "default": "Shop all"
+    },
+    {
+      "type": "url",
+      "id": "slide_url",
+      "label": "Link",
+      "default": "/collections/all"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "featured_collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "label": "Pick a collection",
+          "id": "collection",
+          "type": "collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Upload custom image",
+          "info": "1000px x 1000px jpeg recomended."
+        },
+        {
+          "type": "text",
+          "id": "section_title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "section_caption",
+          "label": "Caption",
+          "default": "<p>Share information with your customers.</p>"
+        },
+        {
+          "type": "color",
+          "id": "font_color",
+          "label": "Font color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "header",
+          "content": "Opacity",
+          "info": "The opacity settings specifies the transparency of the block."
+        },
+        {
+          "type": "color",
+          "id": "bg_color_opacity",
+          "label": "Background opacity color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "range",
+          "id": "opacity",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "label": "Background opacity",
+          "default": 7
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Promo",
+      "category": "Content",
+      "settings": {
+      },
+      "blocks": [
+        {
+          "type": "featured_collection"
+        },
+        {
+          "type": "featured_collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+{% endstyle %}

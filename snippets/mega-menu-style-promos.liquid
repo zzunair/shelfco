@@ -1,0 +1,43 @@
+<li
+  class="nav-item dropdown has-megamenu mega-menu-style-promos rounded-0 {% if link.active %}active{% endif %}"
+  aria-haspopup="true"
+>
+  <a
+    id="dropdownMenuButton"
+    class="megamenu-item dropdown-toggle header__menu-item list-menu__item px-0 mx-0"
+    href="{{ link.url }}"
+    data-toggle="dropdown"
+    aria-label="{{ link.title }}{{ forloop.index }}"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    <span class="{% if link.active %} link-active{% endif %}">
+      {{ link.title | escape }}
+    </span>
+  </a>
+  <div
+    class="sub-menu megamenu dropdown-animate border px-0"
+    aria-labelledby="dropdownMenuButton"
+    {% if link.object.size >= 11 %}
+      style="top: 35px;"
+    {% endif %}
+  >
+    <div class="container-fluid px-0 justify-content-center">
+      <div class="mega-menu-promotion-cards-wrp">
+        {% if promo_count <= 6 %}
+          {% assign promo_class = 'd-flex gap-3' %}
+        {% elsif promo_count <= 4 %}
+          {% assign promo_class = 'd-flex gap-3' %}
+        {% elsif promo_count <= 3 %}
+          {% assign promo_class = 'd-flex gap-3' %}
+        {% elsif promo_count > 6 %}
+          {% assign promo_class = 'mega-menu-promotion-grid gap-3' %}
+        {% endif %}
+
+        <div class="mega-menu-promotion-cards {{ promo_class }} h-100">
+          {{ menu_promotion_html }}
+        </div>
+      </div>
+    </div>
+  </div>
+</li>
