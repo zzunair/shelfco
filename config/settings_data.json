@@ -410,6 +410,11 @@
         "type": "shopify://apps/tidio-live-chat-chatbots/blocks/app-embed/1002274d-fb18-4939-98f6-5f05a8deeadc",
         "disabled": false,
         "settings": {}
+      },
+      "12509190167029697241": {
+        "type": "shopify://apps/blotout-edgetag/blocks/app-embed/ae22d985-ba57-41f5-94c5-18d3dd98ea3c",
+        "disabled": false,
+        "settings": {}
       }
     }
   },
@@ -659,8 +664,7 @@
           ],
           "settings": {
             "color_scheme": "background-1",
-            "show_payment_icons": true,
-            "disclaimer": "Disclaimer information to go here."
+            "show_payment_icons": true
           }
         },
         "collections-template": {
@@ -1033,8 +1037,7 @@
           ],
           "settings": {
             "color_scheme": "background-1",
-            "show_payment_icons": true,
-            "disclaimer": "Disclaimer information to go here."
+            "show_payment_icons": true
           }
         },
         "collections-template": {
@@ -1407,8 +1410,7 @@
           ],
           "settings": {
             "color_scheme": "background-1",
-            "show_payment_icons": true,
-            "disclaimer": "Disclaimer information to go here."
+            "show_payment_icons": true
           }
         },
         "collections-template": {

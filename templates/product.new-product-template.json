@@ -143,6 +143,20 @@
         "numberOfSlides": 4
       }
     },
+    "pdp_contact_T7reQP": {
+      "type": "Pdp-contact",
+      "name": "Free Design Service",
+      "settings": {
+        "team_image": "shopify://shop_images/trust-badge.jpg",
+        "heading": "Free Design Service",
+        "description": "Don't want to wing it alone? Our awesome designers are here to help! Just fill out the form and we'll create magic.",
+        "button_text": "Design it for me",
+        "button_url": "",
+        "button_bg_color": "#ffffffe6",
+        "button_text_color": "#2563eb",
+        "background_color": "#3b82f6"
+      }
+    },
     "pdp_video_section_Bd6Yer": {
       "type": "pdp-video-section",
       "name": "Product Video",
@@ -279,6 +293,7 @@
     "main",
     "related-recomendations",
     "custom_related_products_3mhd4D",
+    "pdp_contact_T7reQP",
     "pdp_video_section_Bd6Yer",
     "pdp_comparison_UREjGB",
     "tabs",
